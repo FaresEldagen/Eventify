@@ -1,10 +1,10 @@
 # Eventify 
 
-##### Problem Statement
+#### Problem Statement
 
 Organizing events such as seminars, conferences, concerts, and workshops often faces significant challenges. Venue owners struggle to effectively showcase and manage the availability of their spaces, while event organizers waste time searching for suitable locations that meet their needs. Additionally, attendees frequently encounter complicated booking processes, lack of transparency in pricing, and unreliable ticketing systems. This fragmentation creates inefficiencies, reduces accessibility, and hinders the overall event experience for all stakeholders.
 
-##### Proposed Solution
+#### Proposed Solution
 
 We propose a centralized web-based platform that streamlines the entire event management and booking process. The system will connect three main user groups:
 
