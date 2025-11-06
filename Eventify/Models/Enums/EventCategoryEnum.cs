@@ -2,6 +2,15 @@
 {
     public enum EventCategoryEnum
     {
-        // Don't No What Categories
+        Conference = 1,
+        Workshop,
+        Meetup,
+        Seminar,
+        Networking,
+        TradeShow,
+        Webinar,
+        SportsEvent,
+        CharityEvent,
+        Other
     }
 }

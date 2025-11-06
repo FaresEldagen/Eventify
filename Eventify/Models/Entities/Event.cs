@@ -12,13 +12,15 @@ namespace Eventify.Models.Entities
         public DateTime EndDateTime { get; set; }
         public string? Features { get; set; }
         public EventCategoryEnum Category { get; set; }
-        public EventStatusEnum Status { get; set; }
+        public EventStatusEnum Status { get; set; } = EventStatusEnum.Pending;
+        public decimal TicketPrice { get; set; }
 
-        public decimal TicketPrice { get; set; }   // I Added it, it is not in Mappping so Review it
 
-        // Foreign-Keys
+        // Navigation Property
         public int VenueId { get; set; }
-        public int OrganizerId { get; set; }
+        public Venue? Venue { get; set; }
 
+        public int OrganizerId { get; set; }
+        //public Organizer? Organizer { get; set; }
     }
 }

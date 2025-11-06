@@ -41,6 +41,7 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("DECIMAL")
                 .HasPrecision(18, 2).IsRequired();
 
+
             // Foreign-Keys
             builder.Property(e => e.VenueId)
                 .HasColumnType("INT").IsRequired();
