@@ -1,5 +1,6 @@
 ﻿using Eventify.Models.Enums;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Eventify.Models.Entities
 {
@@ -27,7 +28,8 @@ namespace Eventify.Models.Entities
 
 
         // Navigation Property
+        [ForeignKey("Owner")]
         public int OwnerId { get; set; }
-        //public Owner? Owner { get; set; }
+        public Owner? Owner { get; set; }
     }
 }
