@@ -1,0 +1,145 @@
+﻿@{
+    ViewBag.Title = "List Your Event";
+}
+
+<div class="container-lg py-5">
+    <!-- Page Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3">Add Your Event</h1>
+        <p class="lead text-muted">Share your amazing event with our community and reach more attendees</p>
+    </div>
+
+    <!-- Benefits Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-cog fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Simple Setup</h5>
+                    <p class="text-muted small">Easy tools to create and manage your event in minutes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-users fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Reach the Right Audience</h5>
+                    <p class="text-muted small">Promote your event to thousands of interested attendees</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-ticket fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Secure Ticketing</h5>
+                    <p class="text-muted small">Enable attendees to book and pay with confidence</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-0">
+                    <h5 class="card-title fw-bold mb-0">Event Details</h5>
+                    <small class="text-muted">Tell Us About Your Event so we can help you attract the right Attendees</small>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <!-- Basic Information -->
+                        <h6 class="fw-bold mb-3">Basic Information</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Event Title *</label>
+                                <input type="text" class="form-control" placeholder="Enter venue name">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Category *</label>
+                                <input type="text" class="form-control" placeholder="e.g., Music, Business, Art, Food">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Description *</label>
+                            <textarea class="form-control" rows="4" placeholder="Describe your event in detail..."></textarea>
+                        </div>
+
+                        <!-- Date & Time -->
+                        <h6 class="fw-bold mb-3"><i class="fas fa-clock me-2"></i>Date & Time</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Start Date & Time *</label>
+                                <input type="datetime-local" class="form-control" id="eventStartDate">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">End Date & Time *</label>
+                                <input type="datetime-local" class="form-control" id="eventEndDate">
+                                <div class="invalid-feedback" id="endDateError" style="display: none;">
+                                    End date cannot be before start date.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pricing & Features -->
+                        <h6 class="fw-bold mb-3"><i class="fas fa-users me-2"></i>Pricing & Features</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">Ticket Price ($)</label>
+                                <input type="number" class="form-control" placeholder="100">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label">Special Features *</label>
+                            <textarea class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
+                        </div>
+
+                        <!-- Event Images -->
+                        <h6 class="fw-bold mb-3">Photos</h6>
+                        <div class="mb-4">
+                            <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="venuePhotosUpload" style="background-color: var(--card-bg); cursor: pointer;">
+                                <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
+                                <h6 class="fw-semibold mb-2">Upload Event Photos</h6>
+                                <p class="text-muted small mb-0">Add up to 10 high-quality photos of your Event (Start with the main photo)</p>
+                                <input type="file" class="d-none" id="venuePhotosInput" accept="image/*" multiple>
+                            </div>
+                            <div class="row g-3" id="venuePhotosPreview"></div>
+                        </div>
+
+                        <!-- Privacy -->
+                        <h6 class="fw-bold mb-3">Privacy</h6>
+                        <div class="mb-4">
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="eventPrivacy" id="privacyPublic" value="public" checked>
+                                <label class="form-check-label" for="privacyPublic">
+                                    Public
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="eventPrivacy" id="privacyPrivate" value="private">
+                                <label class="form-check-label" for="privacyPrivate">
+                                    Private
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="pt-3 border-top d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Submit Event for Review</button>
+                            <button type="reset" class="btn btn-outline-primary">Clear Form</button>
+                        </div>
+                        <small class="text-muted d-block mt-2">We'll review your submission and get back to you within 24 hours.</small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

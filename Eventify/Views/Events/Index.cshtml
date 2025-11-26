@@ -1,0 +1,89 @@
+@{
+    ViewBag.Title = "Browse Events";
+}
+
+<div class="container-lg py-5">
+    <!-- Page Header -->
+    <div class="mb-5">
+        <h1 class="display-4 fw-bold mb-2">Browse Events</h1>
+        <p class="lead text-muted">Discover amazing events happening near you</p>
+    </div>
+
+    <!-- Search and Filter Bar -->
+    <div class="row mb-4 g-3">
+        <div class="col-lg-9">
+            <div class="input-group">
+                <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control border-0" id="venueSearch" placeholder="Search venues by name or location...">
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-select" id="sortBy">
+                <option>Sort by Rating</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Sort by Capacity</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Sidebar Filters (Desktop) -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold mb-4"><i class="fas fa-sliders-h me-2"></i>Filters</h5>
+
+                <!-- Event Type Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">Event Type</h6>
+                    <select class="form-select">
+                        <option>All Types</option>
+                    </select>
+                </div>
+
+                <!-- City Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">City</h6>
+                    <select class="form-select">
+                        <option>All Cities</option>
+                    </select>
+                </div>
+
+                <!-- Start datetime Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">Start Date & Time</h6>
+                    <input type="datetime-local" class="form-control" id="eventStartDate">
+                </div>
+
+                <!-- End datetime Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">End Date & Time</h6>
+                    <input type="datetime-local" class="form-control" id="eventEndDate">
+                    <div class="invalid-feedback" id="endDateError" style="display: none;">
+                        End date cannot be before start date.
+                    </div>
+                </div>
+
+                <!-- Price Range Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">Price Range</h6>
+                    <input type="range" class="form-range" min="0" max="500" step="10" id="priceRange" value="250">
+                    <div class="d-flex justify-content-between mt-2 small text-muted">
+                        <span>$0</span>
+                        <span>$500</span>
+                    </div>
+                    <div class="mt-2 fw-semibold text-primary small" id="priceRangeValue">Selected: $250</div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <a href="" class="btn btn-primary btn-sm px-4 glow-button">Apply</a>
+                    <a href="" class="btn btn-outline-primary btn-sm px-4">Clear</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Events Grid -->
+        @await Html.PartialAsync("_SearchEvents")
+    </div>
+</div>
