@@ -41,13 +41,37 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("DECIMAL")
                 .HasPrecision(18, 2).IsRequired();
 
+            builder.Property(v => v.Address)
+                .HasColumnType("VARCHAR")
+                .HasMaxLength(250).IsRequired();
+
 
             // Foreign-Keys
             builder.Property(e => e.VenueId)
-                .HasColumnType("INT").IsRequired();
+                .HasColumnType("INT");
 
             builder.Property(e => e.OrganizerId)
-                .HasColumnType("INT").IsRequired();
+                .HasColumnType("INT");
+
+
+            // Relationships
+            //Events with Organizers
+            builder.HasOne(e => e.Organizer)
+                .WithMany(o => o.Events)
+                .HasForeignKey(e => e.OrganizerId)
+                .IsRequired();
+
+            // Event with Venues
+            builder.HasOne(e => e.Venue)
+                .WithMany(v => v.Events)
+                .HasForeignKey(e => e.VenueId)
+                .IsRequired(false).OnDelete(DeleteBehavior.NoAction);
+
+            // EventPhotos
+            builder.HasMany(e => e.EventPhotos)
+                .WithOne(ph => ph.Event)
+                .HasForeignKey(e => e.EventId)
+                .IsRequired();
 
         }
     }

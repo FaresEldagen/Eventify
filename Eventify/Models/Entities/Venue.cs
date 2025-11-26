@@ -28,8 +28,10 @@ namespace Eventify.Models.Entities
 
 
         // Navigation Property
-        [ForeignKey("Owner")]
         public int OwnerId { get; set; }
         public Owner? Owner { get; set; }
+
+        public List<Event> Events { get; set; } = new List<Event>();
+        public List<VenuePhoto> VenuePhotos { get; set; } = new List<VenuePhoto>();
     }
 }

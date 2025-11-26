@@ -76,6 +76,19 @@ namespace Eventify.Data.Configurations
             // Foreign-Keys
             builder.Property(v => v.OwnerId)
                 .HasColumnType("INT").IsRequired();
+
+            // Relationships
+            // Owners with Venues
+            builder.HasOne(v => v.Owner)
+                .WithMany(own => own.Venues)
+                .HasForeignKey(v => v.OwnerId)
+                .IsRequired();
+
+            // Venue Photos
+            builder.HasMany(e => e.VenuePhotos)
+                .WithOne(ph => ph.Venue)
+                .HasForeignKey(e => e.VenueId)
+                .IsRequired();
         }
     }
 }

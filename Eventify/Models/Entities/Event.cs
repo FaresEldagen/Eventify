@@ -15,12 +15,18 @@ namespace Eventify.Models.Entities
         public EventStatusEnum Status { get; set; } = EventStatusEnum.Pending;
         public decimal TicketPrice { get; set; }
 
+        public string? Address { get; set; }
+
 
         // Navigation Property
-        public int VenueId { get; set; }
+        public int? VenueId { get; set; }
         public Venue? Venue { get; set; }
 
         public int OrganizerId { get; set; }
-        //public Organizer? Organizer { get; set; }
+        public Organizer? Organizer { get; set; }
+
+        public Payment Payment { get; set; }
+
+        public List<EventPhoto> EventPhotos { get; set; } = new List<EventPhoto>();
     }
 }

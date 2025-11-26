@@ -2,7 +2,7 @@
 {
     public enum CountryEnum
     {
-        Egypt,
+        Egypt=1,
         SaudiArabia,
         UnitedArabEmirates,
         Kuwait,

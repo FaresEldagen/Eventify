@@ -29,7 +29,14 @@ namespace Eventify.Data.Configurations
 
             // Foreign-Keys
             builder.Property(p => p.EventId)
-                .HasColumnType("INT").IsRequired();
+                .HasColumnType("INT");
+
+            // Relationships 
+            // Payment with Event
+            builder.HasOne(p => p.Event)
+                .WithOne(e => e.Payment)
+                .HasForeignKey<Payment>(p => p.EventId)
+                .IsRequired(false).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

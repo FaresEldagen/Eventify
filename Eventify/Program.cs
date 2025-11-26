@@ -1,4 +1,6 @@
 using Eventify.Data;
+using Eventify.Models.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Eventify
@@ -17,6 +19,8 @@ namespace Eventify
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>().AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
 
