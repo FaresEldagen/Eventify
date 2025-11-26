@@ -1,3 +1,8 @@
+using Eventify.Data;
+using Eventify.Models.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 namespace Eventify
 {
     public class Program
@@ -8,6 +13,14 @@ namespace Eventify
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            // Add DbContext Service
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
+
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>().AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
 
