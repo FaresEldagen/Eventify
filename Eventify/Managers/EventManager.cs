@@ -15,14 +15,14 @@ namespace Eventify.Managers
 
         public int Delete(int id)
         {
-            var res = context.Events.FirstOrDefault(x => x.EventId == id);
-            if (res != null)
+            var ev = context.Events.FirstOrDefault(x => x.EventId == id);
+            var paument = context.Payments.Where(x=>x.EventId == id).ToList();
+            foreach (var p in paument)
             {
-                context.Events.Remove(res);
-                return context.SaveChanges();
+                p.EventId = null;
             }
-            return 0;
-            
+            context.Events.Remove(ev);
+            return context.SaveChanges();            
         }
 
         public List<Event> Get3()
