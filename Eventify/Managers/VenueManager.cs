@@ -33,7 +33,7 @@ namespace Eventify.Managers
             throw new NotImplementedException();
         }
 
-        public Venue GetByUserId(int id)
+        public List<Venue> GetByOwnerId(int id)
         {
             throw new NotImplementedException();
         }
@@ -43,7 +43,9 @@ namespace Eventify.Managers
             throw new NotImplementedException();
         }
 
-        public int Update(int id)
+
+
+        public int Update(Venue obj)
         {
             throw new NotImplementedException();
         }
