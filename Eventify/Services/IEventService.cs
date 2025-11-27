@@ -4,6 +4,6 @@ namespace Eventify.Services
 {
     public interface IEventService : IGenericService<Event>
     {
-
+        
     }
 }
