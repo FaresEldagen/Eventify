@@ -1,0 +1,147 @@
+@{
+    ViewBag.Title = "Ticket Details";
+}
+
+<div class="container-lg py-5">
+    <!-- Back Button -->
+    <div class="mb-4">
+        <a href="@Url.Action("Index", "Profile")" class="btn btn-ghost">
+            <i class="fas fa-arrow-left me-2"></i>Back to Profile
+        </a>
+    </div>
+    
+    <div class="row g-5">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Ticket Card -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-5">
+                    <div class="text-center mb-4">
+                        <h2 class="fw-bold text-primary mb-2">Summer Music Festival</h2>
+                        <p class="text-muted">Your Admission Ticket</p>
+                    </div>
+                    
+                    <!-- QR Code -->
+                    <div class="text-center mb-5">
+                        <div id="qrCodeContainer" style="display: flex; justify-content: center; background: white; padding: 20px; border-radius: 10px; border: 2px solid #f0f0f0;">
+                            <img src="~/images/qrcode.png" alt="QR Code" style="width: 200px; height: 200px;">
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary mt-3" onclick="toggleQRCode()">
+                            <i class="fas fa-eye-slash me-1"></i>Hide QR Code
+                        </button>
+                    </div>
+                    
+                    <!-- Ticket Information -->
+                    <div class="table-responsive mb-4">
+                        <table class="table">
+                            <tr>
+                                <td class="text-muted">Ticket Number</td>
+                                <td class="fw-bold">TKT-2024-001234</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Event Date</td>
+                                <td class="fw-bold">July 15, 2024</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Time</td>
+                                <td class="fw-bold">6:00 PM - 11:00 PM</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Location</td>
+                                <td class="fw-bold">Central Park, New York, NY</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Ticket Type</td>
+                                <td class="fw-bold">General Admission</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Price</td>
+                                <td class="fw-bold text-primary">$45.00</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Attendee Name</td>
+                                <td class="fw-bold">John Doe</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Email</td>
+                                <td class="fw-bold">john@example.com</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <!-- Status -->
+                    <div class="alert alert-success d-flex align-items-center">
+                        <i class="fas fa-check-circle me-3 fs-5"></i>
+                        <div>
+                            <strong>Ticket Confirmed</strong><br>
+                            <small>Your ticket is valid and ready to use. Present your QR code at entry.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Event Details -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-0">
+                    <h5 class="card-title fw-bold mb-0">Event Details</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Venue Information</h6>
+                    <p class="text-muted mb-3">Central Park is one of the most iconic outdoor spaces in the world, featuring beautiful landscapes, pathways, and open fields perfect for large outdoor events.</p>
+                    
+                    <h6 class="fw-bold mb-3">What to Bring</h6>
+                    <ul class="small text-muted">
+                        <li>Your printed or mobile ticket (QR code)</li>
+                        <li>Valid ID</li>
+                        <li>Comfortable shoes for outdoor events</li>
+                    </ul>
+                    
+                    <h6 class="fw-bold mb-3">Important Information</h6>
+                    <ul class="small text-muted">
+                        <li>Doors open 30 minutes before the event</li>
+                        <li>No outside food or beverages allowed</li>
+                        <li>Please arrive early to allow time for entry</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Actions Card -->
+            <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
+                <div class="card-body">
+                    <h6 class="fw-bold mb-3">Ticket Actions</h6>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-primary"><i class="fas fa-download me-2"></i>Download PDF</button>
+                        <button class="btn btn-outline-primary"><i class="fas fa-share-alt me-2"></i>Share Ticket</button>
+                        <button class="btn btn-outline-primary"><i class="fas fa-calendar me-2"></i>Add to Calendar</button>
+                    </div>
+                    
+                    <hr>
+                    
+                    <h6 class="fw-bold mb-3">Need Help?</h6>
+                    <p class="small text-muted mb-3">If you have any questions about your ticket, please contact the event organizer.</p>
+                    <button class="btn btn-outline-secondary w-100"><i class="fas fa-envelope me-2"></i>Contact Support</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function toggleQRCode() {
+            const container = document.getElementById('qrCodeContainer');
+            const button = event.target.closest('button');
+            
+            if (container.style.display === 'flex') {
+                container.style.display = 'none';
+                button.innerHTML = '<i class="fas fa-eye me-1"></i>Show QR Code';
+            } else {
+                container.style.display = 'flex';
+                button.innerHTML = '<i class="fas fa-eye-slash me-1"></i>Hide QR Code';
+            }
+        }
+    </script>
+}

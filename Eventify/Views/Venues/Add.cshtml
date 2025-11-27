@@ -1,0 +1,197 @@
+@{
+    ViewBag.Title = "List Your Venue";
+}
+
+<div class="container-lg py-5">
+    <!-- Page Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3">List Your Venue</h1>
+        <p class="lead text-muted">Join thousands of venue owners earning extra income by hosting events. It's free to list and easy to get started.</p>
+    </div>
+    
+    <!-- Benefits Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-star fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Earn Extra Income</h5>
+                    <p class="text-muted small">Turn your space into a profitable venue</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-users fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Reach More Customers</h5>
+                    <p class="text-muted small">Connect with event planners and hosts</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                        <i class="fas fa-calendar fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Easy Management</h5>
+                    <p class="text-muted small">Simple booking and calendar management</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Form -->
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-0">
+                    <h5 class="card-title fw-bold mb-0">Venue Details</h5>
+                    <small class="text-muted">Tell us about your venue so we can help you attract the right events</small>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <!-- Basic Information -->
+                        <h6 class="fw-bold mb-3">Basic Information</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label">Venue Name *</label>
+                                <input type="text" class="form-control" placeholder="Enter venue name">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Venue Type *</label>
+                                <input type="text" class="form-control" placeholder="e.g., Wedding Venue, Conference Center">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="form-label">Description *</label>
+                            <textarea class="form-control" rows="4" placeholder="Describe your venue, and what makes it special..."></textarea>
+                        </div>
+                        
+                        <!-- Location -->
+                        <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt me-2"></i>Location</h6>
+                        <div class="mb-4">
+                            <label class="form-label">Street Address *</label>
+                            <input type="text" class="form-control" placeholder="123 Main Street">
+                        </div>
+                        
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">City *</label>
+                                <input type="text" class="form-control" placeholder="City">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">State *</label>
+                                <input type="text" class="form-control" placeholder="State">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">ZIP Code *</label>
+                                <input type="text" class="form-control" placeholder="12345">
+                            </div>
+                        </div>
+                        
+                        <!-- Capacity & Pricing -->
+                        <h6 class="fw-bold mb-3"><i class="fas fa-users me-2"></i>Capacity & Pricing</h6>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label">Maximum Capacity *</label>
+                                <input type="number" class="form-control" placeholder="100">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Price per Hour ($)</label>
+                                <input type="number" class="form-control" placeholder="150">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Price per Day ($)</label>
+                                <input type="number" class="form-control" placeholder="1200">
+                            </div>
+                        </div>
+                        
+                        <!-- Amenities -->
+                        <h6 class="fw-bold mb-3">Amenities</h6>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Air Conditioning</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Catering</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Wi-Fi</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Parking</label>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Bar Service</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Restrooms</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Audio Visual Equipment</label>
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-check-input" type="checkbox" name="Amenities" />
+                                <label class="form-label" for="Amenities">Restrooms</label>
+                            </div>
+                        </div>
+
+                        <!-- Venue Images -->
+                        <h6 class="fw-bold mb-3">Photos</h6>
+                        <div class="mb-4">
+                            <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="venuePhotosUpload" style="background-color: var(--card-bg); cursor: pointer;">
+                                <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
+                                <h6 class="fw-semibold mb-2">Upload Venue Photos</h6>
+                                <p class="text-muted small mb-0">Add up to 10 high-quality photos of your venue (Start with the main photo)</p>
+                                <input type="file" class="d-none" id="venuePhotosInput" accept="image/*" multiple>
+                            </div>
+                            <div class="row g-3" id="venuePhotosPreview"></div>
+                        </div>
+
+                        <!-- Proof of ownership -->
+                        <h6 class="fw-bold mb-3">Proof of ownership</h6>
+                        <div class="mb-4">
+                            <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="proofUpload" style="background-color: var(--card-bg); cursor: pointer;">
+                                <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
+                                <h6 class="fw-semibold mb-2">Upload Venue Proof of ownership file</h6>
+                                <p class="text-muted small mb-0">Add up to 5 MB file or photo of your venue's proof of ownership</p>
+                                <input type="file" class="d-none" id="proofInput" accept="image/*,.pdf">
+                            </div>
+                            <div id="proofPreview"></div>
+                        </div>
+
+                        <!-- Special Features -->
+                        <h6 class="fw-bold mb-3">Special Features</h6>
+                        <div class="mb-4">
+                            <label class="form-label">Special Features</label>
+                            <textarea class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
+                        </div>
+                        
+                        <!-- Submit -->
+                        <div class="pt-3 border-top d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Submit Venue for Review</button>
+                            <button type="reset" class="btn btn-outline-primary">Clear Form</button>
+                        </div>
+                        <small class="text-muted d-block mt-2">We'll review your submission and get back to you within 24 hours.</small>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

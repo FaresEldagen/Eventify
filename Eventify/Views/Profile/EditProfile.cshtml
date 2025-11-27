@@ -1,0 +1,129 @@
+﻿<div class="bg-light border-bottom py-4">
+    <div class="container-lg d-flex justify-content-between align-items-center">
+        <div>
+            <h1 class="h3 fw-bold mb-1">Edit Profile</h1>
+            <p class="text-muted mb-0">Update your information to keep your account secure</p>
+        </div>
+        <a href="Profile.html" class="btn btn-outline-primary btn-sm">View My Profile</a>
+    </div>
+</div>
+
+<div class="container-lg py-5">
+    <form>
+        <!-- Profile Card -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <h5 class="fw-bold mb-4">Profile Picture</h5>
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-4">
+                    <div class="position-relative" id="profilePhotoPreview" style="width: 140px; height: 140px;">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center h-100 w-100 profile-photo-placeholder">
+                            <i class="fas fa-user fa-3x text-muted"></i>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 d-none" id="removeProfilePhoto" style="border-radius: 50%; width: 30px; height: 30px; padding: 0;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-outline-primary btn-sm mb-2" id="changeProfilePhoto">Change Photo</button>
+                        <p class="text-muted small mb-0">JPG or PNG no larger than 2MB</p>
+                        <input type="file" class="d-none" id="profilePhotoInput" accept="image/*">
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row g-4">
+                    <div class="col-md-6 col-lg-4">
+                        <label class="form-label fw-semibold">Gender*</label>
+                        <select class="form-select">
+                            <option>Male</option>
+                            <option>Female</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <label class="form-label fw-semibold">Country*</label>
+                        <select class="form-select">
+                            <option>Egypt</option>
+                            <option>United States</option>
+                            <option>United Arab Emirates</option>
+                            <option>Saudi Arabia</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <label class="form-label fw-semibold">Cell Phone*</label>
+                        <div class="input-group">
+                            <select class="form-select" style="max-width: 140px;">
+                                <option>+20 (Egypt)</option>
+                                <option>+1 (USA)</option>
+                                <option>+971 (UAE)</option>
+                                <option>+966 (KSA)</option>
+                            </select>
+                            <input type="tel" class="form-control" placeholder="10 digit number">
+                        </div>
+                        <small class="text-muted">Enter your number without leading zeros</small>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label fw-semibold">Bio*</label>
+                        <textarea class="form-control" rows="4" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Legal Info -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                    <div>
+                        <h5 class="fw-bold mb-1">Legal Info</h5>
+                        <p class="text-muted small mb-0">Please provide the following information for advanced verification</p>
+                    </div>
+                    <span class="badge bg-light text-dark"><i class="fas fa-lock me-2"></i>Secure &amp; Encrypted</span>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">National ID Number*</label>
+                        <input type="text" class="form-control" placeholder="National ID">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Arabic Full Name (4 names)*</label>
+                        <input type="text" class="form-control" placeholder="الاسم الرباعي كما ببطاقة الهوية">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Arabic Address*</label>
+                        <input type="text" class="form-control" placeholder="العنوان باللغة العربية">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">National ID Documents*</label>
+                        <div class="upload-area border border-2 border-dashed rounded p-4 text-center" id="nationalIdUploadArea" style="background-color: var(--card-bg); cursor: pointer;">
+                            <i class="fas fa-cloud-upload-alt fs-1 text-muted mb-3"></i>
+                            <p class="fw-semibold mb-1">Upload your National ID</p>
+                            <p class="text-muted small mb-0">Add front-side and back-side scans of your ID (max 2 images)</p>
+                            <input type="file" class="d-none" id="nationalIdInput" accept="image/*" multiple>
+                        </div>
+                        <div class="row g-3 mt-3" id="nationalIdPreview"></div>
+                    </div>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button type="submit" class="btn btn-primary px-5">Update</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4 bg-light">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                    <div>
+                        <h5 class="fw-bold mb-1 text-danger">Danger Zone</h5>
+                        <p class="text-muted mb-0 small">Delete your account and all related data. This process cannot be undone.</p>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger mt-3 mt-md-0">Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

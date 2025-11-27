@@ -1,0 +1,108 @@
+@{
+    ViewBag.Title = "Browse Venues";
+}
+
+<div class="container-lg py-5">
+    <!-- Page Header -->
+    <h1 class="display-4 fw-bold mb-2">Browse Venues</h1>
+    <div class="row g-4 mb-5">
+        <p class="lead text-muted col-lg-10">Find the perfect venue for your next event</p>
+        <a href="@Url.Action("Add", "Venues")" class="btn btn-outline-primary btn-lg col-lg-2">Add Your Venue</a>
+    </div>
+
+    
+    <!-- Search and Filter Bar -->
+    <div class="row mb-4 g-3">
+        <div class="col-lg-9">
+            <div class="input-group">
+                <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control border-0" id="venueSearch" placeholder="Search venues by name or location...">
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <select class="form-select" id="sortBy">
+                <option>Sort by Rating</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Sort by Capacity</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <!-- Sidebar Filters (Desktop) -->
+        <div class="col-lg-3 d-none d-lg-block">
+            <div class="card border-0 shadow-sm p-4">
+                <h5 class="fw-bold mb-4"><i class="fas fa-sliders-h me-2"></i>Filters</h5>
+                
+                <!-- Venue Type Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">Venue Type</h6>
+                    <select class="form-select">
+                        <option>All Types</option>
+                    </select>
+                </div>
+                
+                <!-- City Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">City</h6>
+                    <select class="form-select">
+                        <option>All Cities</option>
+                    </select>
+                </div>
+                
+                <!-- Price Range Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">Price Range</h6>
+                    <input type="range" class="form-range" min="0" max="5000" step="100" id="priceRange" value="2500">
+                    <div class="d-flex justify-content-between mt-2 small text-muted">
+                        <span>$0</span>
+                        <span>$5,000</span>
+                    </div>
+                    <div class="mt-2 fw-semibold text-primary small" id="priceRangeValue">Selected: $2,500</div>
+                </div>
+
+                <!-- Amenities Filter -->
+                <div class="mb-4">
+                    <h6 class="fw-semibold mb-3">Amenities</h6>
+
+                    <input class="form-check-input" type="checkbox" name="Amenities" />
+                    <label class="form-label" for="Amenities">Air Conditioning</label>
+
+                    <br>
+                    <input class="form-check-input" type="checkbox" name="Amenities" />
+                    <label class="form-label" for="Amenities">Catering</label>
+
+                    <br>
+                    <input class="form-check-input" type="checkbox" name="Amenities" />
+                    <label class="form-label" for="Amenities">Wi-Fi</label>
+
+                    <br>
+                    <input class="form-check-input" type="checkbox" name="Amenities" />
+                    <label class="form-label" for="Amenities">Parking</label>
+
+                    <br>
+                    <input class="form-check-input" type="checkbox" name="Amenities" />
+                    <label class="form-label" for="Amenities">Bar Service</label>
+
+                    <br>
+                    <input class="form-check-input" type="checkbox" name="Amenities" />
+                    <label class="form-label" for="Amenities">Audio Visual Equipment</label>
+
+                    <br>
+                    <input class="form-check-input" type="checkbox" name="Amenities" />
+                    <label class="form-label" for="Amenities">Restrooms</label>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="d-flex flex-wrap gap-3 justify-content-center">
+                    <a href="" class="btn btn-primary btn-sm px-4 glow-button">Apply</a>
+                    <a href="" class="btn btn-outline-primary btn-sm px-4">Clear</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Venues Grid -->
+        @await Html.PartialAsync("_SearchVenues")
+    </div>
+</div>
