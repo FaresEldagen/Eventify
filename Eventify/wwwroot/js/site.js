@@ -750,17 +750,17 @@ if (loginPasswordToggle && loginPasswordInput && loginPasswordIcon) {
 }
 
 // Login form submission
-const loginForm = document.getElementById("loginForm")
-if (loginForm) {
-    loginForm.addEventListener("submit", function (e) {
-        e.preventDefault()
-        // Add your login logic here
-        console.log("Login form submitted")
-        // Example: You can add API call here
-        // const email = document.getElementById("loginEmail").value
-        // const password = document.getElementById("loginPassword").value
-    })
-}
+//const loginForm = document.getElementById("loginForm")
+//if (loginForm) {
+//    loginForm.addEventListener("submit", function (e) {
+//        e.preventDefault()
+//        // Add your login logic here
+//        console.log("Login form submitted")
+//        // Example: You can add API call here
+//        // const email = document.getElementById("loginEmail").value
+//        // const password = document.getElementById("loginPassword").value
+//    })
+//}
 
 // ============================================
 // CHOOSE ROLE PAGE FUNCTIONALITY
@@ -844,27 +844,27 @@ if (signupConfirmPasswordToggle && signupConfirmPasswordInput && signupConfirmPa
 }
 
 // Signup form submission
-const signupForm = document.getElementById("signupForm")
-if (signupForm) {
-    signupForm.addEventListener("submit", function (e) {
-        e.preventDefault()
+//const signupForm = document.getElementById("signupForm")
+//if (signupForm) {
+//    signupForm.addEventListener("submit", function (e) {
+//        e.preventDefault()
 
-        const password = signupPasswordInput.value
-        const confirmPassword = signupConfirmPasswordInput.value
+//        const password = signupPasswordInput.value
+//        const confirmPassword = signupConfirmPasswordInput.value
 
-        if (password !== confirmPassword) {
-            alert("Passwords do not match")
-            return
-        }
+//        if (password !== confirmPassword) {
+//            alert("Passwords do not match")
+//            return
+//        }
 
-        // Add your signup logic here
-        console.log("Signup form submitted")
-        // Example: You can add API call here
-        // const email = document.getElementById("signupEmail").value
-        // const username = document.getElementById("signupUsername").value
-        // const role = localStorage.getItem("selectedRole")
-    })
-}
+//        // Add your signup logic here
+//        console.log("Signup form submitted")
+//        // Example: You can add API call here
+//        // const email = document.getElementById("signupEmail").value
+//        // const username = document.getElementById("signupUsername").value
+//        // const role = localStorage.getItem("selectedRole")
+//    })
+//}
 
 // ============================================
 // INITIALIZE ON DOM LOAD
