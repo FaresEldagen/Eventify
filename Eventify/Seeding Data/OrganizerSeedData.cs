@@ -15,7 +15,7 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             Id = 4,
             UserName = "Fares",
             NormalizedUserName = "FARES",
-            Email = "Oraganizer1@test.com",
+            Email = "Organizer1@test.com",
             NormalizedEmail = "ORGANIZER1@TEST.COM",
             EmailConfirmed = true,
             Photo = "~/image/avatar.jpg",
@@ -33,14 +33,14 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             Specialization = "Tech Events",
             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
         };
-        Oraganizer1.PasswordHash = hasher.HashPassword(Oraganizer1, "Oraganizer123!");
+        Oraganizer1.PasswordHash = hasher.HashPassword(Oraganizer1, "Organizer123!");
 
         var Oraganizer2 = new Organizer
         {
             Id = 5,
             UserName = "Ahmed",
             NormalizedUserName = "AHMED",
-            Email = "Oraganizer2@test.com",
+            Email = "Organizer2@test.com",
             NormalizedEmail = "ORGANIZER2@TEST.COM",
             EmailConfirmed = true,
             Photo = "~/image/avatar.jpg",
@@ -58,14 +58,14 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             Specialization = "Tech Events",
             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
         };
-        Oraganizer2.PasswordHash = hasher.HashPassword(Oraganizer2, "Oraganizer123!");
+        Oraganizer2.PasswordHash = hasher.HashPassword(Oraganizer2, "Organizer123!");
 
         var Oraganizer3 = new Organizer
         {
             Id = 6,
             UserName = "Ziad",
             NormalizedUserName = "ZIAD",
-            Email = "Oraganizer3@test.com",
+            Email = "Organizer3@test.com",
             NormalizedEmail = "ORGANIZER3@TEST.COM",
             EmailConfirmed = true,
             Photo = "~/image/avatar.jpg",
@@ -83,7 +83,7 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             Specialization = "Tech Events",
             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
         };
-        Oraganizer3.PasswordHash = hasher.HashPassword(Oraganizer3, "Oraganizer123!");
+        Oraganizer3.PasswordHash = hasher.HashPassword(Oraganizer3, "Organizer123!");
 
         builder.HasData(Oraganizer1, Oraganizer2, Oraganizer3);
     }
