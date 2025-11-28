@@ -4,6 +4,7 @@ using Eventify.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eventify.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251128193044_RolSeedData")]
+    partial class RolSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -517,92 +520,6 @@ namespace Eventify.Migrations
                         .HasColumnType("VARCHAR");
 
                     b.HasDiscriminator().HasValue("Organizier");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 4,
-                            AccessFailedCount = 0,
-                            ArabicAddress = "القاهرة - مصر",
-                            ArabicFullName = "فارس حسن علي الداجن",
-                            BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
-                            BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "d2ef2bc3-feb9-43df-a798-569418a51634",
-                            Country = 1,
-                            Email = "Organizer1@test.com",
-                            EmailConfirmed = true,
-                            FrontIdPhoto = "~/image/front1.jpg",
-                            Gender = 1,
-                            JoinedDate = new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            LockoutEnabled = false,
-                            NationalIDNumber = "29801150123456",
-                            NormalizedEmail = "ORGANIZER1@TEST.COM",
-                            NormalizedUserName = "FARES",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJBpTyyvJ0sHYPQ+NgQe5y3n2a1Zgxk2c9RuyHo7aUZPuBfVUY41k2K5HkTtbcX6Rw==",
-                            PhoneNumberConfirmed = false,
-                            Photo = "~/image/avatar.jpg",
-                            TwoFactorEnabled = false,
-                            UserName = "Fares",
-                            ExperienceYear = 5,
-                            PastEventCount = 12,
-                            Specialization = "Tech Events"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            AccessFailedCount = 0,
-                            ArabicAddress = "القاهرة - مصر",
-                            ArabicFullName = "فارس حسن علي الداجن",
-                            BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
-                            BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "4787fa46-b873-4598-95e4-dc973b3cf768",
-                            Country = 1,
-                            Email = "Organizer2@test.com",
-                            EmailConfirmed = true,
-                            FrontIdPhoto = "~/image/front1.jpg",
-                            Gender = 1,
-                            JoinedDate = new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            LockoutEnabled = false,
-                            NationalIDNumber = "29801150123456",
-                            NormalizedEmail = "ORGANIZER2@TEST.COM",
-                            NormalizedUserName = "AHMED",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH5RBCYP6r/JwuUGaSrt+i/xwcA3AQ8UDxRhq4HYBIN1vRIjguQK6pVVZ9Ge6xGdDQ==",
-                            PhoneNumberConfirmed = false,
-                            Photo = "~/image/avatar.jpg",
-                            TwoFactorEnabled = false,
-                            UserName = "Ahmed",
-                            ExperienceYear = 5,
-                            PastEventCount = 12,
-                            Specialization = "Tech Events"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            AccessFailedCount = 0,
-                            ArabicAddress = "القاهرة - مصر",
-                            ArabicFullName = "فارس حسن علي الداجن",
-                            BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
-                            BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "f7a3df34-c2d3-49e9-9bd1-9b0846af6349",
-                            Country = 1,
-                            Email = "Organizer3@test.com",
-                            EmailConfirmed = true,
-                            FrontIdPhoto = "~/image/front1.jpg",
-                            Gender = 1,
-                            JoinedDate = new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Utc),
-                            LockoutEnabled = false,
-                            NationalIDNumber = "29801150123456",
-                            NormalizedEmail = "ORGANIZER3@TEST.COM",
-                            NormalizedUserName = "ZIAD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOQsgVdVfIpBwUuFRGflz4CfyxTIDJFC9wDziNk5DPFnKwCXH1d0M0mU7WLS0VPlSw==",
-                            PhoneNumberConfirmed = false,
-                            Photo = "~/image/avatar.jpg",
-                            TwoFactorEnabled = false,
-                            UserName = "Ziad",
-                            ExperienceYear = 5,
-                            PastEventCount = 12,
-                            Specialization = "Tech Events"
-                        });
                 });
 
             modelBuilder.Entity("Eventify.Models.Entities.Owner", b =>

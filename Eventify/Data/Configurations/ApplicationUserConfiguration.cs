@@ -53,9 +53,6 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("DATETIME2")
                 .IsRequired()
                 .HasDefaultValueSql("SYSDATETIME()");
-
-
-
         }
     }
 }

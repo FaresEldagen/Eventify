@@ -14,7 +14,6 @@ namespace Eventify.Models.Entities
         public EventCategoryEnum Category { get; set; }
         public EventStatusEnum Status { get; set; } = EventStatusEnum.Pending;
         public decimal TicketPrice { get; set; }
-
         public string? Address { get; set; }
 
 

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Eventify.Data.Configurations
 {
-    public class PaymentConfiguaration : IEntityTypeConfiguration<Payment>
+    public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
     {
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
