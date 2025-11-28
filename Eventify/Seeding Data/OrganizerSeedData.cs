@@ -8,14 +8,14 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
 {
     public void Configure(EntityTypeBuilder<Organizer> builder)
     {
-        // Password = Organizer123!
+        var hasher = new PasswordHasher<Organizer>();
 
-        var Organizer1 = new Organizer
+        var Oraganizer1 = new Organizer
         {
             Id = 4,
             UserName = "Fares",
             NormalizedUserName = "FARES",
-            Email = "Organizer1@test.com",
+            Email = "Oraganizer1@test.com",
             NormalizedEmail = "ORGANIZER1@TEST.COM",
             EmailConfirmed = true,
             Photo = "~/image/avatar.jpg",
@@ -26,20 +26,20 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             BackIdPhoto = "~/image/back1.jpg",
             ArabicAddress = "القاهرة - مصر",
             ArabicFullName = "فارس حسن علي الداجن",
-            JoinedDate = DateTime.SpecifyKind(new DateTime(2022, 1, 15), DateTimeKind.Utc),
+            JoinedDate = new DateTime(2022, 1, 15),
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
             PastEventCount = 12,
-            Specialization = "Tech Events",
-            PasswordHash = "AQAAAAIAAYagAAAAEJBpTyyvJ0sHYPQ+NgQe5y3n2a1Zgxk2c9RuyHo7aUZPuBfVUY41k2K5HkTtbcX6Rw=="
+            Specialization = "Tech Events"
         };
+        Oraganizer1.PasswordHash = hasher.HashPassword(Oraganizer1, "Oraganizer123!");
 
-        var Organizer2 = new Organizer
+        var Oraganizer2 = new Organizer
         {
             Id = 5,
             UserName = "Ahmed",
             NormalizedUserName = "AHMED",
-            Email = "Organizer2@test.com",
+            Email = "Oraganizer2@test.com",
             NormalizedEmail = "ORGANIZER2@TEST.COM",
             EmailConfirmed = true,
             Photo = "~/image/avatar.jpg",
@@ -50,20 +50,20 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             BackIdPhoto = "~/image/back1.jpg",
             ArabicAddress = "القاهرة - مصر",
             ArabicFullName = "فارس حسن علي الداجن",
-            JoinedDate = DateTime.SpecifyKind(new DateTime(2022, 1, 15), DateTimeKind.Utc),
+            JoinedDate = new DateTime(2022, 1, 15),
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
             PastEventCount = 12,
-            Specialization = "Tech Events",
-            PasswordHash = "AQAAAAIAAYagAAAAEH5RBCYP6r/JwuUGaSrt+i/xwcA3AQ8UDxRhq4HYBIN1vRIjguQK6pVVZ9Ge6xGdDQ=="
+            Specialization = "Tech Events"
         };
+        Oraganizer2.PasswordHash = hasher.HashPassword(Oraganizer2, "Oraganizer123!");
 
-        var Organizer3 = new Organizer
+        var Oraganizer3 = new Organizer
         {
             Id = 6,
             UserName = "Ziad",
             NormalizedUserName = "ZIAD",
-            Email = "Organizer3@test.com",
+            Email = "Oraganizer3@test.com",
             NormalizedEmail = "ORGANIZER3@TEST.COM",
             EmailConfirmed = true,
             Photo = "~/image/avatar.jpg",
@@ -74,14 +74,14 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             BackIdPhoto = "~/image/back1.jpg",
             ArabicAddress = "القاهرة - مصر",
             ArabicFullName = "فارس حسن علي الداجن",
-            JoinedDate = DateTime.SpecifyKind(new DateTime(2022, 1, 15), DateTimeKind.Utc),
+            JoinedDate = new DateTime(2022, 1, 15),
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
             PastEventCount = 12,
-            Specialization = "Tech Events",
-            PasswordHash = "AQAAAAIAAYagAAAAEOQsgVdVfIpBwUuFRGflz4CfyxTIDJFC9wDziNk5DPFnKwCXH1d0M0mU7WLS0VPlSw=="
+            Specialization = "Tech Events"
         };
+        Oraganizer3.PasswordHash = hasher.HashPassword(Oraganizer3, "Oraganizer123!");
 
-        builder.HasData(Organizer1, Organizer2, Organizer3);
+        builder.HasData(Oraganizer1, Oraganizer2, Oraganizer3);
     }
 }

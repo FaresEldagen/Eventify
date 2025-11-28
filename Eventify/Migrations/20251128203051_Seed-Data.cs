@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Eventify.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class SeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -303,6 +305,193 @@ namespace Eventify.Migrations
                         column: x => x.EventId,
                         principalTable: "Events",
                         principalColumn: "EventId");
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { 1, null, "Owner", "OWNER" },
+                    { 2, null, "Organizer", "ORGANIZER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ArabicAddress", "ArabicFullName", "BIO", "BackIdPhoto", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FrontIdPhoto", "Gender", "JoinedDate", "LockoutEnabled", "LockoutEnd", "NationalIDNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType", "VenueCount", "WithdrawableEarnings" },
+                values: new object[,]
+                {
+                    { 1, 0, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "~/image/back1.jpg", "09851e87-11a9-48b5-a9b4-70ccfa033c0a", 1, "Owner1@test.com", true, "~/image/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER1@TEST.COM", "MAHMOUD", "AQAAAAIAAYagAAAAEOPNOK23SEsNBsTKKQDslNNJJ8jdVToKxpSTLv9xaoC3yQbxUoZrWCyppJ+bQjfLpg==", null, false, "~/image/avatar.jpg", null, false, "Mahmoud", "Owner", 3, 15000.75m },
+                    { 2, 0, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "~/image/back1.jpg", "c3e1635a-46b2-4267-845a-7167f2ea7c83", 1, "Owner2@test.com", true, "~/image/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER2@TEST.COM", "ALI", "AQAAAAIAAYagAAAAEFaEmapGQGa7mmNodHUfRkqUd5iZz471LKGWgWGVcrE6szp64UR7SDg6QZJNHispzw==", null, false, "~/image/avatar.jpg", null, false, "Ali", "Owner", 3, 15000.75m },
+                    { 3, 0, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "~/image/back1.jpg", "ee2ea857-71b1-4549-8b35-4fde06e5a215", 1, "Owner3@test.com", true, "~/image/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER3@TEST.COM", "AMR", "AQAAAAIAAYagAAAAEMNzEpA/N7UF2NfcoWmAqqyNAaoZ6bkizt36Poshcoj2CivjM+U911wvWmszZtswTA==", null, false, "~/image/avatar.jpg", null, false, "Amr", "Owner", 3, 15000.75m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ArabicAddress", "ArabicFullName", "BIO", "BackIdPhoto", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "ExperienceYear", "FrontIdPhoto", "Gender", "JoinedDate", "LockoutEnabled", "LockoutEnd", "NationalIDNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PastEventCount", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "SecurityStamp", "Specialization", "TwoFactorEnabled", "UserName", "UserType" },
+                values: new object[,]
+                {
+                    { 4, 0, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "~/image/back1.jpg", "ea40cafd-4e58-428b-8ec6-4c1fee0666b1", 1, "Oraganizer1@test.com", true, 5, "~/image/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER1@TEST.COM", "FARES", "AQAAAAIAAYagAAAAENBwtzXXH1C110qj3voG/YKPb11gmB4rQGx25LyMR1DMMljbIh7KEbkjjO634/a7hQ==", 12, null, false, "~/image/avatar.jpg", null, "Tech Events", false, "Fares", "Organizier" },
+                    { 5, 0, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "~/image/back1.jpg", "a9157b48-8e28-4465-9351-b30ba8dbf302", 1, "Oraganizer2@test.com", true, 5, "~/image/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER2@TEST.COM", "AHMED", "AQAAAAIAAYagAAAAEHR50qjM4C5ziDWCLRQxjv6rmazh/Brs0KI68mXiLTxM9RNP7H5uBNokwsfI34hFHA==", 12, null, false, "~/image/avatar.jpg", null, "Tech Events", false, "Ahmed", "Organizier" },
+                    { 6, 0, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "~/image/back1.jpg", "a1cd2812-aa3d-4bc1-ba19-ae522622f2ef", 1, "Oraganizer3@test.com", true, 5, "~/image/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER3@TEST.COM", "ZIAD", "AQAAAAIAAYagAAAAEOSGqJYRTvbIhJJJSCzSTDwdMWui3rpd5K6TCP2wLE2dBNDxbtoPpptFXryqmrPUKQ==", 12, null, false, "~/image/avatar.jpg", null, "Tech Events", false, "Ziad", "Organizier" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 1 },
+                    { 1, 2 },
+                    { 1, 3 },
+                    { 2, 4 },
+                    { 2, 5 },
+                    { 2, 6 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Venues",
+                columns: new[] { "Id", "Address", "AirConditioningAvailable", "AudioVisualEquipment", "BarServiceAvailable", "Capacity", "CateringAvailable", "City", "Description", "Name", "OwnerId", "ParkingAvailable", "PricePerHour", "ProofOfOwnership", "RestroomsAvailable", "SpecialFeatures", "State", "VenueType", "WifiAvailable", "ZIP" },
+                values: new object[,]
+                {
+                    { 1, "Nasr City", true, true, false, 500, true, "Cairo", "Large premium indoor venue.", "Cairo Grand Hall", 1, true, 2500m, "~/images/ownership1.jpg", true, "Stage, LED Screens", "Cairo", 1, true, "11371" },
+                    { 2, "Marina Walk", false, false, true, 300, true, "Dubai", "Open-air event arena with sea view.", "Dubai Outdoor Arena", 2, true, 1800m, "~/images/ownership1.jpg", true, "Sea View", "Dubai", 2, true, "00000" },
+                    { 3, "Olaya Street", true, true, false, 700, false, "Riyadh", "Modern multi-purpose venue.", "Riyadh Event Center", 3, true, 3000m, "~/images/ownership1.jpg", true, "VIP Rooms", "Riyadh", 1, true, "11564" },
+                    { 4, "Corniche Road", false, false, false, 250, true, "Alexandria", "Outdoor venue with stunning sea view.", "Alexandria Seaside Hall", 1, false, 1500m, "~/images/ownership1.jpg", true, "Sea Breeze, Open Stage", "Alexandria", 2, true, "21500" },
+                    { 5, "Pyramids Road", false, false, false, 600, true, "Giza", "Cultural event venue facing pyramids.", "Giza Pyramid Arena", 1, true, 3500m, "~/images/ownership1.jpg", true, "Historic View", "Giza", 2, false, "12556" },
+                    { 6, "Khalifa Street", true, true, true, 450, true, "Abu Dhabi", "Luxury indoor venue for premium events.", "Abu Dhabi Royal Hall", 2, true, 4000m, "~/images/ownership1.jpg", true, "Gold Interior, VIP Lounge", "Abu Dhabi", 1, true, "00001" },
+                    { 7, "North Corniche", false, false, true, 800, false, "Jeddah", "Outdoor beach concert venue.", "Jeddah Beach Stage", 3, true, 2800m, "~/images/ownership1.jpg", true, "Beachfront Stage", "Mecca", 2, true, "23415" },
+                    { 8, "West Bay", true, true, false, 1000, false, "Doha", "Large conference and exhibition hall.", "Doha Convention Hall", 2, true, 5000m, "~/images/ownership1.jpg", true, "Conference Rooms", "Doha", 1, true, "00022" },
+                    { 9, "Luxor Temple Road", true, false, false, 350, false, "Luxor", "Historic indoor cultural venue.", "Luxor Cultural Theatre", 1, true, 1700m, "~/images/ownership1.jpg", true, "Theatre Stage", "Luxor", 1, false, "85958" },
+                    { 10, "Art District", true, false, false, 120, false, "Sharjah", "Gallery space for exhibitions.", "Sharjah Art Gallery", 2, true, 900m, "~/images/ownership1.jpg", true, "Art Lighting", "Sharjah", 1, true, "00033" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Events",
+                columns: new[] { "EventId", "Address", "Category", "Description", "EndDateTime", "EventTitle", "Features", "IsPrivate", "OrganizerId", "StartDateTime", "Status", "TicketPrice", "VenueId" },
+                values: new object[,]
+                {
+                    { 1, "Cairo Grand Hall, Nasr City", 1, "A conference discussing the future of AI and technology.", new DateTime(2025, 4, 12, 18, 0, 0, 0, DateTimeKind.Unspecified), "Tech Innovations Conference 2025", "Speakers, Workshops, Networking", false, 4, new DateTime(2025, 4, 12, 10, 0, 0, 0, DateTimeKind.Unspecified), 2, 500m, 1 },
+                    { 2, "Dubai Outdoor Arena, Marina Walk", 8, "Intense fitness session with professional trainers.", new DateTime(2025, 5, 3, 11, 0, 0, 0, DateTimeKind.Unspecified), "Outdoor Fitness Bootcamp", "Trainers, Fresh Air, Group Activities", false, 5, new DateTime(2025, 5, 3, 7, 0, 0, 0, DateTimeKind.Unspecified), 1, 150m, 2 },
+                    { 3, "Riyadh Event Center", 5, "Connect with entrepreneurs and business owners.", new DateTime(2025, 6, 18, 23, 0, 0, 0, DateTimeKind.Unspecified), "Riyadh Business Networking Night", "Networking, Snacks, Business Talks", false, 6, new DateTime(2025, 6, 18, 19, 0, 0, 0, DateTimeKind.Unspecified), 4, 300m, 3 },
+                    { 4, "Corniche Road", 10, "Live music performances by local bands.", new DateTime(2025, 7, 10, 23, 0, 0, 0, DateTimeKind.Unspecified), "Alexandria Summer Music Festival", "Live Bands, Food Trucks, Sea View", false, 4, new DateTime(2025, 7, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), 5, 200m, 4 },
+                    { 5, "Pyramids Road", 3, "A meetup focusing on ancient Egyptian culture.", new DateTime(2025, 3, 5, 18, 0, 0, 0, DateTimeKind.Unspecified), "Giza Cultural Meetup", "Guided Tour, Cultural Talks", true, 5, new DateTime(2025, 3, 5, 14, 0, 0, 0, DateTimeKind.Unspecified), 3, 250m, 5 },
+                    { 6, "Khalifa Street", 6, "A premium exhibition showcasing luxury brands.", new DateTime(2025, 9, 1, 20, 0, 0, 0, DateTimeKind.Unspecified), "Abu Dhabi Luxury Expo", "Exhibitions, VIP Lounge", false, 6, new DateTime(2025, 9, 1, 10, 0, 0, 0, DateTimeKind.Unspecified), 5, 800m, 6 },
+                    { 7, "Jeddah North Corniche", 9, "A charity sports event to support children’s hospitals.", new DateTime(2025, 2, 20, 12, 0, 0, 0, DateTimeKind.Unspecified), "Jeddah Beach Charity Run", "Medals, Refreshments", false, 4, new DateTime(2025, 2, 20, 6, 0, 0, 0, DateTimeKind.Unspecified), 5, 100m, 7 },
+                    { 8, "Doha Convention Hall", 2, "Hands-on workshop for beginners in software development.", new DateTime(2025, 8, 15, 16, 0, 0, 0, DateTimeKind.Unspecified), "Doha Tech Workshop", "Coding Session, Mentors", false, 5, new DateTime(2025, 8, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), 5, 350m, 8 },
+                    { 9, "Luxor Temple Road", 4, "A seminar discussing ancient Egyptian heritage.", new DateTime(2025, 11, 2, 19, 0, 0, 0, DateTimeKind.Unspecified), "Luxor Historical Seminar", "Speakers, Guided Discussion", false, 6, new DateTime(2025, 11, 2, 15, 0, 0, 0, DateTimeKind.Unspecified), 1, 180m, 9 },
+                    { 10, "Sharjah Art Gallery", 10, "A digital art exhibition featuring creatives from the region.", new DateTime(2025, 10, 10, 20, 0, 0, 0, DateTimeKind.Unspecified), "Sharjah Digital Art Expo", "Digital Art Panels, Artist Meetups", false, 4, new DateTime(2025, 10, 10, 11, 0, 0, 0, DateTimeKind.Unspecified), 5, 220m, 10 },
+                    { 11, "Pyramids Road", 3, "A meetup focusing on ancient Egyptian culture.", new DateTime(2025, 3, 6, 18, 0, 0, 0, DateTimeKind.Unspecified), "Giza Cultural Meetup", "Guided Tour, Cultural Talks", false, 5, new DateTime(2025, 3, 6, 14, 0, 0, 0, DateTimeKind.Unspecified), 1, 250m, 5 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "VenuePhotos",
+                columns: new[] { "PhotoUrl", "VenueId" },
+                values: new object[,]
+                {
+                    { "~/images/venue1_1.jpg", 1 },
+                    { "~/images/venue1_2.jpg", 1 },
+                    { "~/images/venue1_3.jpg", 1 },
+                    { "~/images/venue1_4.jpg", 1 },
+                    { "~/images/venue10_1.jpg", 10 },
+                    { "~/images/venue10_2.jpg", 10 },
+                    { "~/images/venue10_3.jpg", 10 },
+                    { "~/images/venue10_4.jpg", 10 },
+                    { "~/images/venue2_1.jpg", 2 },
+                    { "~/images/venue2_2.jpg", 2 },
+                    { "~/images/venue2_3.jpg", 2 },
+                    { "~/images/venue2_4.jpg", 2 },
+                    { "~/images/venue3_1.jpg", 3 },
+                    { "~/images/venue3_2.jpg", 3 },
+                    { "~/images/venue3_3.jpg", 3 },
+                    { "~/images/venue3_4.jpg", 3 },
+                    { "~/images/venue4_1.jpg", 4 },
+                    { "~/images/venue4_2.jpg", 4 },
+                    { "~/images/venue4_3.jpg", 4 },
+                    { "~/images/venue4_4.jpg", 4 },
+                    { "~/images/venue5_1.jpg", 5 },
+                    { "~/images/venue5_2.jpg", 5 },
+                    { "~/images/venue5_3.jpg", 5 },
+                    { "~/images/venue5_4.jpg", 5 },
+                    { "~/images/venue6_1.jpg", 6 },
+                    { "~/images/venue6_2.jpg", 6 },
+                    { "~/images/venue6_3.jpg", 6 },
+                    { "~/images/venue6_4.jpg", 6 },
+                    { "~/images/venue7_1.jpg", 7 },
+                    { "~/images/venue7_2.jpg", 7 },
+                    { "~/images/venue7_3.jpg", 7 },
+                    { "~/images/venue7_4.jpg", 7 },
+                    { "~/images/venue8_1.jpg", 8 },
+                    { "~/images/venue8_2.jpg", 8 },
+                    { "~/images/venue8_3.jpg", 8 },
+                    { "~/images/venue8_4.jpg", 8 },
+                    { "~/images/venue9_1.jpg", 9 },
+                    { "~/images/venue9_2.jpg", 9 },
+                    { "~/images/venue9_3.jpg", 9 },
+                    { "~/images/venue9_4.jpg", 9 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "EventPhotos",
+                columns: new[] { "EventId", "PhotoUrl" },
+                values: new object[,]
+                {
+                    { 1, "~/images/event1_1.jpg" },
+                    { 1, "~/images/event1_2.jpg" },
+                    { 1, "~/images/event1_3.jpg" },
+                    { 1, "~/images/event1_4.jpg" },
+                    { 10, "~/images/event10_1.jpg" },
+                    { 10, "~/images/event10_2.jpg" },
+                    { 10, "~/images/event10_3.jpg" },
+                    { 10, "~/images/event10_4.jpg" },
+                    { 11, "~/images/event11_1.jpg" },
+                    { 11, "~/images/event11_2.jpg" },
+                    { 11, "~/images/event11_3.jpg" },
+                    { 11, "~/images/event11_4.jpg" },
+                    { 2, "~/images/event2_1.jpg" },
+                    { 2, "~/images/event2_2.jpg" },
+                    { 2, "~/images/event2_3.jpg" },
+                    { 2, "~/images/event2_4.jpg" },
+                    { 3, "~/images/event3_1.jpg" },
+                    { 3, "~/images/event3_2.jpg" },
+                    { 3, "~/images/event3_3.jpg" },
+                    { 3, "~/images/event3_4.jpg" },
+                    { 4, "~/images/event4_1.jpg" },
+                    { 4, "~/images/event4_2.jpg" },
+                    { 4, "~/images/event4_3.jpg" },
+                    { 4, "~/images/event4_4.jpg" },
+                    { 5, "~/images/event5_1.jpg" },
+                    { 5, "~/images/event5_2.jpg" },
+                    { 5, "~/images/event5_3.jpg" },
+                    { 5, "~/images/event5_4.jpg" },
+                    { 6, "~/images/event6_1.jpg" },
+                    { 6, "~/images/event6_2.jpg" },
+                    { 6, "~/images/event6_3.jpg" },
+                    { 6, "~/images/event6_4.jpg" },
+                    { 7, "~/images/event7_1.jpg" },
+                    { 7, "~/images/event7_2.jpg" },
+                    { 7, "~/images/event7_3.jpg" },
+                    { 7, "~/images/event7_4.jpg" },
+                    { 8, "~/images/event8_1.jpg" },
+                    { 8, "~/images/event8_2.jpg" },
+                    { 8, "~/images/event8_3.jpg" },
+                    { 8, "~/images/event8_4.jpg" },
+                    { 9, "~/images/event9_1.jpg" },
+                    { 9, "~/images/event9_2.jpg" },
+                    { 9, "~/images/event9_3.jpg" },
+                    { 9, "~/images/event9_4.jpg" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Payments",
+                columns: new[] { "Id", "Amount", "EventId", "EventName", "PaymentDate", "Reference", "status" },
+                values: new object[,]
+                {
+                    { 4, 200m, 4, "Alexandria Summer Music Festival", new DateTime(2025, 7, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "PAY-EVT4-001", 2 },
+                    { 6, 800m, 6, "Abu Dhabi Luxury Expo", new DateTime(2025, 8, 30, 0, 0, 0, 0, DateTimeKind.Unspecified), "PAY-EVT6-001", 2 },
+                    { 7, 100m, 7, "Jeddah Beach Charity Run", new DateTime(2025, 2, 18, 0, 0, 0, 0, DateTimeKind.Unspecified), "PAY-EVT7-001", 2 },
+                    { 8, 350m, 8, "Doha Tech Workshop", new DateTime(2025, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified), "PAY-EVT8-001", 2 },
+                    { 10, 220m, 10, "Sharjah Digital Art Expo", new DateTime(2025, 10, 8, 0, 0, 0, 0, DateTimeKind.Unspecified), "PAY-EVT10-001", 2 }
                 });
 
             migrationBuilder.CreateIndex(

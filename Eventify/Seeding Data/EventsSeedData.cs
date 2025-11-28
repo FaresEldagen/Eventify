@@ -24,7 +24,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 500m,
                     Address = "Cairo Grand Hall, Nasr City",
                     VenueId = 1,
-                    OrganizerId = 1
+                    OrganizerId = 4
                 },
                 new Event
                 {
@@ -40,7 +40,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 150m,
                     Address = "Dubai Outdoor Arena, Marina Walk",
                     VenueId = 2,
-                    OrganizerId = 2
+                    OrganizerId = 5
                 },
                 new Event
                 {
@@ -56,7 +56,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 300m,
                     Address = "Riyadh Event Center",
                     VenueId = 3,
-                    OrganizerId = 3
+                    OrganizerId = 6
                 },
                 new Event
                 {
@@ -120,7 +120,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 100m,
                     Address = "Jeddah North Corniche",
                     VenueId = 7,
-                    OrganizerId = 7
+                    OrganizerId = 4
                 },
                 new Event
                 {
@@ -136,7 +136,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 350m,
                     Address = "Doha Convention Hall",
                     VenueId = 8,
-                    OrganizerId = 8
+                    OrganizerId = 5
                 },
                 new Event
                 {
@@ -152,7 +152,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 180m,
                     Address = "Luxor Temple Road",
                     VenueId = 9,
-                    OrganizerId = 9
+                    OrganizerId = 6
                 },
                 new Event
                 {
@@ -168,7 +168,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 220m,
                     Address = "Sharjah Art Gallery",
                     VenueId = 10,
-                    OrganizerId = 10
+                    OrganizerId = 4
                 }, 
                 new Event
                 {

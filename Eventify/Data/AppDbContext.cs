@@ -4,6 +4,7 @@ using Eventify.Seeding_Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 using System.Reflection.Emit;
 using WebApplication2.Controllers;
 
@@ -40,14 +41,37 @@ namespace Eventify.Data
             // Seeding Data
             builder.ApplyConfiguration(new RoleSeedData());
             builder.ApplyConfiguration(new OrganizerSeedData());
-            //builder.ApplyConfiguration(new OwnerSeedData());
-            //builder.ApplyConfiguration(new UserRoleSeedData());
+            builder.ApplyConfiguration(new OwnerSeedData());
+            builder.ApplyConfiguration(new UserRoleSeedData());
+            builder.ApplyConfiguration(new VenuesSeedData());
+            builder.ApplyConfiguration(new VenuePhotoSeedData());
+            builder.ApplyConfiguration(new EventsSeedData());
+            builder.ApplyConfiguration(new EventPhotoSeedData());
+            builder.ApplyConfiguration(new PaymentsSeedData());
+        }
+    }
+    public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    {
+        public AppDbContext CreateDbContext(string[] args)
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-            //builder.ApplyConfiguration(new VenuesSeedData());
-            //builder.ApplyConfiguration(new VenuePhotoSeedData());
-            //builder.ApplyConfiguration(new EventsSeedData());
-            //builder.ApplyConfiguration(new EventPhotoSeedData());
-            //builder.ApplyConfiguration(new PaymentsSeedData());
+            // حدد الـ connection string بتاعك هنا
+            // لو عندك appsettings.json استخدمه
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            optionsBuilder.UseSqlServer(connectionString);
+
+            // هنا بنحدد الـ DateTime behavior عشان يبقى ثابت
+            optionsBuilder.ConfigureWarnings(warnings =>
+                warnings.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
+
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }

@@ -10,7 +10,6 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
     {
         var hasher = new PasswordHasher<Owner>();
 
-        // Password = Owner123!
         var Owner1 = new Owner
         {
             Id = 1,
@@ -27,11 +26,12 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
             BackIdPhoto = "~/image/back1.jpg",
             ArabicAddress = "القاهرة - مصر",
             ArabicFullName = "محمود سمير عبد الله",
+            JoinedDate = new DateTime(2021, 1, 10),
             NationalIDNumber = "29701020123455",
             VenueCount = 3,
-            WithdrawableEarnings = 15000.75m,
-            PasswordHash = "AQAAAAIAAYagAAAAEJDR5e/KRGRvWdv3r0tq7vBzbc5mMQkdHkvRT6ImbqRUtqvGfU9CgRpTnMlZzGpu6g=="
+            WithdrawableEarnings = 15000.75m
         };
+        Owner1.PasswordHash = hasher.HashPassword(Owner1, "Owner123!");
 
         var Owner2 = new Owner
         {
@@ -49,11 +49,12 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
             BackIdPhoto = "~/image/back1.jpg",
             ArabicAddress = "القاهرة - مصر",
             ArabicFullName = "محمود سمير عبد الله",
+            JoinedDate = new DateTime(2021, 1, 10),
             NationalIDNumber = "29701020123455",
             VenueCount = 3,
-            WithdrawableEarnings = 15000.75m,
-            PasswordHash = "AQAAAAIAAYagAAAAECWLo9pP7IpTIXFZf3p1gC/oZ3S0dG1kbYv2HNX3zTGai6U5bD4Jv0FYpkuNeLbUzA=="
+            WithdrawableEarnings = 15000.75m
         };
+        Owner2.PasswordHash = hasher.HashPassword(Owner2, "Owner123!");
 
         var Owner3 = new Owner
         {
@@ -71,11 +72,12 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
             BackIdPhoto = "~/image/back1.jpg",
             ArabicAddress = "القاهرة - مصر",
             ArabicFullName = "محمود سمير عبد الله",
+            JoinedDate = new DateTime(2021, 1, 10),
             NationalIDNumber = "29701020123455",
             VenueCount = 3,
-            WithdrawableEarnings = 15000.75m,
-            PasswordHash = "AQAAAAIAAYagAAAAECrYsbscgfNyV2pIB3BdYoCHf0UMxJVUZ0TBDFIJx+xxii2kxMvWZHDfL/pWc8Gzgw=="
+            WithdrawableEarnings = 15000.75m
         };
+        Owner3.PasswordHash = hasher.HashPassword(Owner3, "Owner123!");
 
         builder.HasData(Owner1, Owner2, Owner3);
     }
