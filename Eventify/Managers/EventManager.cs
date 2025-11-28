@@ -1,5 +1,7 @@
-﻿using Eventify.Data;
+﻿using System.Globalization;
+using Eventify.Data;
 using Eventify.Models.Entities;
+using Eventify.Models.Enums;
 using Eventify.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,45 +33,62 @@ namespace Eventify.Managers
             return res;
         }
 
-        public List<Event> GetByFilter_Search()
+        public List<Event> GetByFilter_Search(int pagenumber)
         {
             throw new NotImplementedException();
         }
 
-        //Not Sure About this yet
-        #region
-        //public List<Event> GetByFilter_Search(string? title,int? category,decimal? minPrice,decimal? maxPrice,DateTime? startDate,bool? isPrivate)
-        //{
-        //    //عشان متعملش الكويري وتبعتها للسكوال غير مره واحده
-        //    var query = context.Events.AsQueryable();
 
-        //    if (!string.IsNullOrWhiteSpace(title))
-        //        query = query.Where(e => e.EventTitle.Contains(title));
+        public List<Event> GetByFilter_Search(string? title,SortingTypeEnum sortingType,SortByEnum sortBy,string?city, int? category, decimal? maxPrice, DateTime? startDate,DateTime? enddate, bool? isPrivate)
 
-        //    if (category != null)
-        //        query = query.Where(e => (int)e.Category == category);
+        {
+            var query = context.Events.AsQueryable();
 
-        //    if (minPrice != null)
-        //        query = query.Where(e => e.TicketPrice >= minPrice);
+            if (!string.IsNullOrWhiteSpace(title))
+                query = query.Where(e => e.EventTitle.Contains(title));
 
-        //    if (maxPrice != null)
-        //        query = query.Where(e => e.TicketPrice <= maxPrice);
+            if (category != null)
+                query = query.Where(e => (int)e.Category == category);
 
-        //    if (startDate != null)
-        //        query = query.Where(e => e.StartDateTime.Date == startDate.Value.Date);
+            if (sortBy == SortByEnum.Price)
+            {
+                if (sortingType == SortingTypeEnum.Ascending)
+                    query = query.Where(v => v.TicketPrice <= maxPrice.Value ).OrderBy(e => e.TicketPrice);
+                else
+                    query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderByDescending(e => e.TicketPrice);
 
-        //    if (isPrivate != null)
-        //        query = query.Where(e => e.IsPrivate == isPrivate);
+            }
+            if (sortBy == SortByEnum.Date)
+            {
+                if (sortingType == SortingTypeEnum.Ascending)
+                    query = query.Where(v => v.StartDateTime <= startDate.Value && v.EndDateTime>=enddate).OrderBy(e => e.StartDateTime);
+                else
+                    query = query.Where(v => v.StartDateTime <= startDate.Value && v.EndDateTime >= enddate).OrderByDescending(e => e.StartDateTime);
 
-        //    return query.ToList();
-        //}
-        ////تستخدم كده
-        //public IActionResult List(string? title, int? category, decimal? min, decimal? max, bool? isPrivate)
-        //{
-        //    var data = eventService.GetByFilter_Search(title, category, min, max, null, isPrivate);
-        //    return View(data);
-        //}
-        #endregion
+            }
+            if (sortBy == SortByEnum.Price)
+            {
+                if (sortingType == SortingTypeEnum.Ascending)
+                    query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderBy(e => e.TicketPrice);
+                else
+                    query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderByDescending(e => e.TicketPrice);
+
+            }
+
+            if (startDate != null)
+                query = query.Where(e => e.StartDateTime.Date == startDate.Value.Date);
+
+            if (isPrivate != null)
+                query = query.Where(e => e.IsPrivate == isPrivate);
+
+            if (city!=null)
+                query=query.Where(e=>e.Address==city);
+
+
+
+            return query.ToList();
+        }
+
 
         public Event GetById(int id)
         {
