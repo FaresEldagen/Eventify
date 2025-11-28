@@ -33,10 +33,6 @@ namespace Eventify.Managers
             return res;
         }
 
-        public List<Event> GetByFilter_Search(int pagenumber)
-        {
-            throw new NotImplementedException();
-        }
 
 
         public List<Event> GetByFilter_Search(string? title,SortingTypeEnum sortingType,SortByEnum sortBy,string?city, int? category, decimal? maxPrice, DateTime? startDate,DateTime? enddate, bool? isPrivate)
