@@ -30,7 +30,8 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
             PastEventCount = 12,
-            Specialization = "Tech Events"
+            Specialization = "Tech Events",
+            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
         };
         Oraganizer1.PasswordHash = hasher.HashPassword(Oraganizer1, "Oraganizer123!");
 
@@ -54,7 +55,8 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
             PastEventCount = 12,
-            Specialization = "Tech Events"
+            Specialization = "Tech Events",
+            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
         };
         Oraganizer2.PasswordHash = hasher.HashPassword(Oraganizer2, "Oraganizer123!");
 
@@ -78,7 +80,8 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
             PastEventCount = 12,
-            Specialization = "Tech Events"
+            Specialization = "Tech Events",
+            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
         };
         Oraganizer3.PasswordHash = hasher.HashPassword(Oraganizer3, "Oraganizer123!");
 

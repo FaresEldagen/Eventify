@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Eventify.ViewModels
+@model LoginViewModel
+@{
     Layout = "_SignLayout";
 }
 
@@ -6,31 +8,40 @@
     <div class="login-container">
         <!-- Left Section - Login Form -->
         <div class="login-left">
-            <a class="navbar-brand fw-bold fs-4 mb-4" href="@Url.Action("Index", "landing")">
+            <a class="navbar-brand fw-bold fs-4 mb-4" href="@Url.Action("Index", "Home")">
                 <i class="fas fa-calendar fs-4 text-primary"></i>
                 Eventify
             </a>
 
             <h1 class="login-title">Login to Your Account</h1>
 
-            <form id="loginForm">
+            <form method="post" id="loginForm">
                 <div class="login-form-group">
-                    <label for="loginEmail" class="login-form-label">Email</label>
-                    <input type="email" class="login-form-control" id="loginEmail" placeholder="Email" required>
+                    <label asp-for="Email" class="login-form-label">Email</label>
+                    <input asp-for="Email" class="login-form-control" id="loginEmail" placeholder="Email" >
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="login-form-group">
-                    <label for="loginPassword" class="login-form-label">Password</label>
+                    <label asp-for="Password" class="login-form-label">Password</label>
                     <div class="login-password-wrapper">
-                        <input type="password" class="login-form-control" id="loginPassword" placeholder="Password" required>
+                        <input asp-for="Password" type="password" class="login-form-control" id="loginPassword" placeholder="Password" >
                         <button type="button" class="login-password-toggle" id="loginPasswordToggle">
                             <i class="fas fa-eye-slash" id="loginPasswordIcon"></i>
                         </button>
                     </div>
+                    <span asp-validation-for="Password" class="text-danger"></span> 
+                </div>
+
+                <div>
+                    <span asp-validation-for="LoginError" class="text-danger"></span>
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Sign In</button>
             </form>
+            @section AccountErrors {
+                <partial name="_ValidationScriptsPartial" />
+            }
         </div>
 
         <!-- Right Section - Sign Up Prompt -->
@@ -56,7 +67,7 @@
             <p class="login-signup-text">
                 Sign up to explore venues, organize events, and get your tickets hassle-free
             </p>
-            <button class="btn btn-outline-primary" style="width: 100%;" onclick="window.location.href='ChooseRole.html'">Sign Up</button>
+            <button class="btn btn-outline-primary" style="width: 100%;" onclick="window.location.href='@Url.Action("SignUp", "Account")'">Sign Up</button>
         </div>
     </div>
 </div>

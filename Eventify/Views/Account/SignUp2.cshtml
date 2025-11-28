@@ -1,6 +1,96 @@
-﻿@{
+﻿@using Eventify.ViewModels
+@{
     Layout = "_SignLayout";
 }
+@model SignupViewModel
+<form action="signup2" method="post" id="chooseRoleForm">
+    
+    <!-- Hidden fields -->
+    <input type="hidden" asp-for="Email" />
+    <input type="hidden" asp-for="Username" />
+    <input type="hidden" asp-for="Password" />
+    <input type="hidden" asp-for="ConfirmPassword" />
+    <div class="choose-role-page">
+    <!-- Header -->
+    <div class="choose-role-header">
+            <a class="navbar-brand fw-bold fs-4 mb-4" href="@Url.Action("Index", "Home")">
+                <i class="fas fa-calendar fs-4 text-primary"></i>
+                Eventify
+            </a>
+
+            <button class="choose-role-theme-toggle" id="themeToggle" title="Toggle theme">
+                <svg id="sunIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="d-none">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+                <svg id="moonIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Title -->
+        <h1 class="choose-role-title">Choose Your Role</h1>
+
+        <!-- Role Cards -->
+        <div class="choose-role-cards-container">
+            <!-- Venue Owner Card -->
+            <label class="choose-role-card selected" data-role="venue-owner">
+                <input type="radio" asp-for="Role" value="1" class="choose-role-radio-input" checked style="display:none;">
+                <div class="choose-role-card-radio">
+                    <i class="fas fa-check choose-role-card-radio-check"></i>
+                </div>
+                <div class="choose-role-card-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3 class="choose-role-card-title">Venue Owner</h3>
+                <p class="choose-role-card-description">
+                    I am a venue owner, providing spaces for events and occasions
+                </p>
+            </label>
+
+            <!-- Event Organizer Card -->
+            <label class="choose-role-card" data-role="event-organizer">
+                <input type="radio" asp-for="Role" value="2" class="choose-role-radio-input" style="display:none;">
+                <div class="choose-role-card-radio">
+                    <i class="fas fa-check choose-role-card-radio-check"></i>
+                </div>
+                <div class="choose-role-card-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="choose-role-card-title">Event Organizer</h3>
+                <p class="choose-role-card-description">
+                    I am an event organizer, planning and managing events and occasions
+                </p>
+            </label>
+        </div>
+
+        <!-- Sign Up Button -->
+            <button type="submit" class="btn btn-primary" id="chooseRoleSignupBtn">Confirm</button>
+
+            @Html.AntiForgeryToken()
+    
+    
+    </div>
+</form>
+
+
+
+@* 
+    ----------------------------------------------------------
+    From Claode ai
+    --------------------------------------------------------
+@using Eventify.ViewModels
+@{
+    Layout = "_SignLayout";
+}
+@model GeneralUserViewModel
 
 <div class="choose-role-page">
     <!-- Header -->
@@ -9,7 +99,6 @@
             <i class="fas fa-calendar fs-4 text-primary"></i>
             Eventify
         </a>
-
         <button class="choose-role-theme-toggle" id="themeToggle" title="Toggle theme">
             <svg id="sunIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="d-none">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -28,40 +117,50 @@
         </button>
     </div>
 
-    <!-- Title -->
-    <h1 class="choose-role-title">Choose Your Role</h1>
+    <form asp-action="YourActionName" asp-controller="YourControllerName" method="post" id="chooseRoleForm">
+        <!-- Title -->
+        <h1 class="choose-role-title">Choose Your Role</h1>
 
-    <!-- Role Cards -->
-    <div class="choose-role-cards-container">
-        <!-- Venue Owner Card -->
-        <div class="choose-role-card selected" data-role="venue-owner">
-            <div class="choose-role-card-radio">
-                <i class="fas fa-check choose-role-card-radio-check"></i>
-            </div>
-            <div class="choose-role-card-icon">
-                <i class="fas fa-building"></i>
-            </div>
-            <h3 class="choose-role-card-title">Venue Owner</h3>
-            <p class="choose-role-card-description">
-                I am a venue owner, providing spaces for events and occasions
-            </p>
+        <!-- Role Cards -->
+        <div class="choose-role-cards-container">
+            <!-- Venue Owner Card -->
+            <label class="choose-role-card selected" data-role="venue-owner">
+                <input type="radio" asp-for="Role" value="1" class="choose-role-radio-input" checked>
+                <div class="choose-role-card-radio">
+                    <i class="fas fa-check choose-role-card-radio-check"></i>
+                </div>
+                <div class="choose-role-card-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3 class="choose-role-card-title">Venue Owner</h3>
+                <p class="choose-role-card-description">
+                    I am a venue owner, providing spaces for events and occasions
+                </p>
+            </label>
+
+            <!-- Event Organizer Card -->
+            <label class="choose-role-card" data-role="event-organizer">
+                <input type="radio" asp-for="Role" value="2" class="choose-role-radio-input">
+                <div class="choose-role-card-radio">
+                    <i class="fas fa-check choose-role-card-radio-check"></i>
+                </div>
+                <div class="choose-role-card-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="choose-role-card-title">Event Organizer</h3>
+                <p class="choose-role-card-description">
+                    I am an event organizer, planning and managing events and occasions
+                </p>
+            </label>
         </div>
 
-        <!-- Event Organizer Card -->
-        <div class="choose-role-card" data-role="event-organizer">
-            <div class="choose-role-card-radio">
-                <i class="fas fa-check choose-role-card-radio-check"></i>
-            </div>
-            <div class="choose-role-card-icon">
-                <i class="fas fa-calendar-alt"></i>
-            </div>
-            <h3 class="choose-role-card-title">Event Organizer</h3>
-            <p class="choose-role-card-description">
-                I am an event organizer, planning and managing events and occasions
-            </p>
-        </div>
-    </div>
+        <!-- Validation Summary -->
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <span asp-validation-for="Role" class="text-danger"></span>
 
-    <!-- Sign Up Button -->
-    <button class="btn btn-primary" id="chooseRoleSignupBtn">Confirm</button>
-</div>
+        <!-- Sign Up Button -->
+        <button type="submit" class="btn btn-primary" id="chooseRoleSignupBtn">Confirm</button>
+
+        @Html.AntiForgeryToken()
+    </form>
+</div> *@
