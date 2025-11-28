@@ -414,202 +414,202 @@ namespace Eventify.Migrations
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event2_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event2_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event2_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event2_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event3_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event3_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event3_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event3_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event4_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event4_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event4_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event4_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event5_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event5_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event5_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event5_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event6_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event6_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event6_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event6_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event7_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event7_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event7_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event7_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event8_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event8_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event8_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event8_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event9_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event9_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event9_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event9_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event10_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 10
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event10_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 10
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event10_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 10
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event10_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 10
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event11_1.jpg",
+                            PhotoUrl = "~/images/event1_1.jpg",
                             EventId = 11
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event11_2.jpg",
+                            PhotoUrl = "~/images/event1_2.jpg",
                             EventId = 11
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event11_3.jpg",
+                            PhotoUrl = "~/images/event1_3.jpg",
                             EventId = 11
                         },
                         new
                         {
-                            PhotoUrl = "~/images/event11_4.jpg",
+                            PhotoUrl = "~/images/event1_4.jpg",
                             EventId = 11
                         });
                 });
@@ -1059,182 +1059,182 @@ namespace Eventify.Migrations
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue2_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue2_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue2_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue2_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 2
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue3_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue3_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue3_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue3_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 3
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue4_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue4_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue4_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue4_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 4
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue5_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue5_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue5_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue5_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 5
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue6_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue6_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue6_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue6_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 6
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue7_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue7_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue7_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue7_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 7
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue8_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue8_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue8_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue8_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 8
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue9_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue9_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue9_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue9_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 9
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue10_1.jpg",
+                            PhotoUrl = "~/images/venue1_1.jpg",
                             VenueId = 10
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue10_2.jpg",
+                            PhotoUrl = "~/images/venue1_2.jpg",
                             VenueId = 10
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue10_3.jpg",
+                            PhotoUrl = "~/images/venue1_3.jpg",
                             VenueId = 10
                         },
                         new
                         {
-                            PhotoUrl = "~/images/venue10_4.jpg",
+                            PhotoUrl = "~/images/venue1_4.jpg",
                             VenueId = 10
                         });
                 });
@@ -1445,7 +1445,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "cf66b0b2-2d1a-4bf1-86bb-1817fe524727",
+                            ConcurrencyStamp = "1f28393b-f52a-4d31-a0a3-0801eda15518",
                             Country = 1,
                             Email = "Organizer1@test.com",
                             EmailConfirmed = true,
@@ -1456,7 +1456,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER1@TEST.COM",
                             NormalizedUserName = "FARES",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPYyfCpxGeYnawk5hrBsXzdPOff7EPcVEOAT7qrSk1TicLONtc5X/vySSp15zlI3hw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBv0HeE9n7HGuWT6CORPM26N2jIGxzfZRgmA+BcfSS12KFqJTzSfTMOt09Srg6ZxaA==",
                             PhoneNumberConfirmed = false,
                             Photo = "~/image/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1474,7 +1474,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "2f786027-48c7-4593-99b4-7adc81ab9cce",
+                            ConcurrencyStamp = "ca0049c9-cdc6-4781-b2cf-c290e2c1f86e",
                             Country = 1,
                             Email = "Organizer2@test.com",
                             EmailConfirmed = true,
@@ -1485,7 +1485,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER2@TEST.COM",
                             NormalizedUserName = "AHMED",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKO2R1dnYGM50ah8kvp1rSqmBtTx4Bn5Mau9Ux+ggbEBnI4pJJTbpgpTNu5RO6IckQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEILcLJ6Zuil/RlAwcXdz9VbF0ekyusoNJXFfyz41rqHApzQy/xAw+3nA+KlOJlr6PQ==",
                             PhoneNumberConfirmed = false,
                             Photo = "~/image/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1503,7 +1503,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "14e1bc56-0523-43ae-a5a6-47e7b3ce01ff",
+                            ConcurrencyStamp = "b6784ed2-50d7-4f24-be36-fb6fa7454e90",
                             Country = 1,
                             Email = "Organizer3@test.com",
                             EmailConfirmed = true,
@@ -1514,7 +1514,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER3@TEST.COM",
                             NormalizedUserName = "ZIAD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIMMV83KmMm6pasSZvHqrDGqVS+iNzo++/Er1dq5yzmIN1py2DXjWZTex4EOGkTQUg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEP/X0PBUJ7tnzeqW7jN+kXs2vPl4D/EZGec0TAMpB7ukZv3O3mZkCw56UTWLBRAGNg==",
                             PhoneNumberConfirmed = false,
                             Photo = "~/image/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1548,7 +1548,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "e37c22cd-7079-476b-ae05-2d69222ec3c7",
+                            ConcurrencyStamp = "ac9efdbc-78b5-477c-bbb4-12bb002728a7",
                             Country = 1,
                             Email = "Owner1@test.com",
                             EmailConfirmed = true,
@@ -1559,7 +1559,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER1@TEST.COM",
                             NormalizedUserName = "MAHMOUD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEAQzp05DOktVDbaYbD55f5NXuEleGVIFUl7mKY38wERp08tLrILxWVKATBSUNIhyFA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOdKBfjp2SVAHCiiePOhhTRjtkaeFeoVW5QJ23PvxwIJuB6Rmx41xxh5R9s+gi/WLQ==",
                             PhoneNumberConfirmed = false,
                             Photo = "~/image/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1576,7 +1576,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "1b5d1f54-88ee-4b6f-ba29-59c856bc5a0e",
+                            ConcurrencyStamp = "e28083bb-f5dd-4b2a-9cd2-53e34b6eea3b",
                             Country = 1,
                             Email = "Owner2@test.com",
                             EmailConfirmed = true,
@@ -1587,7 +1587,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER2@TEST.COM",
                             NormalizedUserName = "ALI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFRlrVahlgfAY0cglOuTo96YWURFtcPDPlCiw+3p19kz8qDVtN8iWYfiaW4CtcYhsw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAENK6MlVqGiMX2jHGYz7wNSGq+7ucvLKoAqvwZKmDJlbezFKjSguSLoL2iNSFffBbCw==",
                             PhoneNumberConfirmed = false,
                             Photo = "~/image/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1604,7 +1604,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "~/image/back1.jpg",
-                            ConcurrencyStamp = "93a72970-87aa-4a72-8867-acd0286d4ef2",
+                            ConcurrencyStamp = "3e787f0c-93f4-4307-bd3c-3bf4bfb11206",
                             Country = 1,
                             Email = "Owner3@test.com",
                             EmailConfirmed = true,
@@ -1615,7 +1615,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER3@TEST.COM",
                             NormalizedUserName = "AMR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFrloBbbP/YLkJ6OpjGueKS0gsJb6Gc34xhDdi/fkvqEyWMI7YBv3MZcq/Y3qSX2nw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOXZOmZLqAUlbhmU39CggMHHc0k+Yavt/k3OlfON4ChYK+fxto1z/qEFuhl733BJlg==",
                             PhoneNumberConfirmed = false,
                             Photo = "~/image/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
