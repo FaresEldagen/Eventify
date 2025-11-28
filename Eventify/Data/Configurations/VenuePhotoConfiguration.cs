@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Eventify.Data.Configurations
 {
-    public class VenuePhotoConfiguaration : IEntityTypeConfiguration<VenuePhoto>
+    public class VenuePhotoConfiguration : IEntityTypeConfiguration<VenuePhoto>
     {
         public void Configure(EntityTypeBuilder<VenuePhoto> builder)
         {

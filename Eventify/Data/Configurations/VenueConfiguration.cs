@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Eventify.Data.Configurations
 {
-    public class VenueConfiguaration : IEntityTypeConfiguration<Venue>
+    public class VenueConfiguration : IEntityTypeConfiguration<Venue>
     {
         public void Configure(EntityTypeBuilder<Venue> builder)
         {
