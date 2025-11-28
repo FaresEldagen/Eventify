@@ -20,7 +20,12 @@ namespace Eventify
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>().AddEntityFrameworkStores<AppDbContext>();
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole<int>>(option =>
+            {
+                option.User.RequireUniqueEmail = true;
+                option.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+            })
+                .AddEntityFrameworkStores<AppDbContext>();
 
             var app = builder.Build();
 

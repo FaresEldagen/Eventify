@@ -1,51 +1,61 @@
-﻿@{
+﻿@using Eventify.ViewModels
+@{
     Layout = "_SignLayout";
 }
+
+@model SignupViewModel
 
 <div class="signup-page">
     <div class="signup-container">
         <!-- Left Section - Signup Form -->
         <div class="signup-left">
-            <a class="navbar-brand fw-bold fs-4 mb-4" href="@Url.Action("Index", "landing")">
+            <a class="navbar-brand fw-bold fs-4 mb-4" href="@Url.Action("Index", "Home")">
                 <i class="fas fa-calendar fs-4 text-primary"></i>
                 Eventify
             </a>
 
             <h1 class="signup-title">Signup to Your Account</h1>
 
-            <form id="signupForm">
+            <form id="signupForm" method="post">
                 <div class="signup-form-group">
-                    <label for="signupEmail" class="signup-form-label">Email</label>
-                    <input type="email" class="signup-form-control" id="signupEmail" placeholder="Email" required>
+                    <label asp-for="Email" class="signup-form-label">Email</label>
+                    <input asp-for="Email" type="text" class="signup-form-control" id="signupEmail" placeholder="Email" >
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
                 <div class="signup-form-group">
-                    <label for="signupUsername" class="signup-form-label">Username</label>
-                    <input type="text" class="signup-form-control" id="signupUsername" placeholder="Username" required>
+                    <label asp-for="Username" class="signup-form-label">Username</label>
+                    <input asp-for="Username" type="text" class="signup-form-control" id="signupUsername" placeholder="Username" >
+                    <span asp-validation-for="Username" class="text-danger"></span>
                 </div>
 
                 <div class="signup-form-group">
-                    <label for="signupPassword" class="signup-form-label">Password</label>
+                    <label asp-for="Password" class="signup-form-label">Password</label>
                     <div class="signup-password-wrapper">
-                        <input type="password" class="signup-form-control" id="signupPassword" placeholder="Password" required>
+                        <input asp-for="Password" type="password" class="signup-form-control" id="signupPassword" placeholder="Password" >
                         <button type="button" class="signup-password-toggle" id="signupPasswordToggle">
                             <i class="fas fa-eye-slash" id="signupPasswordIcon"></i>
                         </button>
                     </div>
+                    <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
 
                 <div class="signup-form-group">
-                    <label for="signupConfirmPassword" class="signup-form-label">Confirm Password</label>
+                    <label asp-for="ConfirmPassword" class="signup-form-label">Confirm Password</label>
                     <div class="signup-password-wrapper">
-                        <input type="password" class="signup-form-control" id="signupConfirmPassword" placeholder="Confirm Password" required>
+                        <input asp-for="ConfirmPassword" type="password" class="signup-form-control" id="signupConfirmPassword" placeholder="Confirm Password" >
                         <button type="button" class="signup-password-toggle" id="signupConfirmPasswordToggle">
                             <i class="fas fa-eye-slash" id="signupConfirmPasswordIcon"></i>
                         </button>
                     </div>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span> 
                 </div>
 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
             </form>
+            @section AccountErrors {
+                <partial name="_ValidationScriptsPartial" />
+            }
         </div>
 
         <!-- Right Section - Sign In Prompt -->
@@ -71,7 +81,10 @@
             <p class="signup-signin-text">
                 Welcome back! Sign in and continue exploring events with ease
             </p>
-            <button class="btn btn-outline-primary" style="width: 100%;" onclick="window.location.href='Login.html'">Sign In</button>
+            <button class="btn btn-outline-primary" style="width: 100%;" onclick="window.location.href='@Url.Action("Login", "Account")'">Sign In</button>
         </div>
     </div>
 </div>
+
+
+
