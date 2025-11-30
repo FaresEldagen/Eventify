@@ -30,7 +30,7 @@ namespace Eventify.Managers
 
         public List<Event> Get3()
         {
-            var res = context.Events.Take(3).ToList();
+            var res = context.Events.Take(3).Include(e => e.EventPhotos).ToList();
             return res;
         }
 
@@ -107,22 +107,25 @@ namespace Eventify.Managers
 
         public Event GetById(int id)
         {
-            var res = context.Events.FirstOrDefault(ev=>ev.EventId == id);
-            if (res == null)
-            {
-                return null;
-            }
+            var res = context.Events.FirstOrDefault(ev => ev.EventId == id);
+            return res;
+        }
+
+        public Event? GetByIdWithIncludes(int id)
+        {
+            var res = context.Events.Include(x=>x.EventPhotos).Include(x=>x.Organizer).FirstOrDefault(ev => ev.EventId == id);
             return res;
         }
 
         public List<Event> GetByUserId(int id)
         {
-            return context.Events.Where(e => e.OrganizerId == id).ToList();
+            return context.Events.Where(e => e.OrganizerId == id).Include(e => e.EventPhotos).ToList();
         }
 
         public int Insert(Event obj)
         {
             context.Events.Add(obj);
+            
             return context.SaveChanges();
         }
 
@@ -152,6 +155,22 @@ namespace Eventify.Managers
 
             return context.SaveChanges();
         }
+
+        public void Insert(Event ev, string userId)
+        {
+            var organizer = context.Organizers.FirstOrDefault(o => o.Id == int.Parse(userId));
+            if (organizer == null)
+                throw new Exception("Organizer not found");
+
+            ev.OrganizerId = organizer.Id; 
+            var Venue = context.Venues.FirstOrDefault(o => o.Id == ev.VenueId);
+            ev.Address = Venue.Address;
+            ev.Capacity = Venue.Capacity;
+
+            context.Events.Add(ev);
+            context.SaveChanges();
+        }
+
 
     }
 }

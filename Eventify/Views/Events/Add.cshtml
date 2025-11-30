@@ -1,6 +1,11 @@
+@using Eventify.Models.Enums
+@using Eventify.ViewModels.EventVM
+@model EventAddOrEditVM
+
 @{
     ViewBag.Title = "List Your Event";
 }
+
 
 <div class="container-lg py-5">
     <!-- Page Header -->
@@ -9,7 +14,7 @@
         <p class="lead text-muted">Share your amazing event with our community and reach more attendees</p>
     </div>
 
-    <!-- Benefits Cards -->
+    <!-- Benefits Cards (unchanged) -->
     <div class="row g-4 mb-5">
         <div class="col-md-4">
             <div class="card text-center border-0 shadow-sm">
@@ -55,22 +60,31 @@
                     <small class="text-muted">Tell Us About Your Event so we can help you attract the right Attendees</small>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form asp-action="Add" method="post" enctype="multipart/form-data">
+
+                        <input type="hidden" asp-for="VenueId" />
+
+
                         <!-- Basic Information -->
                         <h6 class="fw-bold mb-3">Basic Information</h6>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Event Title *</label>
-                                <input type="text" class="form-control" placeholder="Enter venue name">
+                                <input asp-for="EventTitle" class="form-control" placeholder="Enter venue name" />
+                                <span asp-validation-for="EventTitle" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Category *</label>
-                                <input type="text" class="form-control" placeholder="e.g., Music, Business, Art, Food">
+                                <select asp-for="Category" class="form-control" asp-items="Html.GetEnumSelectList<EventCategoryEnum>()">
+                                    <option value="">Select Category</option>
+                                </select>
+                                <span asp-validation-for="Category" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Description *</label>
-                            <textarea class="form-control" rows="4" placeholder="Describe your event in detail..."></textarea>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe your event in detail..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
                         <!-- Date & Time -->
@@ -78,14 +92,13 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Start Date & Time *</label>
-                                <input type="datetime-local" class="form-control" id="eventStartDate">
+                                <input asp-for="StartDateTime" type="datetime-local" class="form-control" />
+                                <span asp-validation-for="StartDateTime" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">End Date & Time *</label>
-                                <input type="datetime-local" class="form-control" id="eventEndDate">
-                                <div class="invalid-feedback" id="endDateError" style="display: none;">
-                                    End date cannot be before start date.
-                                </div>
+                                <input asp-for="EndDateTime" type="datetime-local" class="form-control" />
+                                <span asp-validation-for="EndDateTime" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -94,12 +107,14 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-4">
                                 <label class="form-label">Ticket Price ($)</label>
-                                <input type="number" class="form-control" placeholder="100">
+                                <input asp-for="TicketPrice" type="number" class="form-control" placeholder="100" />
+                                <span asp-validation-for="TicketPrice" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Special Features</label>
-                            <textarea class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
+                            <textarea asp-for="Features" class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
+                            <span asp-validation-for="Features" class="text-danger"></span>
                         </div>
 
                         <!-- Event Images -->
@@ -109,7 +124,7 @@
                                 <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
                                 <h6 class="fw-semibold mb-2">Upload Event Photos</h6>
                                 <p class="text-muted small mb-0">Add up to 10 high-quality photos of your Event (Start with the main photo)</p>
-                                <input type="file" class="d-none" id="venuePhotosInput" accept="image/*" multiple>
+                                <input asp-for="FormFiles" type="file" multiple />
                             </div>
                             <div class="row g-3" id="venuePhotosPreview"></div>
                         </div>
@@ -118,18 +133,16 @@
                         <h6 class="fw-bold mb-3">Privacy</h6>
                         <div class="mb-4">
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="eventPrivacy" id="privacyPublic" value="public" checked>
-                                <label class="form-check-label" for="privacyPublic">
-                                    Public
-                                </label>
+                                <input asp-for="IsPrivate" class="form-check-input" type="radio" value="false" checked />
+                                <label class="form-check-label">Public</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="eventPrivacy" id="privacyPrivate" value="private">
-                                <label class="form-check-label" for="privacyPrivate">
-                                    Private
-                                </label>
+                                <input asp-for="IsPrivate" class="form-check-input" type="radio" value="true" />
+                                <label class="form-check-label">Private</label>
                             </div>
                         </div>
+
+
 
                         <!-- Submit -->
                         <div class="pt-3 border-top d-flex gap-2">
@@ -143,3 +156,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

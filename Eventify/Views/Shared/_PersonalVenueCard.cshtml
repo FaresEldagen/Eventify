@@ -1,18 +1,29 @@
-﻿@* <div class="col-md-6 col-lg-4">
+﻿@model VenueCardVM
+
+<div class="col-md-6 col-lg-4">
     <div class="card border-0 shadow-sm">
-        <img src="~/images/venue1.jpg" class="card-img-top img-hover" alt="Grand Ballroom Palace">
+        <div class="position-relative">
+            <img src="@Model.Photo" class="card-img-top img-hover" alt="@Model.VenueName">
+            <span class="badge bg-white text-primary position-absolute top-0 start-0 m-3">@Model.Type</span>
+            @* <div class="position-absolute top-0 end-0 m-3 bg-white rounded-circle p-2 small"> *@
+            @*     <i class="fas fa-star-fill text-warning"></i> 4.9 *@
+            @* </div> *@
+        </div>
         <div class="card-body">
-            <h5 class="card-title fw-bold">Grand Ballroom Palace</h5>
-            <p class="card-text text-muted small"><i class="fas fa-map-marker-alt me-1"></i>Downtown, New York</p>
+            <h5 class="card-title fw-bold">@Model.VenueName</h5>
+            <p class="card-text text-muted small"><i class="fas fa-map-marker-alt me-1"></i>@Model.Address</p>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold text-primary mb-0">$@Model.PricePerHour/day</h6>
+                <small class="text-muted">Up to @Model.Capacity guests</small>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-bold text-primary">$2,500/day</span>
                 <div class="btn-group btn-group-sm" role="group">
-                    <button class="btn btn-outline-primary" title="View"><i class="fas fa-eye"></i></button>
-                    <button class="btn btn-outline-primary" title="Edit"><i class="fas fa-edit"></i></button>
-                    <button class="btn btn-outline-danger" title="Delete"><i class="fas fa-trash"></i></button>
+                    <button class="btn btn-outline-primary" title="View" href="@Url.Action("Index", "Home")"><i class="fas fa-eye"></i></button>
+                    <button class="btn btn-outline-primary" title="Edit" href="@Url.Action("Index", "Home")"><i class="fas fa-edit"></i></button>
+                    <button class="btn btn-outline-danger" title="Delete" href="@Url.Action("Index", "Home")"><i class="fas fa-trash"></i></button>
                 </div>
             </div>
         </div>
     </div>
 </div>
- *@
+

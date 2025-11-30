@@ -1,17 +1,24 @@
 ﻿@{
     ViewBag.Title = "My Profile";
 }
+@model EventOrganizerVM
 
 <div class="container-lg py-5">
     <!-- Profile Header -->
     <div class="row g-4 mb-5">
-        <div class="col-lg-3">
+        <div class="col-lg-3 d-flex flex-column align-items-center justify-content-center">
             <div class="text-center">
-                <img src="~/images/avatar.jpg" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;" alt="Profile">
-                <h3 class="fw-bold">John Doe</h3>
+                <div class="rounded-circle mb-3 d-flex align-items-center justify-content-center profile-photo-placeholder @(Model.Photo != null ? "has-photo" : "bg-light")"
+                     style="@(Model.Photo != null ? $"background-image:url('{Model.Photo}'); background-size:cover; background-position:center; width: 150px; height: 150px; object-fit: cover;" : "width: 150px; height: 150px; object-fit: cover;")">
+                    @if (Model.Photo == null)
+                    {
+                        <i class="fas fa-user fa-3x text-muted"></i>
+                    }
+                </div>
+                <h3 class="fw-bold">@Model.Name</h3>
                 <p class="text-muted mb-1">Event Organizer</p>
-                <p class="text-muted">Specialized in Conferences</p>
-                <button class="btn btn-primary btn-sm">Edit Profile</button>
+                <p class="text-muted">Specialized in @Model.Specialization</p>
+                <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Profile")">Edit Profile</a>
             </div>
         </div>
         <div class="col-lg-9">
@@ -21,36 +28,36 @@
                     <div class="row g-4">
                         <div>
                             <small class="text-muted">Bio.</small>
-                            <p class="fw-semibold">Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.</p>
+                            <p class="fw-semibold">@Model.BIO</p>
                         </div>
                         <div class="col-md-4">
                             <div>
                                 <small class="text-muted">Gender</small>
-                                <p class="fw-semibold">Male</p>
+                                <p class="fw-semibold">@Model.Gender</p>
                             </div>
                             <div>
                                 <small class="text-muted">Email</small>
-                                <p class="fw-semibold">john@example.com</p>
+                                <p class="fw-semibold">@Model.Email</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div>
                                 <small class="text-muted">Location</small>
-                                <p class="fw-semibold">New York, NY</p>
+                                <p class="fw-semibold">@Model.Country</p>
                             </div>
                             <div>
-                                <small class="text-muted">Venues Number</small>
-                                <p class="fw-semibold">3</p>
+                                <small class="text-muted">Events Number</small>
+                                <p class="fw-semibold">@Model.EventsCount</p>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div>
                                 <small class="text-muted">Member Since</small>
-                                <p class="fw-semibold">January 2023</p>
+                                <p class="fw-semibold">@Model.JoinedDate</p>
                             </div>
                             <div>
                                 <small class="text-muted">ExperienceYears</small>
-                                <p class="fw-semibold">5</p>
+                                <p class="fw-semibold">@Model.ExperienceYear</p>
                             </div>
                         </div>
                     </div>
@@ -66,10 +73,9 @@
 
     <!-- My Events Tab -->
     <div class="row g-4">
-        <!-- Event Card 1 -->
-        @await Html.PartialAsync("_PersonalEventCard")
-
-        <!-- Event Card 2 -->
-        @await Html.PartialAsync("_PersonalEventCard")
+        @foreach (EventCardVM event_ in Model.Events)
+        {
+            @await Html.PartialAsync("_PersonalEventCard", event_)
+        }
     </div>
 </div>
