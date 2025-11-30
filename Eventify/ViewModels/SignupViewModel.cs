@@ -10,7 +10,7 @@ namespace Eventify.ViewModels
         [Required(ErrorMessage = "Email is required")]
         public string? Email { get; set; }
 
-
+        [CheckUsernameUnique]
         [Required(ErrorMessage = "Username is required")]
         [RegularExpression("^[a-zA-Z][a-zA-Z ]*$", ErrorMessage = "Invalide format: only alphabets and spaces")]
         public string Username { get; set; }
