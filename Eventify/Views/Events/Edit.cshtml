@@ -1,12 +1,16 @@
-﻿@{
-    ViewBag.Title = "List Your Event";
+﻿@using Eventify.Models.Enums
+@using Eventify.ViewModels.EventVM
+@model EventAddOrEditVM
+
+@{
+    ViewBag.Title = "Edit Your Event";
 }
 
 <div class="container-lg py-5">
     <!-- Page Header -->
     <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold mb-3">Add Your Event</h1>
-        <p class="lead text-muted">Share your amazing event with our community and reach more attendees</p>
+        <h1 class="display-4 fw-bold mb-3">Edit Your Event</h1>
+        <p class="lead text-muted">Update your event details to keep attendees informed</p>
     </div>
 
     <!-- Benefits Cards -->
@@ -18,7 +22,7 @@
                         <i class="fas fa-cog fs-5 text-primary"></i>
                     </div>
                     <h5 class="fw-semibold mb-2">Simple Setup</h5>
-                    <p class="text-muted small">Easy tools to create and manage your event in minutes</p>
+                    <p class="text-muted small">Easy tools to manage your event details quickly</p>
                 </div>
             </div>
         </div>
@@ -29,7 +33,7 @@
                         <i class="fas fa-users fs-5 text-primary"></i>
                     </div>
                     <h5 class="fw-semibold mb-2">Reach the Right Audience</h5>
-                    <p class="text-muted small">Promote your event to thousands of interested attendees</p>
+                    <p class="text-muted small">Keep your attendees up-to-date with latest info</p>
                 </div>
             </div>
         </div>
@@ -40,7 +44,7 @@
                         <i class="fas fa-ticket fs-5 text-primary"></i>
                     </div>
                     <h5 class="fw-semibold mb-2">Secure Ticketing</h5>
-                    <p class="text-muted small">Enable attendees to book and pay with confidence</p>
+                    <p class="text-muted small">Ensure attendees can book safely</p>
                 </div>
             </div>
         </div>
@@ -52,25 +56,33 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-light border-0">
                     <h5 class="card-title fw-bold mb-0">Event Details</h5>
-                    <small class="text-muted">Tell Us About Your Event so we can help you attract the right Attendees</small>
+                    <small class="text-muted">Update your event info so attendees stay informed</small>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="EventId" />
+
                         <!-- Basic Information -->
                         <h6 class="fw-bold mb-3">Basic Information</h6>
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Event Title *</label>
-                                <input type="text" class="form-control" placeholder="Enter venue name">
+                                <input asp-for="EventTitle" class="form-control" placeholder="Enter venue name" />
+                                <span asp-validation-for="EventTitle" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Category *</label>
-                                <input type="text" class="form-control" placeholder="e.g., Music, Business, Art, Food">
+                                <select asp-for="Category" class="form-control" asp-items="Html.GetEnumSelectList<EventCategoryEnum>()">
+                                    <option value="">Select Category</option>
+                                </select>
+                                <span asp-validation-for="Category" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="mb-4">
                             <label class="form-label">Description *</label>
-                            <textarea class="form-control" rows="4" placeholder="Describe your event in detail..."></textarea>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe your event in detail..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
                         <!-- Date & Time -->
@@ -78,14 +90,13 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label class="form-label">Start Date & Time *</label>
-                                <input type="datetime-local" class="form-control" id="eventStartDate">
+                                <input asp-for="StartDateTime" type="datetime-local" class="form-control" />
+                                <span asp-validation-for="StartDateTime" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">End Date & Time *</label>
-                                <input type="datetime-local" class="form-control" id="eventEndDate">
-                                <div class="invalid-feedback" id="endDateError" style="display: none;">
-                                    End date cannot be before start date.
-                                </div>
+                                <input asp-for="EndDateTime" type="datetime-local" class="form-control" />
+                                <span asp-validation-for="EndDateTime" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -94,48 +105,73 @@
                         <div class="row g-3 mb-4">
                             <div class="col-md-4">
                                 <label class="form-label">Ticket Price ($)</label>
-                                <input type="number" class="form-control" placeholder="100">
+                                <input asp-for="TicketPrice" type="number" class="form-control" placeholder="100" />
+                                <span asp-validation-for="TicketPrice" class="text-danger"></span>
                             </div>
                         </div>
+
                         <div class="mb-4">
                             <label class="form-label">Special Features *</label>
-                            <textarea class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
+                            <textarea asp-for="Features" class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
+                            <span asp-validation-for="Features" class="text-danger"></span>
                         </div>
 
-                        <!-- Event Images -->
+                        <!-- Event Images Upload -->
                         <h6 class="fw-bold mb-3">Photos</h6>
                         <div class="mb-4">
                             <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="venuePhotosUpload" style="background-color: var(--card-bg); cursor: pointer;">
                                 <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
                                 <h6 class="fw-semibold mb-2">Upload Event Photos</h6>
                                 <p class="text-muted small mb-0">Add up to 10 high-quality photos of your Event (Start with the main photo)</p>
-                                <input type="file" class="d-none" id="venuePhotosInput" accept="image/*" multiple>
+                                <input asp-for="FormFiles" type="file" multiple />
                             </div>
                             <div class="row g-3" id="venuePhotosPreview"></div>
+                        </div>
+
+                        <!-- Current Photos -->
+                        <h6 class="fw-bold mb-3">Current Photos</h6>
+
+                        <div class="row g-3 mb-4">
+                            @if (Model.EventPhotos != null && Model.EventPhotos.Count > 0)
+                            {
+                                foreach (var photo in Model.EventPhotos)
+                                {
+                                    <div class="col-md-4 position-relative">
+
+                                        <label class="delete-photo-btn position-absolute top-0 end-0 bg-danger text-white rounded-circle p-2" style="cursor:pointer;">
+                                            <input type="checkbox"
+                                                   name="DeletedPhotos"
+                                                   value="@photo.PhotoUrl.Split('/').Last()"
+                                                   class="delete-photo-checkbox"
+                                                   style="display:none;" />
+                                            X
+                                        </label>
+
+                                        <img src="@photo.PhotoUrl" class="img-fluid rounded shadow" />
+                                    </div>
+                                }
+                            }
                         </div>
 
                         <!-- Privacy -->
                         <h6 class="fw-bold mb-3">Privacy</h6>
                         <div class="mb-4">
                             <div class="form-check mb-2">
-                                <input class="form-check-input" type="radio" name="eventPrivacy" id="privacyPublic" value="public" checked>
-                                <label class="form-check-label" for="privacyPublic">
-                                    Public
-                                </label>
+                                <input asp-for="IsPrivate" class="form-check-input" type="radio" value="false" />
+                                <label class="form-check-label">Public</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="eventPrivacy" id="privacyPrivate" value="private">
-                                <label class="form-check-label" for="privacyPrivate">
-                                    Private
-                                </label>
+                                <input asp-for="IsPrivate" class="form-check-input" type="radio" value="true" />
+                                <label class="form-check-label">Private</label>
                             </div>
                         </div>
 
                         <!-- Submit -->
                         <div class="pt-3 border-top d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">Submit Event for Review</button>
+                            <button type="submit" class="btn btn-primary">Update Event</button>
                             <button type="reset" class="btn btn-outline-primary">Clear Form</button>
                         </div>
+
                         <small class="text-muted d-block mt-2">We'll review your submission and get back to you within 24 hours.</small>
                     </form>
                 </div>
@@ -143,3 +179,29 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    document.addEventListener("click", function (e) {
+        if (e.target.closest(".delete-photo-btn")) {
+
+            const label = e.target.closest(".delete-photo-btn");
+            const container = label.parentElement;
+            const checkbox = label.querySelector("input[type='checkbox']");
+
+            // toggle
+            checkbox.checked = !checkbox.checked;
+
+            if (checkbox.checked) {
+                container.style.opacity = "0.4";
+                label.style.backgroundColor = "#000";
+            } else {
+                container.style.opacity = "1";
+                label.style.backgroundColor = "red";
+            }
+        }
+    });
+</script>
