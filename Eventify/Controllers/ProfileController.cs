@@ -14,7 +14,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace WebApplication2.Controllers
 {
-    public static class Upload
+    public static class UploadProfilePhoto
     {
         public static string UploadFile(string FolderName, IFormFile File)
         {
@@ -308,36 +308,36 @@ namespace WebApplication2.Controllers
 
                     if (profile.RemovePhoto)
                     {
-                        Upload.RemoveFile($"wwwroot{OwnerUser.Photo}");
+                        UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.Photo}");
                         OwnerUser.Photo = null;
                     }
                     else if (profile.PhotoFile != null)
                     {
-                        var PhotoName = Upload.UploadFile("images", profile.PhotoFile);
+                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.PhotoFile);
                         OwnerUser.Photo = $"/images/{PhotoName}";
                     }
 
 
                     if (profile.RemoveFrontIdPhoto)
                     {
-                        Upload.RemoveFile($"wwwroot{OwnerUser.FrontIdPhoto}");
+                        UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.FrontIdPhoto}");
                         OwnerUser.FrontIdPhoto = null;
                     }
                     else if (profile.FrontIdFile != null)
                     {
-                        var PhotoName = Upload.UploadFile("images", profile.FrontIdFile);
+                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.FrontIdFile);
                         OwnerUser.FrontIdPhoto = $"/images/{PhotoName}";
                     }
 
 
                     if (profile.RemoveBacktIdPhoto)
                     {
-                        Upload.RemoveFile($"wwwroot{OwnerUser.BackIdPhoto}");
+                        UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.BackIdPhoto}");
                         OwnerUser.BackIdPhoto = null;
                     }
                     else if (profile.BackIdFile != null)
                     {
-                        var PhotoName = Upload.UploadFile("images", profile.BackIdFile);
+                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.BackIdFile);
                         OwnerUser.BackIdPhoto = $"/images/{PhotoName}";
                     }
                 }
@@ -356,36 +356,36 @@ namespace WebApplication2.Controllers
 
                     if (profile.RemovePhoto)
                     {
-                        Upload.RemoveFile($"wwwroot{OrganizerUser.Photo}");
+                        UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.Photo}");
                         OrganizerUser.Photo = null;
                     }
                     else if (profile.PhotoFile != null)
                     {
-                        var PhotoName = Upload.UploadFile("images", profile.PhotoFile);
+                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.PhotoFile);
                         OrganizerUser.Photo = $"/images/{PhotoName}";
                     }
 
 
                     if (profile.RemoveFrontIdPhoto)
                     {
-                        Upload.RemoveFile($"wwwroot{OrganizerUser.FrontIdPhoto}");
+                        UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.FrontIdPhoto}");
                         OrganizerUser.FrontIdPhoto = null;
                     }
                     else if (profile.FrontIdPhoto != null)
                     {
-                        var PhotoName = Upload.UploadFile("images", profile.FrontIdFile);
+                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.FrontIdFile);
                         OrganizerUser.FrontIdPhoto = $"/images/{PhotoName}";
                     }
 
 
                     if (profile.RemoveBacktIdPhoto)
                     {
-                        Upload.RemoveFile($"wwwroot{OrganizerUser.BackIdPhoto}");
+                        UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.BackIdPhoto}");
                         OrganizerUser.BackIdPhoto = null;
                     }
                     else if (profile.BackIdPhoto != null)
                     {
-                        var PhotoName = Upload.UploadFile("images", profile.BackIdFile);
+                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.BackIdFile);
                         OrganizerUser.BackIdPhoto = $"/images/{PhotoName}";
                     }
                 }

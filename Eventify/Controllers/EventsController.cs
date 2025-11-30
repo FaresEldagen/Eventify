@@ -1,16 +1,18 @@
-﻿using Eventify.Managers;
+﻿using Eventify.Controllers;
+using Eventify.Managers;
 using Eventify.Models.Entities;
 using Eventify.Models.Enums;
 using Eventify.Services;
 using Eventify.ViewModels.EventVM;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace WebApplication2.Controllers
 {
 
-    public static class Upload
+    public static class UploadEventPhoto
     {
         public static string UploadFile(string FolderName, IFormFile File)
         {
@@ -59,12 +61,14 @@ namespace WebApplication2.Controllers
 
     public class EventsController : Controller
     {
-        private readonly EventManager _manager;
+        IEventService _manager;
 
-        public EventsController(EventManager eventManager)
+        public EventsController(IEventService managerEvents)
         {
-            _manager = eventManager;
+            _manager = managerEvents;
         }
+
+
         public IActionResult Index()
         {
             return View();
@@ -91,7 +95,7 @@ namespace WebApplication2.Controllers
             {
                 foreach (var x in vm.FormFiles)
                 {
-                    string p = Upload.UploadFile("images", x);
+                    string p = UploadEventPhoto.UploadFile("images", x);
                     EventPhoto eventPhoto = new EventPhoto();
                     eventPhoto.PhotoUrl = $"/images/" + p;
                     vm.EventPhotos.Add(eventPhoto);
@@ -208,7 +212,7 @@ namespace WebApplication2.Controllers
                         {
                             foreach (var fileName in vm.DeletedPhotos)
                             {
-                                Upload.RemoveFile("images", fileName);
+                                UploadEventPhoto.RemoveFile("images", fileName);
 
                                 var photoEntity = ev.EventPhotos
                                    .FirstOrDefault(p => p.PhotoUrl.EndsWith(fileName));
@@ -221,7 +225,7 @@ namespace WebApplication2.Controllers
                         {
                             foreach (var x in vm.FormFiles)
                             {
-                                string p = Upload.UploadFile("images", x);
+                                string p = UploadEventPhoto.UploadFile("images", x);
 
                                 ev.EventPhotos.Add(new EventPhoto
                                 {

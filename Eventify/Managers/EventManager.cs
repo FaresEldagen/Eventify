@@ -34,8 +34,6 @@ namespace Eventify.Managers
             return res;
         }
 
-
-
         public List<Event> GetByFilter_Search(string? title,SortingTypeEnum sortingType,SortByEnum? sortBy,string?city, int? category, decimal? maxPrice, DateTime? startDate,DateTime? enddate, bool? isPrivate)
 
         {
@@ -86,18 +84,17 @@ namespace Eventify.Managers
             return query.ToList();
         }
 
-
         public Event GetById(int id)
         {
             var res = context.Events.FirstOrDefault(ev => ev.EventId == id);
             return res;
         }
+
         public Event? GetByIdWithIncludes(int id)
         {
             var res = context.Events.Include(x=>x.EventPhotos).Include(x=>x.Organizer).FirstOrDefault(ev => ev.EventId == id);
             return res;
         }
-
 
         public List<Event> GetByUserId(int id)
         {

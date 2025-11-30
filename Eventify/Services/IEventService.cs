@@ -7,6 +7,7 @@ namespace Eventify.Services
     {
         public List<Event> GetByUserId(int id);
         public List<Event> GetByFilter_Search(string? title, SortingTypeEnum sortingType, SortByEnum? sortBy, string? city, int? category, decimal? maxPrice, DateTime? startDate, DateTime? enddate, bool? isPrivate);
-
+        public Event? GetByIdWithIncludes(int id);
+        public void Insert(Event ev, string userId);
     }
 }
