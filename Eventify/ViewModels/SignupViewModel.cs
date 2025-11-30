@@ -17,14 +17,14 @@ namespace Eventify.ViewModels
 
 
         [RegularExpression("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[\\W_]).{6,}$",
-    ErrorMessage = "Invalid PaInvalid nmust be \n chars, with upper, lower, number & special char.")]
+    ErrorMessage = "Invalid Password: must be chars, with upper, lower, number & special char.")]
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
 
 
 
         [Compare("Password", ErrorMessage = "Password not match")]
-        [Required(ErrorMessage = "Confirm password ip required")]
+        [Required(ErrorMessage = "Confirm password is required")]
         public string ConfirmPassword { get; set; }
 
 

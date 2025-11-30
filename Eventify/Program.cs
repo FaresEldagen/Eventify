@@ -31,6 +31,10 @@ namespace Eventify
             })
                 .AddEntityFrameworkStores<AppDbContext>();
 
+
+            // Add Manager Servises 
+            builder.Services.AddScoped<IVenueService, VenueManager>();
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.

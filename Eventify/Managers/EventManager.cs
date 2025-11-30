@@ -36,7 +36,7 @@ namespace Eventify.Managers
 
 
 
-        public List<Event> GetByFilter_Search(string? title,SortingTypeEnum sortingType,SortByEnum sortBy,string?city, int? category, decimal? maxPrice, DateTime? startDate,DateTime? enddate, bool? isPrivate)
+        public List<Event> GetByFilter_Search(string? title,SortingTypeEnum sortingType,SortByEnum? sortBy,string?city, int? category, decimal? maxPrice, DateTime? startDate,DateTime? enddate, bool? isPrivate)
 
         {
             var query = context.Events.AsQueryable();
@@ -47,9 +47,9 @@ namespace Eventify.Managers
             if (category != null)
                 query = query.Where(e => (int)e.Category == category);
 
-            if (sortBy == SortByEnum.Price)
+            if (sortBy.HasValue)
             {
-                if (sortingType == SortingTypeEnum.Ascending)
+                if (sortBy == SortByEnum.PriceAscending)
                     query = query.Where(v => v.TicketPrice <= maxPrice.Value ).OrderBy(e => e.TicketPrice);
                 else
                     query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderByDescending(e => e.TicketPrice);
@@ -63,9 +63,9 @@ namespace Eventify.Managers
                     query = query.Where(v => v.StartDateTime <= startDate.Value && v.EndDateTime >= enddate).OrderByDescending(e => e.StartDateTime);
 
             }
-            if (sortBy == SortByEnum.Price)
+            if (sortBy.HasValue)
             {
-                if (sortingType == SortingTypeEnum.Ascending)
+                if (sortBy == SortByEnum.CapacityAscending)
                     query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderBy(e => e.TicketPrice);
                 else
                     query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderByDescending(e => e.TicketPrice);
