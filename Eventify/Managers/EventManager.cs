@@ -4,6 +4,7 @@ using Eventify.Models.Entities;
 using Eventify.Models.Enums;
 using Eventify.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eventify.Managers
 {
@@ -35,39 +36,42 @@ namespace Eventify.Managers
 
 
 
-        public List<Event> GetByFilter_Search(string? title,SortingTypeEnum sortingType,SortByEnum? sortBy,string?city, int? category, decimal? maxPrice, DateTime? startDate,DateTime? enddate, bool? isPrivate)
+        public List<Event> GetByFilter_Search(
+            string? title,
+            SortByEnum? sortBy,
+            int pageNumber,
+            EventCategoryEnum? category, 
+            decimal? maxPrice, 
+            DateTime? startDate,
+            DateTime? endDate, 
+            bool? isPrivate,
+            out int totalEvents)
 
         {
             var query = context.Events.AsQueryable();
 
+            if (maxPrice.HasValue)
+            {
+                query = query.Where(v => v.TicketPrice <= maxPrice.Value);
+            }
+
             if (!string.IsNullOrWhiteSpace(title))
-                query = query.Where(e => e.EventTitle.Contains(title));
+                query = query.Where(e => EF.Functions.Like(e.EventTitle,$"%{title}%") || EF.Functions.Like(e.Address, $"%{title}%"));
 
             if (category != null)
-                query = query.Where(e => (int)e.Category == category);
+                query = query.Where(e => e.Category == category);
 
             if (sortBy.HasValue)
             {
                 if (sortBy == SortByEnum.PriceAscending)
                     query = query.Where(v => v.TicketPrice <= maxPrice.Value ).OrderBy(e => e.TicketPrice);
-                else
+                else if(sortBy == SortByEnum.PriceDescending)
                     query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderByDescending(e => e.TicketPrice);
 
-            }
-            if (sortBy == SortByEnum.Date)
-            {
-                if (sortingType == SortingTypeEnum.Ascending)
-                    query = query.Where(v => v.StartDateTime <= startDate.Value && v.EndDateTime>=enddate).OrderBy(e => e.StartDateTime);
-                else
-                    query = query.Where(v => v.StartDateTime <= startDate.Value && v.EndDateTime >= enddate).OrderByDescending(e => e.StartDateTime);
-
-            }
-            if (sortBy.HasValue)
-            {
-                if (sortBy == SortByEnum.CapacityAscending)
-                    query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderBy(e => e.TicketPrice);
-                else
-                    query = query.Where(v => v.TicketPrice <= maxPrice.Value).OrderByDescending(e => e.TicketPrice);
+                if (sortBy == SortByEnum.DateAscending)
+                    query = query.Where(v => v.StartDateTime <= startDate.Value && v.EndDateTime >= endDate).OrderBy(e => e.StartDateTime);
+                else if(sortBy == SortByEnum.DateAscending)
+                    query = query.Where(v => v.StartDateTime <= startDate.Value && v.EndDateTime >= endDate).OrderByDescending(e => e.StartDateTime);
 
             }
 
@@ -77,14 +81,29 @@ namespace Eventify.Managers
             if (isPrivate != null)
                 query = query.Where(e => e.IsPrivate == isPrivate);
 
-            if (city!=null)
-                query=query.Where(e=>e.Address==city);
+
+            // get related photos
+            query = query.Include(v => v.EventPhotos);
+
+            totalEvents = GetTotalEventFromQuery(query);
+
+            int pageSize = 9;
+            int skip = (pageNumber - 1) * pageSize;
+
+            var result =query
+                .Skip(skip)
+                .Take(pageSize)
+                .ToList();
 
 
-
-            return query.ToList();
+            return result;
         }
 
+
+        private int GetTotalEventFromQuery(IQueryable<Event> query)
+        {
+            return query.Count();
+        }
 
         public Event GetById(int id)
         {

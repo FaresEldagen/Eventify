@@ -1,89 +1,225 @@
-@{
+﻿@{
     ViewBag.Title = "Browse Events";
 }
-
+@model EventBrowseViewModel
 <div class="container-lg py-5">
     <!-- Page Header -->
     <div class="mb-5">
         <h1 class="display-4 fw-bold mb-2">Browse Events</h1>
         <p class="lead text-muted">Discover amazing events happening near you</p>
     </div>
-
-    <!-- Search and Filter Bar -->
-    <div class="row mb-4 g-3">
-        <div class="col-lg-9">
-            <div class="input-group">
-                <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
-                <input type="text" class="form-control border-0" id="venueSearch" placeholder="Search venues by name or location...">
+    <form id="filterForm" method="post">
+        <!-- Search and Filter Bar -->
+        <div class="row mb-4 g-3">
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
+                    <input asp-for="Title" type="text" class="form-control border-0" id="eventSearch" placeholder="Search events by name or location...">
+                </div>
             </div>
-        </div>
-        <div class="col-lg-3">
-            <select class="form-select" id="sortBy">
-                <option>Sort by Rating</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Sort by Capacity</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="row g-4">
-        <!-- Sidebar Filters (Desktop) -->
-        <div class="col-lg-3 d-none d-lg-block">
-            <div class="card border-0 shadow-sm p-4">
-                <h5 class="fw-bold mb-4"><i class="fas fa-sliders-h me-2"></i>Filters</h5>
-
-                <!-- Event Type Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">Event Type</h6>
-                    <select class="form-select">
-                        <option>All Types</option>
-                    </select>
-                </div>
-
-                <!-- City Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">City</h6>
-                    <select class="form-select">
-                        <option>All Cities</option>
-                    </select>
-                </div>
-
-                <!-- Start datetime Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">Start Date & Time</h6>
-                    <input type="datetime-local" class="form-control" id="eventStartDate">
-                </div>
-
-                <!-- End datetime Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">End Date & Time</h6>
-                    <input type="datetime-local" class="form-control" id="eventEndDate">
-                    <div class="invalid-feedback" id="endDateError" style="display: none;">
-                        End date cannot be before start date.
-                    </div>
-                </div>
-
-                <!-- Price Range Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">Price Range</h6>
-                    <input type="range" class="form-range" min="0" max="500" step="10" id="priceRange" value="250">
-                    <div class="d-flex justify-content-between mt-2 small text-muted">
-                        <span>$0</span>
-                        <span>$500</span>
-                    </div>
-                    <div class="mt-2 fw-semibold text-primary small" id="priceRangeValue">Selected: $250</div>
-                </div>
-
-                <!-- CTA Buttons -->
-                <div class="d-flex flex-wrap gap-3 justify-content-center">
-                    <a href="" class="btn btn-primary btn-sm px-4 glow-button">Apply</a>
-                    <a href="" class="btn btn-outline-primary btn-sm px-4">Clear</a>
-                </div>
+            <div class="col-lg-3">
+                <select asp-for="SortBy" class="form-select" id="sortBy">
+                
+                    <option value="@null">Sort By</option>
+                    <option value="1">Sort by Date Ascending</option>
+                    <option value="2">Sort by Date Descending</option>
+                    <option value="3">Sort by Price Ascending</option>
+                    <option value="4">Sort by Price Descending</option>
+                
+                </select>
             </div>
         </div>
 
-        <!-- Events Grid -->
-        @await Html.PartialAsync("_SearchEvents")
-    </div>
+        <div class="row g-4">
+            <!-- Sidebar Filters (Desktop) -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="card border-0 shadow-sm p-4">
+                    <h5 class="fw-bold mb-4"><i class="fas fa-sliders-h me-2"></i>Filters</h5>
+
+                    <!-- Event Type Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">Event Type</h6>
+                        <select asp-for="Category" class="form-select">
+                            <option value="@null">All Types</option>
+                            @foreach(var category in Enum.GetValues<EventCategoryEnum>())
+                            {
+                                <option value="@Convert.ToUInt32(category)">@category.ToString()</option>
+
+                            }
+                        </select>
+                    </div>
+
+                    <!-- City Filter -->
+                    @* <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">City</h6>
+                        <select class="form-select">
+                            <option>All Cities</option>
+                        </select>
+                    </div> *@
+
+                    <!-- Start datetime Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">Start Date & Time</h6>
+                        <input asp-for="StartDate" type="datetime-local" class="form-control" id="eventStartDate">
+                    </div>
+
+                    <!-- End datetime Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">End Date & Time</h6>
+                        <input asp-for="EndDate" type="datetime-local" class="form-control" id="eventEndDate">
+                        <div class="invalid-feedback" id="endDateError" style="display: none;">
+                            End date cannot be before start date.
+                        </div>
+                    </div>
+
+                    <!-- Price Range Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">Price Range</h6>
+                        <input asp-for="MaxPrice" type="range" class="form-range" min="0" max="500" step="10" id="priceRange" value="@Model.MaxPrice">
+                        <div class="d-flex justify-content-between mt-2 small text-muted">
+                            <span>$0</span>
+                            <span>$500</span>
+                        </div>
+                        <div class="mt-2 fw-semibold text-primary small" id="priceRangeValue">Selected: $250</div>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="d-flex flex-wrap gap-3 justify-content-center">
+                        <button type="submit" class="btn btn-primary btn-sm px-4 glow-button">Apply</button>
+                        <button type="button" id="clearFilters" class="btn btn-outline-primary btn-sm px-4">Clear</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events Grid -->
+            <div class="col-lg-9">
+                <div class="row g-4" id="eventsResults">
+                    @await Html.PartialAsync("_SearchEvents", Model)  @* أو Model لو partial يستقبل Model *@
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            var $form = $("#filterForm");
+            var $results = $("#eventsResults");
+            var $pageInput = $("#pageNumberInput");
+
+            // helper: get antiforgery token if exists
+            function getAntiForgeryToken() {
+                var token = $form.find('input[name="__RequestVerificationToken"]').val();
+                return token;
+            }
+
+            // الرئيسية: تحميل النتائج (reset = true => افرغ النتائج وابدأ من صفحة 1)
+            function loadVenues(reset) {
+                if (reset) {
+                    $pageInput.val(1);
+                }
+
+                var token = getAntiForgeryToken();
+                var data = $form.serialize(); // يتضمن pageNumber input أيضاً
+
+                $.ajax({
+                    url: '@Url.Action("Index", "Events")', // Action الذي يرجع PartialView فقط
+                    type: 'POST',
+                    data: data,
+                    headers: token ? { 'RequestVerificationToken': token } : {},
+                    beforeSend: function() {
+                        // اختياري: إظهار Spinner أو تعطيل الأزرار
+                    },
+                    success: function (html) {
+                        // استبدال محتوى النتائج فقط
+                        $results.html(html);
+
+                        $('html, body').animate({ scrollTop: 180 }, 150);
+
+                        // لو الPartial يعيد أيضاً معلومات الـ paging داخل HTML (مثل hidden fields)،
+                        // نقدر نحدث قيمة pageNumber لو احتجت. لكن نحن نعتمد على $pageInput.
+                    },
+                    error: function (xhr, status, err) {
+                        console.error(err);
+                        alert("Something went wrong while loading venues.");
+                    },
+                    complete: function() {
+                        // اختياري: اخفاء Spinner أو إعادة تفعيل الأزرار
+                    }
+                });
+            }
+
+            // عند submit الفورم — نمنع وإرسال عبر AJAX بدلاً من إعادة تحميل
+            // $form.on("submit", function (e) {
+            //     e.preventDefault();
+            //     loadVenues(true);//reset because user applied new filters
+            // });
+
+            // عند تغيير أي فلتر (select أو input أو checkbox) نعيد تحميل من الصفحة 1
+            // $form.on("change", "select, input[type='checkbox'], input[type='range'], input[type='text']", function () {
+            //     loadVenues(true);
+            // });
+
+            // يعمل بحث
+            $("#eventSearch").on("keyup", function () {
+                e.preventDefault();
+                $("#pageNumberInput").val(1);
+                loadVenues(true);
+            });
+
+            // يعمل بحث تلقائي عند اختيار طريقة الترتيب
+            $("#sortBy").on("change", function () {
+                $("#pageNumberInput").val(1);
+                loadVenues(true);
+            });
+
+            //فقط Apply باقي الفلتر يتنفذ لما اضغط على
+            $form.on("submit", function (e) {
+                e.preventDefault();
+                $("#pageNumberInput").val(1);
+                loadVenues(true);
+            });
+
+            // Filters لل  Clear  عمل
+            $("#clearFilters").on("click", function () {
+                // 1) Reset the form to initial HTML values
+                document.getElementById("filterForm").reset();
+
+                // 2) Reset page number
+                $("#pageNumberInput").val(1);
+
+                // 3) Trigger AJAX reload
+                loadVenues(true);
+            });
+
+            // Delegated click handler للأزرار السابقة / التالية داخل results
+            // $(document).on("click", ".js-change-page", function (e) {
+            //     e.preventDefault();
+            //     var page = $(this).data("page");
+            //     if (!page || page < 1) return;
+            //     $pageInput.val(page);
+            //     loadVenues(false); لا تعيد التعيين — تريد تحميل الصفحة المحددة
+            // });
+
+            $(document).on("click", ".js-change-page", function () {
+
+                let newPage = $(this).data("page");
+
+                // Safety check (لو الزرار disabled متعملش حاجة)
+                if ($(this).is("[disabled]")) return;
+
+                $("#pageNumberInput").val(newPage);
+
+                // Reload results with AJAX
+                loadVenues(false);
+            });
+
+
+            // Initial load (اختياري إذا تريد تحميل أول batch عبر AJAX عند فتح الصفحة)
+            // loadVenues(true);
+        });
+    </script>
+}
