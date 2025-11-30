@@ -4,6 +4,9 @@
     {
         Rating=1,
         Date=2,
-        Price
+        PriceAscending,
+        PriceDescending,
+        CapacityAscending,
+        CapacityDescending
     }
 }

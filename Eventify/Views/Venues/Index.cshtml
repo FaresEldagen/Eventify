@@ -1,108 +1,281 @@
+﻿@using Eventify.Models.Entities
 @{
     ViewBag.Title = "Browse Venues";
 }
 
+@model VenueBrowseViewModel
+
 <div class="container-lg py-5">
     <!-- Page Header -->
     <h1 class="display-4 fw-bold mb-2">Browse Venues</h1>
-    <div class="row g-4 mb-5">
-        <p class="lead text-muted col-lg-10">Find the perfect venue for your next event</p>
-        <a href="@Url.Action("Add", "Venues")" class="btn btn-outline-primary btn-lg col-lg-2">Add Your Venue</a>
-    </div>
-
-    
-    <!-- Search and Filter Bar -->
-    <div class="row mb-4 g-3">
-        <div class="col-lg-9">
-            <div class="input-group">
-                <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
-                <input type="text" class="form-control border-0" id="venueSearch" placeholder="Search venues by name or location...">
-            </div>
+        <div class="row g-4 mb-5">
+            <p class="lead text-muted col-lg-10">Find the perfect venue for your next event</p>
+            @if (User.IsInRole("Owner"))
+            {
+                    <a href="@Url.Action("Add", "Venues")" class="btn btn-outline-primary btn-lg col-lg-2">Add Your Venue</a>
+            }
         </div>
-        <div class="col-lg-3">
-            <select class="form-select" id="sortBy">
-                <option>Sort by Rating</option>
-                <option>Price: Low to High</option>
-                <option>Price: High to Low</option>
-                <option>Sort by Capacity</option>
-            </select>
-        </div>
-    </div>
-    
-    <div class="row g-4">
-        <!-- Sidebar Filters (Desktop) -->
-        <div class="col-lg-3 d-none d-lg-block">
-            <div class="card border-0 shadow-sm p-4">
-                <h5 class="fw-bold mb-4"><i class="fas fa-sliders-h me-2"></i>Filters</h5>
-                
-                <!-- Venue Type Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">Venue Type</h6>
-                    <select class="form-select">
-                        <option>All Types</option>
-                    </select>
-                </div>
-                
-                <!-- City Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">City</h6>
-                    <select class="form-select">
-                        <option>All Cities</option>
-                    </select>
-                </div>
-                
-                <!-- Price Range Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">Price Range</h6>
-                    <input type="range" class="form-range" min="0" max="5000" step="100" id="priceRange" value="2500">
-                    <div class="d-flex justify-content-between mt-2 small text-muted">
-                        <span>$0</span>
-                        <span>$5,000</span>
-                    </div>
-                    <div class="mt-2 fw-semibold text-primary small" id="priceRangeValue">Selected: $2,500</div>
-                </div>
 
-                <!-- Amenities Filter -->
-                <div class="mb-4">
-                    <h6 class="fw-semibold mb-3">Amenities</h6>
-
-                    <input class="form-check-input" type="checkbox" name="Amenities" />
-                    <label class="form-label" for="Amenities">Air Conditioning</label>
-
-                    <br>
-                    <input class="form-check-input" type="checkbox" name="Amenities" />
-                    <label class="form-label" for="Amenities">Catering</label>
-
-                    <br>
-                    <input class="form-check-input" type="checkbox" name="Amenities" />
-                    <label class="form-label" for="Amenities">Wi-Fi</label>
-
-                    <br>
-                    <input class="form-check-input" type="checkbox" name="Amenities" />
-                    <label class="form-label" for="Amenities">Parking</label>
-
-                    <br>
-                    <input class="form-check-input" type="checkbox" name="Amenities" />
-                    <label class="form-label" for="Amenities">Bar Service</label>
-
-                    <br>
-                    <input class="form-check-input" type="checkbox" name="Amenities" />
-                    <label class="form-label" for="Amenities">Audio Visual Equipment</label>
-
-                    <br>
-                    <input class="form-check-input" type="checkbox" name="Amenities" />
-                    <label class="form-label" for="Amenities">Restrooms</label>
-                </div>
-
-                <!-- CTA Buttons -->
-                <div class="d-flex flex-wrap gap-3 justify-content-center">
-                    <a href="" class="btn btn-primary btn-sm px-4 glow-button">Apply</a>
-                    <a href="" class="btn btn-outline-primary btn-sm px-4">Clear</a>
+    <form id="filterForm" method="post">
+        <!-- Search and Filter Bar -->
+        <div class="row mb-4 g-3">
+            <div class="col-lg-9">
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
+                    <input asp-for="title" type="text" class="form-control border-0" id="venueSearch" placeholder="Search venues by name or location...">
                 </div>
             </div>
+            <div class="col-lg-3">
+                <select asp-for="sortBy" class="form-select" id="sortBy">
+                    <option value="@null">Sort By</option>
+                    <option value="3">Sort by Price Ascending</option>
+                    <option value="4">Sort by Price Descending</option>
+                    <option value="5">Sort by Capacity Ascending</option>
+                    <option value="6">Sort by Capacity Descending</option>
+                </select>
+            </div>
         </div>
+    
+        <div class="row g-4">
+            <!-- Sidebar Filters (Desktop) -->
         
-        <!-- Venues Grid -->
-        @await Html.PartialAsync("_SearchVenues")
-    </div>
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="card border-0 shadow-sm p-4">
+                    <h5 class="fw-bold mb-4"><i class="fas fa-sliders-h me-2"></i>Filters</h5>
+                
+                    <!-- Venue Type Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">Venue Type</h6>
+                        <select asp-for="venueType" class="form-select">
+                            <option value="@null">All Venue Types</option>
+                            <option value="1">Indoor</option>
+                            <option value="2">Outdoor</option>
+                            <option value="3">Workspace</option>
+                        </select>
+                    </div>
+                
+                    <!-- City Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">City</h6>
+                        <select asp-for="city" class="form-select">
+                            <option value="@null">All Countries</option>
+                            @foreach(var city in Enum.GetValues<CountryEnum>())
+                            {
+                                <option value="@Convert.ToInt32(city)">@city.ToString()</option> 
+                            }
+                        </select>
+                    </div>
+                
+                    <!-- Price Range Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">Price Range</h6>
+                        <input asp-for="maxprice" type="range" class="form-range" min="0" max="5000" step="100" id="priceRange" value="@Model.maxprice">
+                        <div class="d-flex justify-content-between mt-2 small text-muted">
+                            <span>$0</span>
+                            <span>$5,000</span>
+                        </div>
+                        <div class="mt-2 fw-semibold text-primary small" id="priceRangeValue">Selected: $2,500</div>
+                    </div>
+
+                    <!-- Amenities Filter -->
+                    <div class="mb-4">
+                        <h6 class="fw-semibold mb-3">Amenities</h6>
+
+                        <input asp-for="airConditioning" class="form-check-input" type="checkbox" name="airConditioning" />
+                        <label asp-for="airConditioning" class="form-label">Air Conditioning</label>
+                        
+                        <br>
+                        <input asp-for="catering" class="form-check-input" type="checkbox" name="catering" />
+                        <label asp-for="catering" class="form-label" >Catering</label>
+
+                        <br>
+                        <input asp-for="wifi" class="form-check-input" type="checkbox" name="wifi" />
+                        <label asp-for="wifi" class="form-label" >Wi-Fi</label>
+
+                        <br>
+                        <input asp-for="parking" class="form-check-input" type="checkbox" name="parking" />
+                        <label asp-for="parking" class="form-label" >Parking</label>
+
+                        <br>
+                        <input asp-for="barService" class="form-check-input" type="checkbox" name="barService" />
+                        <label asp-for="barService" class="form-label" >Bar Service</label>
+
+                        <br>
+                        <input asp-for="audioVisual" class="form-check-input" type="checkbox" name="audioVisual" />
+                        <label asp-for="audioVisual" class="form-label" >Audio Visual Equipment</label>
+
+                        <br>
+                        <input asp-for="restrooms" class="form-check-input" type="checkbox" name="restrooms" />
+                        <label asp-for="restrooms" class="form-label">Restrooms</label>
+                    </div>
+
+                    <!-- CTA Buttons -->
+                    <div class="d-flex flex-wrap gap-3 justify-content-center">
+                         @* <a href="@Url.Action("Index", "Venues",Model)" class="btn btn-primary btn-sm px-4 glow-button">Apply</a>  *@
+                        @* <button type="button" id="applyFilters" class="btn btn-primary btn-sm px-4 glow-button">Apply</button>  *@
+                        <button type="submit" class="btn btn-primary btn-sm px-4 glow-button">Apply</button>
+                        <button type="button" id="clearFilters" class="btn btn-outline-primary btn-sm px-4">Clear</button>
+                        @* <a href="@Url.Action("Index", "Venues")" class="btn btn-outline-primary btn-sm px-4">Clear</a> *@
+                    </div>
+                </div>
+            </div>
+            <!-- Venues Grid -->
+            @* <div id="venuesResults">
+                @await Html.PartialAsync("_SearchVenues")
+            </div> *@
+            <div class="col-lg-9">
+                <div class="row g-4" id="venuesResults">
+                    @await Html.PartialAsync("_SearchVenues", Model)  @* أو Model لو partial يستقبل Model *@
+                </div>
+            </div>
+        </div>
+    </form>
+
 </div>
+
+
+@* 
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#applyFilters").click(function() {
+                var form = $("#filterForm");
+                $.ajax({
+                    url: '@Url.Action("Index", "Venues")',
+                    type: 'POST',
+                    data: form.serialize(),
+                    success: function(result) {
+                        $("#venuesResults").html(result);
+                    },
+                    error: function(err) {
+                        console.log(err);
+                        alert("Something went wrong!");
+                    }
+                });
+            });
+        });
+    </script>
+} *@
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            var $form = $("#filterForm");
+            var $results = $("#venuesResults");
+            var $pageInput = $("#pageNumberInput");
+
+            // helper: get antiforgery token if exists
+            function getAntiForgeryToken() {
+                var token = $form.find('input[name="__RequestVerificationToken"]').val();
+                return token;
+            }
+
+            // الرئيسية: تحميل النتائج (reset = true => افرغ النتائج وابدأ من صفحة 1)
+            function loadVenues(reset) {
+                if (reset) {
+                    $pageInput.val(1);
+                }
+
+                var token = getAntiForgeryToken();
+                var data = $form.serialize(); // يتضمن pageNumber input أيضاً
+
+                $.ajax({
+                    url: '@Url.Action("Index", "Venues")', // Action الذي يرجع PartialView فقط
+                    type: 'POST',
+                    data: data,
+                    headers: token ? { 'RequestVerificationToken': token } : {},
+                    beforeSend: function() {
+                        // اختياري: إظهار Spinner أو تعطيل الأزرار
+                    },
+                    success: function (html) {
+                        // استبدال محتوى النتائج فقط
+                        $results.html(html);
+
+                        $('html, body').animate({ scrollTop: 200 }, 150);
+
+                        // لو الPartial يعيد أيضاً معلومات الـ paging داخل HTML (مثل hidden fields)،
+                        // نقدر نحدث قيمة pageNumber لو احتجت. لكن نحن نعتمد على $pageInput.
+                    },
+                    error: function (xhr, status, err) {
+                        console.error(err);
+                        alert("Something went wrong while loading venues.");
+                    },
+                    complete: function() {
+                        // اختياري: اخفاء Spinner أو إعادة تفعيل الأزرار
+                    }
+                });
+            }
+
+            // عند submit الفورم — نمنع وإرسال عبر AJAX بدلاً من إعادة تحميل
+            // $form.on("submit", function (e) {
+            //     e.preventDefault();
+            //     loadVenues(true);//reset because user applied new filters
+            // });
+
+            // عند تغيير أي فلتر (select أو input أو checkbox) نعيد تحميل من الصفحة 1
+            // $form.on("change", "select, input[type='checkbox'], input[type='range'], input[type='text']", function () {
+            //     loadVenues(true);
+            // });
+
+            // يعمل بحث
+            $("#venueSearch").on("keyup", function () {
+                e.preventDefault();
+                $("#pageNumberInput").val(1);
+                loadVenues(true);
+            });
+
+            // يعمل بحث تلقائي عند اختيار طريقة الترتيب
+            $("#sortBy").on("change", function () {
+                $("#pageNumberInput").val(1);
+                loadVenues(true);
+            });
+
+            //فقط Apply باقي الفلتر يتنفذ لما اضغط على 
+            $form.on("submit", function (e) {
+                e.preventDefault();
+                $("#pageNumberInput").val(1);
+                loadVenues(true);
+            });
+
+            // Filters لل  Clear  عمل 
+            $("#clearFilters").on("click", function () {
+                // 1) Reset the form to initial HTML values
+                document.getElementById("filterForm").reset();
+
+                // 2) Reset page number
+                $("#pageNumberInput").val(1);
+
+                // 3) Trigger AJAX reload
+                loadVenues(true);
+            });
+
+            // Delegated click handler للأزرار السابقة / التالية داخل results
+            // $(document).on("click", ".js-change-page", function (e) {
+            //     e.preventDefault();
+            //     var page = $(this).data("page");
+            //     if (!page || page < 1) return;
+            //     $pageInput.val(page);
+            //     loadVenues(false); لا تعيد التعيين — تريد تحميل الصفحة المحددة
+            // });
+
+            $(document).on("click", ".js-change-page", function () {
+
+                let newPage = $(this).data("page");
+
+                // Safety check (لو الزرار disabled متعملش حاجة)
+                if ($(this).is("[disabled]")) return;
+
+                $("#pageNumberInput").val(newPage);
+
+                // Reload results with AJAX
+                loadVenues(false);
+            });
+
+
+            // Initial load (اختياري إذا تريد تحميل أول batch عبر AJAX عند فتح الصفحة)
+            // loadVenues(true);
+        });
+    </script>
+}

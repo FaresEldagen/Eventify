@@ -1,5 +1,7 @@
 using Eventify.Data;
+using Eventify.Managers;
 using Eventify.Models.Entities;
+using Eventify.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +28,10 @@ namespace Eventify
                 option.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
             })
                 .AddEntityFrameworkStores<AppDbContext>();
+
+
+            // Add Manager Servises 
+            builder.Services.AddScoped<IVenueService, VenueManager>();
 
             var app = builder.Build();
 
