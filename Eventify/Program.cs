@@ -34,6 +34,7 @@ namespace Eventify
 
             // Add Manager Servises 
             builder.Services.AddScoped<IVenueService, VenueManager>();
+            builder.Services.AddScoped<IEventService, EventManager>();
 
             var app = builder.Build();
 
