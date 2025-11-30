@@ -30,7 +30,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = false,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 1
                 },
                 new Venue
@@ -53,7 +53,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = true,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 2
                 },
                 new Venue
@@ -76,7 +76,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = false,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 3
                 },
                 new Venue
@@ -99,7 +99,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = false,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 1
                 },
                 new Venue
@@ -122,7 +122,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = false,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 1
                 },
                 new Venue
@@ -145,7 +145,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = true,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 2
                 },
                 new Venue
@@ -168,7 +168,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = true,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 3
                 },
                 new Venue
@@ -191,7 +191,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = false,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 2
                 },
                 new Venue
@@ -214,7 +214,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = false,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 1
                 },
                 new Venue
@@ -237,7 +237,7 @@ namespace Eventify.Seeding_Data
                     BarServiceAvailable = false,
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
-                    ProofOfOwnership = "~/images/ownership1.jpg",
+                    ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 2
                 }
             );

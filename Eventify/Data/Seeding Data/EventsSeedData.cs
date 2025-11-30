@@ -40,7 +40,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 150m,
                     Address = "Dubai Outdoor Arena, Marina Walk",
                     VenueId = 2,
-                    OrganizerId = 5
+                    OrganizerId = 5,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -56,7 +57,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 300m,
                     Address = "Riyadh Event Center",
                     VenueId = 3,
-                    OrganizerId = 6
+                    OrganizerId = 6,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -72,7 +74,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 200m,
                     Address = "Corniche Road",
                     VenueId = 4,
-                    OrganizerId = 4
+                    OrganizerId = 4,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -88,7 +91,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 250m,
                     Address = "Pyramids Road",
                     VenueId = 5,
-                    OrganizerId = 5
+                    OrganizerId = 5,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -104,7 +108,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 800m,
                     Address = "Khalifa Street",
                     VenueId = 6,
-                    OrganizerId = 6
+                    OrganizerId = 6,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -120,7 +125,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 100m,
                     Address = "Jeddah North Corniche",
                     VenueId = 7,
-                    OrganizerId = 4
+                    OrganizerId = 4,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -136,7 +142,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 350m,
                     Address = "Doha Convention Hall",
                     VenueId = 8,
-                    OrganizerId = 5
+                    OrganizerId = 5,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -152,7 +159,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 180m,
                     Address = "Luxor Temple Road",
                     VenueId = 9,
-                    OrganizerId = 6
+                    OrganizerId = 6,
+                    Capacity = 700,
                 },
                 new Event
                 {
@@ -168,7 +176,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 220m,
                     Address = "Sharjah Art Gallery",
                     VenueId = 10,
-                    OrganizerId = 4
+                    OrganizerId = 4,
+                    Capacity = 700,
                 }, 
                 new Event
                 {
@@ -184,7 +193,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 250m,
                     Address = "Pyramids Road",
                     VenueId = 5,
-                    OrganizerId = 5
+                    OrganizerId = 5,
+                    Capacity = 700,
                 }
             );
         }
