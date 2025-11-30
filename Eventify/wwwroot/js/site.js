@@ -590,140 +590,223 @@ if (proofUpload && proofInput && proofPreview) {
     }
 }
 
-// National ID Upload (Edit Profile)
-const nationalIdUploadArea = document.getElementById("nationalIdUploadArea")
-const nationalIdInput = document.getElementById("nationalIdInput")
-const nationalIdPreview = document.getElementById("nationalIdPreview")
-const nationalIdMaxFiles = 2
-const nationalIdFiles = []
 
-if (nationalIdUploadArea && nationalIdInput && nationalIdPreview) {
-    nationalIdUploadArea.addEventListener("click", () => nationalIdInput.click())
 
-    nationalIdInput.addEventListener("change", (event) => {
-        const files = Array.from(event.target.files || [])
-        if (!files.length) return
+// Front ID Upload (Edit Profile)
+const FrontIdUploadArea = document.getElementById("FrontIdUploadArea");
+const FrontIdInput = document.getElementById("FrontIdInput");
+const FrontIdImage = document.getElementById("FrontIdImage");
+const removeFrontIdBtn = document.getElementById("removeFrontId");
+const removeFrontIdFlag = document.getElementById("removeFrontIdFlag");
 
-        const remainingSlots = nationalIdMaxFiles - nationalIdFiles.length
-        if (remainingSlots <= 0) {
-            showToast("You have already uploaded the maximum of 2 images.", "warning")
-            nationalIdInput.value = ""
-            return
-        }
+// Reset (delete) Front ID photo
+const resetFrontId = () => {
+    FrontIdImage.src = "";
+    FrontIdImage.classList.add("d-none");
 
-        if (files.length > remainingSlots) {
-            showToast(`You can only upload ${remainingSlots} more image${remainingSlots > 1 ? "s" : ""}.`, "warning")
-        }
+    FrontIdUploadArea.classList.remove("d-none"); // show placeholder
+    removeFrontIdBtn.classList.add("d-none");
 
-        files.slice(0, remainingSlots).forEach((file) => {
-            if (!file.type.startsWith("image/")) {
-                showToast("National ID uploads accept images only.", "warning")
-                return
-            }
+    FrontIdInput.value = "";
+    removeFrontIdFlag.value = "true"; // backend will delete it
+};
 
-            const reader = new FileReader()
-            const id = `${Date.now()}-${Math.random()}`
-            reader.onload = (e) => {
-                nationalIdFiles.push({
-                    id,
-                    src: e.target?.result,
-                    name: file.name,
-                })
-                renderNationalIdPreview()
-            }
-            reader.readAsDataURL(file)
-        })
+// click area triggers input
+FrontIdUploadArea?.addEventListener("click", () => FrontIdInput.click());
 
-        nationalIdInput.value = ""
-    })
+// delete button
+removeFrontIdBtn?.addEventListener("click", resetFrontId);
 
-    function renderNationalIdPreview() {
-        nationalIdPreview.innerHTML = ""
-        nationalIdFiles.forEach((photo) => {
-            const col = document.createElement("div")
-            col.className = "col-6"
-            col.innerHTML = `
-                <div class="position-relative">
-                    <img src="${photo.src}" class="img-thumbnail w-100" style="height: 160px; object-fit: cover;" alt="${photo.name}">
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 delete-national-id" data-id="${photo.id}" style="border-radius: 50%; width: 28px; height: 28px; padding: 0;">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            `
-            nationalIdPreview.appendChild(col)
-        })
+// on selecting image
+FrontIdInput?.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
 
-        nationalIdPreview.querySelectorAll(".delete-national-id").forEach((button) => {
-            button.addEventListener("click", (e) => {
-                e.stopPropagation()
-                const id = button.getAttribute("data-id")
-                const index = nationalIdFiles.findIndex((item) => item.id === id)
-                if (index > -1) {
-                    nationalIdFiles.splice(index, 1)
-                    renderNationalIdPreview()
-                }
-            })
-        })
+    removeFrontIdFlag.value = "false";
+
+    if (!file.type.startsWith("image/")) {
+        showToast("Please upload an image file.", "warning");
+        resetFrontId();
+        return;
     }
-}
+
+    const maxSize = 3 * 1024 * 1024; // 3MB limit
+    if (file.size > maxSize) {
+        showToast("Front ID must be 3MB or smaller.", "warning");
+        resetFrontId();
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        FrontIdImage.src = e.target?.result;
+
+        FrontIdImage.classList.remove("d-none");
+        FrontIdUploadArea.classList.add("d-none");
+
+        removeFrontIdBtn.classList.remove("d-none");
+    };
+    reader.readAsDataURL(file);
+});
+
+// if Model has an ID image already (optional integration)
+document.addEventListener("DOMContentLoaded", () => {
+    if (FrontIdImage.src && FrontIdImage.src.length > 5) {
+        FrontIdImage.classList.remove("d-none");
+        FrontIdUploadArea.classList.add("d-none");
+        removeFrontIdBtn.classList.remove("d-none");
+    }
+});
+
+
+
+// Back ID Upload (Edit Profile)
+const BackIdUploadArea = document.getElementById("BackIdUploadArea");
+const BackIdInput = document.getElementById("BackIdInput");
+const BackIdImage = document.getElementById("BackIdImage");
+const removeBackIdBtn = document.getElementById("removeBackId");
+const removeBackIdFlag = document.getElementById("removeBackIdFlag");
+
+// Reset (delete) Back ID photo
+const resetBackId = () => {
+    BackIdImage.src = "";
+    BackIdImage.classList.add("d-none");
+
+    BackIdUploadArea.classList.remove("d-none"); // show placeholder
+    removeBackIdBtn.classList.add("d-none");
+
+    BackIdInput.value = "";
+    removeBackIdFlag.value = "true"; // backend will delete it
+};
+
+// click area triggers input
+BackIdUploadArea?.addEventListener("click", () => BackIdInput.click());
+
+// delete button
+removeBackIdBtn?.addEventListener("click", resetBackId);
+
+// on selecting image
+BackIdInput?.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    removeBackIdFlag.value = "false";
+
+    if (!file.type.startsWith("image/")) {
+        showToast("Please upload an image file.", "warning");
+        resetBackId();
+        return;
+    }
+
+    const maxSize = 3 * 1024 * 1024; // 3MB limit
+    if (file.size > maxSize) {
+        showToast("Back ID must be 3MB or smaller.", "warning");
+        resetBackId();
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        BackIdImage.src = e.target?.result;
+
+        BackIdImage.classList.remove("d-none");
+        BackIdUploadArea.classList.add("d-none");
+
+        removeBackIdBtn.classList.remove("d-none");
+    };
+    reader.readAsDataURL(file);
+});
+
+// if Model has an ID image already (optional integration)
+document.addEventListener("DOMContentLoaded", () => {
+    if (BackIdImage.src && BackIdImage.src.length > 5) {
+        BackIdImage.classList.remove("d-none");
+        BackIdUploadArea.classList.add("d-none");
+        removeBackIdBtn.classList.remove("d-none");
+    }
+});
+
+
+
 
 // Profile Photo Upload (Edit Profile)
-const profilePhotoInput = document.getElementById("profilePhotoInput")
-const profilePhotoPreview = document.getElementById("profilePhotoPreview")
-const profilePhotoPlaceholder = profilePhotoPreview?.querySelector(".profile-photo-placeholder")
-const changeProfilePhotoBtn = document.getElementById("changeProfilePhoto")
-const removeProfilePhotoBtn = document.getElementById("removeProfilePhoto")
-let currentProfilePhoto = null
+const profilePhotoInput = document.getElementById("profilePhotoInput");
+const profilePhotoPreview = document.getElementById("profilePhotoPreview");
+const profilePhotoPlaceholder = profilePhotoPreview?.querySelector(".profile-photo-placeholder");
+const changeProfilePhotoBtn = document.getElementById("changeProfilePhoto");
+const removeProfilePhotoBtn = document.getElementById("removeProfilePhoto");
+const removePhotoFlag = document.getElementById("removePhotoFlag");
 
-if (profilePhotoInput && profilePhotoPreview && profilePhotoPlaceholder && changeProfilePhotoBtn && removeProfilePhotoBtn) {
-    const resetProfilePhoto = () => {
-        currentProfilePhoto = null
-        profilePhotoPlaceholder.innerHTML = '<i class="fas fa-user fa-3x text-muted"></i>'
-        profilePhotoPlaceholder.style.backgroundImage = ""
-        profilePhotoPlaceholder.classList.add("bg-light")
-        profilePhotoPlaceholder.classList.remove("has-photo")
-        removeProfilePhotoBtn.classList.add("d-none")
-        profilePhotoInput.value = ""
+let currentProfilePhoto = null;
+
+// Reset function (delete photo)
+const resetProfilePhoto = () => {
+    currentProfilePhoto = null;
+
+    profilePhotoPlaceholder.innerHTML = '<i class="fas fa-user fa-3x text-muted"></i>';
+    profilePhotoPlaceholder.style.backgroundImage = "";
+    profilePhotoPlaceholder.classList.add("bg-light");
+    profilePhotoPlaceholder.classList.remove("has-photo");
+
+    removeProfilePhotoBtn.classList.add("d-none");
+
+    profilePhotoInput.value = "";
+    removePhotoFlag.value = "true"; // tell backend user removed photo
+};
+
+// When clicking "Change Photo"
+changeProfilePhotoBtn?.addEventListener("click", () => profilePhotoInput.click());
+
+// When clicking "Remove Photo"
+removeProfilePhotoBtn?.addEventListener("click", resetProfilePhoto);
+
+// When new photo selected
+profilePhotoInput?.addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    removePhotoFlag.value = "false"; // user selected new photo, not deleting
+
+    if (!file.type.startsWith("image/")) {
+        showToast("Please upload an image file.", "warning");
+        resetProfilePhoto();
+        return;
     }
 
-    changeProfilePhotoBtn.addEventListener("click", () => profilePhotoInput.click())
-    removeProfilePhotoBtn.addEventListener("click", resetProfilePhoto)
+    const maxSize = 2 * 1024 * 1024;
+    if (file.size > maxSize) {
+        showToast("Profile photo must be 2MB or smaller.", "warning");
+        resetProfilePhoto();
+        return;
+    }
 
-    profilePhotoInput.addEventListener("change", (event) => {
-        const file = event.target.files?.[0]
-        if (!file) return
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        currentProfilePhoto = {
+            name: file.name,
+            src: e.target?.result ?? "",
+        };
 
-        if (!file.type.startsWith("image/")) {
-            showToast("Please upload an image file for your profile photo.", "warning")
-            resetProfilePhoto()
-            return
-        }
+        profilePhotoPlaceholder.style.backgroundImage = `url(${currentProfilePhoto.src})`;
+        profilePhotoPlaceholder.style.backgroundSize = "cover";
+        profilePhotoPlaceholder.style.backgroundPosition = "center";
+        profilePhotoPlaceholder.innerHTML = "";
 
-        const maxSize = 2 * 1024 * 1024
-        if (file.size > maxSize) {
-            showToast("Profile photo must be 2MB or smaller.", "warning")
-            resetProfilePhoto()
-            return
-        }
+        profilePhotoPlaceholder.classList.remove("bg-light");
+        profilePhotoPlaceholder.classList.add("has-photo");
+        removeProfilePhotoBtn.classList.remove("d-none");
+    };
+    reader.readAsDataURL(file);
+});
 
-        const reader = new FileReader()
-        reader.onload = (e) => {
-            currentProfilePhoto = {
-                name: file.name,
-                src: e.target?.result ?? "",
-            }
+// On page load, if Model.Photo exists ? show remove button
+document.addEventListener("DOMContentLoaded", () => {
+    if (profilePhotoPlaceholder?.classList.contains("has-photo")) {
+        removePhotoFlag.value = "false";
+        removeProfilePhotoBtn.classList.remove("d-none");
+    }
+});
 
-            profilePhotoPlaceholder.style.backgroundImage = `url(${currentProfilePhoto.src})`
-            profilePhotoPlaceholder.style.backgroundSize = "cover"
-            profilePhotoPlaceholder.style.backgroundPosition = "center"
-            profilePhotoPlaceholder.innerHTML = ""
-            profilePhotoPlaceholder.classList.remove("bg-light")
-            profilePhotoPlaceholder.classList.add("has-photo")
-            removeProfilePhotoBtn.classList.remove("d-none")
-        }
-        reader.readAsDataURL(file)
-    })
-}
 
 // ============================================
 // LOGIN PAGE FUNCTIONALITY

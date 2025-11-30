@@ -15,7 +15,8 @@ namespace Eventify
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<EventManager, EventManager>();
+            builder.Services.AddScoped<IVenueService, VenueManager>();
+            builder.Services.AddScoped<IEventService, EventManager>();
 
             // Add DbContext Service
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -29,6 +30,10 @@ namespace Eventify
                 option.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
             })
                 .AddEntityFrameworkStores<AppDbContext>();
+
+
+            // Add Manager Servises 
+            builder.Services.AddScoped<IVenueService, VenueManager>();
 
             var app = builder.Build();
 

@@ -3,6 +3,7 @@ using Eventify.Models.Entities;
 using Eventify.Services;
 using Eventify.Data;
 using Eventify.Models.Enums;
+using System.Threading.Tasks;
 
 namespace Eventify.Managers
 {
@@ -41,36 +42,42 @@ namespace Eventify.Managers
 
         public List<Venue> Get3()
         {
-            var result = context.Venues.Take(3).ToList();
+            var result = context.Venues.Take(3).Include(v => v.VenuePhotos).ToList();
             return result;
         }
 
         public List<Venue> GetByFilter_Search(
-     SortByEnum sortBy,
-     SortingTypeEnum sortingType,
-     int pageNumber,
-     string? title,
-     VenueTypeEnum? venueType,
-     int? maxprice ,
-     string? city,
-     bool? airConditioning,    
-     bool? catering,
-     bool? wifi,
-     bool? parking,
-     bool? barService,
-     bool? restrooms,
-     bool? audioVisual)
+            SortByEnum? sortBy,
+            SortingTypeEnum sortingType,
+            int pageNumber,
+            string? title,
+            VenueTypeEnum? venueType,
+            int? maxprice ,
+            string? city,
+            bool? airConditioning,    
+            bool? catering,
+            bool? wifi,
+            bool? parking,
+            bool? barService,
+            bool? restrooms,
+            bool? audioVisual,
+            out int totalVenues)
         {
             var query = context.Venues.AsQueryable();
 
+            if (maxprice.HasValue)
+            {
+                query = query.Where(v => v.PricePerHour <= maxprice);
+            }
+
             if (!string.IsNullOrWhiteSpace(title))
-                query = query.Where(v => v.Name.Contains(title));
+                query = query.Where(v => EF.Functions.Like(v.Name,$"%{title}%") || EF.Functions.Like(v.Address,$"%{title}%"));
 
             if (venueType.HasValue)
                 query = query.Where(v => v.VenueType == venueType.Value);
 
             if (!string.IsNullOrWhiteSpace(city))
-                query = query.Where(v => v.City.Contains(city));
+                query = query.Where(v => v.City==city);
 
             if (airConditioning.HasValue && airConditioning.Value)
                 query = query.Where(v => v.AirConditioningAvailable);
@@ -93,17 +100,30 @@ namespace Eventify.Managers
             if (audioVisual.HasValue && audioVisual.Value)
                 query = query.Where(v => v.AudioVisualEquipment);
 
-            if (sortBy==SortByEnum.Price)
+
+           
+            if (sortBy.HasValue)
             {
-                if (sortingType==SortingTypeEnum.Ascending) 
+                if (sortBy==SortByEnum.PriceAscending) 
                     query= query.Where(v => v.PricePerHour<=maxprice.Value).OrderBy(e => e.PricePerHour);
-                else
+                else if(sortBy == SortByEnum.PriceDescending)
                     query = query.Where(v => v.PricePerHour <= maxprice.Value).OrderByDescending(e => e.PricePerHour);
+
+
+                if (sortBy == SortByEnum.CapacityAscending)
+                    query = query.OrderBy(v => v.Capacity);
+                else if(sortBy == SortByEnum.CapacityDescending)
+                    query = query.OrderByDescending(v => v.Capacity);
 
             }
 
+            
+            
 
+            // get related photos
+            query = query.Include(v => v.VenuePhotos);
 
+            totalVenues = GetTotalPages(query);
 
             int pageSize = 9;
             int skip = (pageNumber - 1) * pageSize;
@@ -116,6 +136,10 @@ namespace Eventify.Managers
             return result;
         }
 
+        private  int GetTotalPages(IQueryable<Venue> query)
+        {
+            return query.Count();
+        }
 
         public Venue GetById(int id)
         {
@@ -129,7 +153,7 @@ namespace Eventify.Managers
 
         public List<Venue> GetByUserId(int id)
         {
-            return context.Venues.Where(v=>v.Id==id).ToList();
+            return context.Venues.Where(v=>v.Id==id).Include(v => v.VenuePhotos).ToList();
         }
 
         public int Insert(Venue obj)

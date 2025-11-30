@@ -6,7 +6,7 @@ namespace Eventify.Services
     public interface IVenueService : IGenericService<Venue>
     {
         public List<Venue> GetByFilter_Search(
-             SortByEnum sortBy,
+             SortByEnum? sortBy,
              SortingTypeEnum sortingType,
              int pageNumber,
              string? title,
@@ -19,7 +19,8 @@ namespace Eventify.Services
              bool? parking,
              bool? barService,
              bool? restrooms,
-             bool? audioVisual);
+             bool? audioVisual,
+             out int totalVenues);
 
     }
 

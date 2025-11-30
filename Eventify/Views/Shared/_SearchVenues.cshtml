@@ -1,30 +1,68 @@
-﻿<div class="col-lg-9">
-    <div class="row g-4" id="venuesGrid">
-        <!-- Venue Card 1 -->
-        @await Html.PartialAsync("_VenueCard")
+﻿@model VenueBrowseViewModel
+@if (Model.venueCards.Count != 0)
+{
+    @foreach (var card in Model.venueCards)
+    {
+        @await Html.PartialAsync("_VenueCard", card);
+    }
 
-        <!-- Venue Card 2 -->
-        @await Html.PartialAsync("_VenueCard")
+    if (Model.TotalPages >1)
+    {
+        <div class="d-flex justify-content-center mt-4">
+            <input type="hidden" name="pageNumber" value="@Model.pageNumber" id="pageNumberInput" />
 
-        <!-- Venue Card 3 -->
-        @await Html.PartialAsync("_VenueCard")
-        
-        <!-- Venue Card 1 -->
-        @await Html.PartialAsync("_VenueCard")
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
 
-        <!-- Venue Card 2 -->
-        @await Html.PartialAsync("_VenueCard")
+                    <!-- Previous -->
+                    <li class="page-item @(Model.pageNumber <= 1 ? "disabled" : "")">
+                        <button type="button"
+                                class="page-link js-change-page"
+                                data-page="@(Model.pageNumber - 1)"
+                                @(Model.pageNumber <= 1 ? "disabled" : "")>
+                            Previous
+                        </button>
+                    </li>
 
-        <!-- Venue Card 3 -->
-        @await Html.PartialAsync("_VenueCard") 
-        
-        <!-- Venue Card 1 -->
-        @await Html.PartialAsync("_VenueCard")
+                    <li class="page-item active">
+                        <a class="page-link" href="#" aria-current="page">@Model.pageNumber</a>
+                    </li>
 
-        <!-- Venue Card 2 -->
-        @await Html.PartialAsync("_VenueCard")
+                    <!-- Next -->
+                    <li class="page-item @(Model.pageNumber >= Model.TotalPages ? "disabled" : "")">
+                        <button type="button"
+                                class="page-link js-change-page"
+                                data-page="@(Model.pageNumber + 1)"
+                                @(Model.pageNumber >= Model.TotalPages ? "disabled" : "")>
+                            Next
+                        </button>
+                    </li>
 
-        <!-- Venue Card 3 -->
-        @await Html.PartialAsync("_VenueCard")
+                </ul>
+            </nav>
+        </div>
+
+
+         <script>
+            function changePage(page) {
+                document.getElementById("pageNumberInput").value = page;
+            }
+        </script>
+    }
+}
+else
+{
+    <div class="card text-center mt-4 shadow-sm border-0">
+        <div class="card-body py-5">
+            <div class="mb-3">
+                <i class="fas fa-search-minus fa-3x text-muted"></i>
+            </div>
+            <h4 class="fw-bold mb-2">No Results Found</h4>
+            <p class="text-muted mb-0">
+                We couldn’t find any venues that match your filters.
+                Try adjusting your search to see more available options.
+            </p>
+        </div>
     </div>
-</div>
+}
+
