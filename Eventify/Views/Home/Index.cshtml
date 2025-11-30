@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model HomepageVewModel
 
 <!-- Hero Section -->
 <section class="position-relative py-5" style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('/images/hero-bg.jpg') center/cover;">
@@ -63,14 +64,10 @@
         </div>
 
         <div class="row g-4">
-            <!-- Venue Card 1 -->
-            @await Html.PartialAsync("_VenueCard")
-
-            <!-- Venue Card 2 -->
-            @await Html.PartialAsync("_VenueCard")
-
-            <!-- Venue Card 3 -->
-            @await Html.PartialAsync("_VenueCard")
+            @foreach (VenueCardVM venue in Model.TopVenues)
+            {
+                @await Html.PartialAsync("_VenueCard", venue)
+            }
         </div>
 
         <div class="text-center mt-5">
@@ -88,11 +85,10 @@
         </div>
 
         <div class="row g-4">
-            <!-- Event Card 1 -->
-            @await Html.PartialAsync("_EventCard")
-
-            <!-- Event Card 2 -->
-            @await Html.PartialAsync("_EventCard")
+            @foreach (EventCardVM event_ in Model.UpcomingEvents)
+            {
+                @await Html.PartialAsync("_EventCard", event_)
+            }
         </div>
 
         <div class="text-center mt-5">

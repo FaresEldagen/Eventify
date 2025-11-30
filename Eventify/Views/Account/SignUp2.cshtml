@@ -1,6 +1,6 @@
-﻿@using Eventify.ViewModels
-@{
+﻿@{
     Layout = "_SignLayout";
+    ViewBag.Title = "Choose Role";
 }
 @model SignupViewModel
 <form action="signup2" method="post" id="chooseRoleForm">
@@ -75,8 +75,6 @@
             <button type="submit" class="btn btn-primary" id="chooseRoleSignupBtn">Confirm</button>
 
             @Html.AntiForgeryToken()
-    
-    
     </div>
 </form>
 

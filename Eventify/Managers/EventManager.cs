@@ -4,6 +4,7 @@ using Eventify.Models.Entities;
 using Eventify.Models.Enums;
 using Eventify.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Eventify.Managers
 {
@@ -29,7 +30,7 @@ namespace Eventify.Managers
 
         public List<Event> Get3()
         {
-            var res = context.Events.Take(3).ToList();
+            var res = context.Events.Take(3).Include(e => e.EventPhotos).ToList();
             return res;
         }
 
@@ -98,7 +99,7 @@ namespace Eventify.Managers
 
         public List<Event> GetByUserId(int id)
         {
-            return context.Events.Where(e => e.OrganizerId == id).ToList();
+            return context.Events.Where(e => e.OrganizerId == id).Include(e => e.EventPhotos).ToList();
         }
 
         public int Insert(Event obj)

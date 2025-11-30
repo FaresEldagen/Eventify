@@ -41,7 +41,7 @@ namespace Eventify.Managers
 
         public List<Venue> Get3()
         {
-            var result = context.Venues.Take(3).ToList();
+            var result = context.Venues.Take(3).Include(v => v.VenuePhotos).ToList();
             return result;
         }
 
@@ -129,7 +129,7 @@ namespace Eventify.Managers
 
         public List<Venue> GetByUserId(int id)
         {
-            return context.Venues.Where(v=>v.Id==id).ToList();
+            return context.Venues.Where(v=>v.Id==id).Include(v => v.VenuePhotos).ToList();
         }
 
         public int Insert(Venue obj)

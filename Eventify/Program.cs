@@ -1,5 +1,7 @@
 using Eventify.Data;
+using Eventify.Managers;
 using Eventify.Models.Entities;
+using Eventify.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +15,8 @@ namespace Eventify
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<IVenueService, VenueManager>();
+            builder.Services.AddScoped<IEventService, EventManager>();
 
             // Add DbContext Service
             builder.Services.AddDbContext<AppDbContext>(options =>

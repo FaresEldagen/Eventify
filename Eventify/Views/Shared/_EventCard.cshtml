@@ -1,19 +1,21 @@
-﻿<div class="col-md-6 col-lg-4">
+﻿@model EventCardVM
+
+<div class="col-md-6 col-lg-4">
     <div class="card h-100 border-0 shadow-sm">
         <div class="position-relative">
-            <img src="~/images/event2.jpg" class="card-img-top img-hover" alt="Tech Innovation Conference">
-            <div class="badge bg-white text-primary position-absolute top-0 start-0 m-3">Business</div>
+            <img src="@Model.EventPhoto" class="card-img-top img-hover" alt="@Model.EventTitle">
+            <div class="badge bg-white text-primary position-absolute top-0 start-0 m-3">@Model.Category</div>
             @* <div class="position-absolute top-0 end-0 m-3 bg-white rounded-circle p-2 small"> *@
             @*     <i class="fas fa-star-fill text-warning"></i> 4.9 *@
             @* </div> *@
         </div>
         <div class="card-body">
-            <h5 class="card-title fw-bold">Tech Innovation Conference</h5>
-            <p class="card-text text-muted small"><i class="fas fa-calendar me-1"></i>August 22, 2024 9:00 AM</p>
-            <p class="card-text text-muted small"><i class="fas fa-map-marker-alt me-1"></i>Convention Center, SF</p>
-            <h6 class="card-subtitle mb-3 fw-bold text-primary">From $120</h6>
+            <h5 class="card-title fw-bold">@Model.EventTitle</h5>
+            <p class="card-text text-muted small"><i class="fas fa-calendar me-1"></i>@Model.StartDateTime</p>
+            <p class="card-text text-muted small"><i class="fas fa-map-marker-alt me-1"></i>@Model.Address</p>
+            <h6 class="card-subtitle mb-3 fw-bold text-primary">From $@Model.TicketPrice</h6>
             <div class="d-grid gap-2">
-                <a href="@Url.Action("Details", "Events", new { id = 2 })" class="btn btn-primary w-100">View Details</a>
+                <a href="@Url.Action("Details", "Events", new { id = Model.Id })" class="btn btn-primary w-100">View Details</a>
             </div>
         </div>
     </div>
