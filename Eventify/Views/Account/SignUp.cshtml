@@ -1,6 +1,6 @@
-﻿@using Eventify.ViewModels
-@{
+﻿@{
     Layout = "_SignLayout";
+    ViewBag.Title = "Sign Up";
 }
 
 @model SignupViewModel
@@ -53,9 +53,6 @@
 
                 <button type="submit" class="btn btn-primary" style="width: 100%;">Sign Up</button>
             </form>
-            @section AccountErrors {
-                <partial name="_ValidationScriptsPartial" />
-            }
         </div>
 
         <!-- Right Section - Sign In Prompt -->

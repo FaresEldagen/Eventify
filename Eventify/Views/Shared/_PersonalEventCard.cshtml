@@ -1,12 +1,20 @@
-﻿@* <div class="col-md-6 col-lg-4">
+﻿@model EventCardVM
+
+<div class="col-md-6 col-lg-4">
     <div class="card border-0 shadow-sm">
-        <img src="~/images/event2.jpg" class="card-img-top img-hover" alt="Summer Music Festival">
+        <div class="position-relative">
+            <img src="@Model.EventPhoto" class="card-img-top img-hover" alt="@Model.EventTitle">
+            <div class="badge bg-white text-primary position-absolute top-0 start-0 m-3">@Model.Status</div>
+            @* <div class="position-absolute top-0 end-0 m-3 bg-white rounded-circle p-2 small"> *@
+            @*     <i class="fas fa-star-fill text-warning"></i> 4.9 *@
+            @* </div> *@
+        </div>
         <div class="card-body">
-            <h5 class="card-title fw-bold">Summer Music Festival</h5>
-            <p class="card-text text-muted small"><i class="fas fa-calendar me-1"></i>July 15, 2024</p>
-            <p class="card-text text-muted small"><i class="fas fa-map-marker-alt me-1"></i>Central Park, NY</p>
+            <h5 class="card-title fw-bold">@Model.EventTitle</h5>
+            <p class="card-text text-muted small"><i class="fas fa-calendar me-1"></i>@Model.StartDateTime</p>
+            <p class="card-text text-muted small"><i class="fas fa-map-marker-alt me-1"></i>@Model.Address</p>
             <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-bold text-primary">From $45</span>
+                <span class="fw-bold text-primary">From $@Model.TicketPrice</span>
                 <div class="btn-group btn-group-sm" role="group">
                     <button class="btn btn-outline-primary" title="View"><i class="fas fa-eye"></i></button>
                     <button class="btn btn-outline-primary" title="Edit"><i class="fas fa-edit"></i></button>
