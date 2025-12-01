@@ -79,7 +79,6 @@ namespace WebApplication2.Controllers
                 maxPrice: null,
                 startDate: null,
                 endDate: null,
-                isPrivate: null,
                 out int totalEvents
                 );
 
@@ -113,7 +112,6 @@ namespace WebApplication2.Controllers
                 maxPrice: eventBrowseViewModel.MaxPrice,
                 startDate: eventBrowseViewModel.StartDate,
                 endDate: eventBrowseViewModel.EndDate,
-                isPrivate: eventBrowseViewModel.IsPrivate,
                 out int totalEvents
                 );
 

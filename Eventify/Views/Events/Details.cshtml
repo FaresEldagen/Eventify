@@ -134,7 +134,10 @@
                         <h3>Statues: <span class="text-success fw-bold">@Model.Status</span></h3>
                     </div>
                     <div class="d-grid gap-2 mb-3">
-                        <a class="btn btn-primary">Pay Now</a>
+                        <a class="btn btn-primary"
+                           href="@Url.Action("PreparePaymentData", "Payment", new { eventId = Model.EventId })">
+                            Pay Now
+                        </a>
                     </div>
                 }
                 else if (Model.Status == EventStatusEnum.Rejected)
@@ -180,6 +183,16 @@
         </div>
     </div>
 </div>
+
+@if (TempData["ShowSuccessPopup"] != null)
+{
+    @await Html.PartialAsync("_Success")
+}
+else if (TempData["ShowCancelPopup"] != null)
+{
+    @await Html.PartialAsync("_Cancel")
+}
+
 
 @section Scripts {
     <script>

@@ -43,12 +43,13 @@ namespace Eventify.Managers
             EventCategoryEnum? category, 
             decimal? maxPrice, 
             DateTime? startDate,
-            DateTime? endDate, 
-            bool? isPrivate,
+            DateTime? endDate,
             out int totalEvents)
 
         {
             var query = context.Events.AsQueryable();
+
+            query = query.Where(e => e.IsPrivate == false && e.Status == EventStatusEnum.Paid);
 
             if (maxPrice.HasValue)
             {
@@ -78,8 +79,7 @@ namespace Eventify.Managers
             if (startDate != null)
                 query = query.Where(e => e.StartDateTime.Date == startDate.Value.Date);
 
-            if (isPrivate != null)
-                query = query.Where(e => e.IsPrivate == isPrivate);
+            
 
 
             // get related photos

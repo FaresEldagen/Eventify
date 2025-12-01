@@ -13,7 +13,6 @@ namespace Eventify.Services
               decimal? maxPrice,
               DateTime? startDate,
               DateTime? endDate,
-              bool? isPrivate,
               out int totalEvents);
         public List<Event> GetByUserId(int id);
         public Event? GetByIdWithIncludes(int id);

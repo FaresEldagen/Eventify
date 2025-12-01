@@ -4,6 +4,7 @@ using Eventify.Models.Entities;
 using Eventify.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Stripe;
 
 namespace Eventify
 {
@@ -17,6 +18,8 @@ namespace Eventify
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IVenueService, VenueManager>();
             builder.Services.AddScoped<IEventService, EventManager>();
+            builder.Services.AddScoped<IApplicationUserService, ApplicationUserManager>();
+            builder.Services.AddScoped<IPaymentService, PaymentManager>();
 
             // Add DbContext Service
             builder.Services.AddDbContext<AppDbContext>(options =>
@@ -36,7 +39,12 @@ namespace Eventify
             builder.Services.AddScoped<IVenueService, VenueManager>();
             builder.Services.AddScoped<IEventService, EventManager>();
 
+            // Load Stripe Secret Key
+            StripeConfiguration.ApiKey = builder.Configuration["Stripe:SecretKey"];
+
             var app = builder.Build();
+
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
