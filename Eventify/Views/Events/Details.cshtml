@@ -110,7 +110,7 @@
                 <h3 class="fw-bold">From <span class="text-primary">$@Model.TicketPrice</span></h3>
                 <small class="text-muted">per person</small>
             </div>
-            @if (int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+            @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
             {
                 <div class="d-grid gap-2 mb-3">
                     <a class="btn btn-outline-primary" href="@Url.Action("Edit", "Events", new { id = Model.EventId})">Edit</a>
@@ -126,7 +126,7 @@
             <hr>
 
             <!-- Booking Card -->
-            @if (int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+            @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
             {
                 @if (Model.Status == EventStatusEnum.Approved)
                 {
@@ -155,7 +155,7 @@
 
 
             <!-- Booking Card -->
-            @if (int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OwnerId && Model.Status == EventStatusEnum.Pending)
+            @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OwnerId && Model.Status == EventStatusEnum.Pending)
             {
                 <div class="mb-4">
                     <h3 class="text-primary fw-bold">Your Decision:</h3>

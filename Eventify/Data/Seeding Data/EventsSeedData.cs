@@ -24,7 +24,8 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 500m,
                     Address = "Cairo Grand Hall, Nasr City",
                     VenueId = 1,
-                    OrganizerId = 4
+                    OrganizerId = 4,
+                    Capacity = 700,
                 },
                 new Event
                 {

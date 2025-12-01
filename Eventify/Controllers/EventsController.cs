@@ -271,6 +271,7 @@ namespace WebApplication2.Controllers
                         ev.TicketPrice = vm.TicketPrice;
                         ev.Features = vm.Features;
                         ev.IsPrivate = vm.IsPrivate;
+                        ev.Status = EventStatusEnum.Pending;
 
                         if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
                         {
