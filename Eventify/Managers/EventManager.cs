@@ -113,7 +113,7 @@ namespace Eventify.Managers
 
         public Event? GetByIdWithIncludes(int id)
         {
-            var res = context.Events.Include(x=>x.EventPhotos).Include(x=>x.Organizer).FirstOrDefault(ev => ev.EventId == id);
+            var res = context.Events.Include(x=>x.EventPhotos).Include(x=>x.Organizer).Include(x => x.Venue).FirstOrDefault(ev => ev.EventId == id);
             return res;
         }
 

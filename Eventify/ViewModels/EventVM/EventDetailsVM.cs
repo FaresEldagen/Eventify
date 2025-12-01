@@ -5,6 +5,7 @@ namespace Eventify.ViewModels.EventVM
 {
     public class EventDetailsVM
     {
+        public int EventId { get; set; }
         public string? EventTitle { get; set; }
         public string? Description { get; set; }
         public DateTime StartDateTime { get; set; }
@@ -14,6 +15,7 @@ namespace Eventify.ViewModels.EventVM
         public string? Address { get; set; }
         public string OrganizerName { get; set; }
         public int OrganizerId { get; set; }
+        public int OwnerId { get; set; }
         public int? Capacity { get; set; }
         public List<EventPhoto> EventPhotos { get; set; } = new List<EventPhoto>();
         public EventCategoryEnum Category { get; set; }

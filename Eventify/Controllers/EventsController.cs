@@ -62,11 +62,11 @@ namespace WebApplication2.Controllers
     public class EventsController : Controller
     {
         IEventService _manager;
-
         public EventsController(IEventService managerEvents)
         {
             _manager = managerEvents;
         }
+
 
         [HttpGet]
         public IActionResult Index()
@@ -175,15 +175,14 @@ namespace WebApplication2.Controllers
                         IsPrivate = vm.IsPrivate,
                         EventPhotos = vm.EventPhotos,
                         VenueId = vm.VenueId,
+                        Status = EventStatusEnum.Pending
                     };
 
                     _manager.Insert(ev, userId);
                     return RedirectToAction("Index");
                 }
                 return View(vm);
-
             }
-
             return RedirectToAction("Login", "Account");
         }
 
@@ -194,6 +193,7 @@ namespace WebApplication2.Controllers
             if (ev != null)
             {
                 EventDetailsVM vm = new EventDetailsVM();
+                vm.EventId = ev.EventId;
                 vm.EventTitle = ev.EventTitle;
                 vm.Description = ev.Description;
                 vm.StartDateTime = ev.StartDateTime;
@@ -204,6 +204,7 @@ namespace WebApplication2.Controllers
                 vm.Category = ev.Category;
                 vm.OrganizerName = ev.Organizer.UserName;
                 vm.OrganizerId = ev.OrganizerId;
+                vm.OwnerId = ev.Venue.OwnerId;
                 vm.Capacity = ev.Capacity;
                 vm.EventPhotos = ev.EventPhotos;
                 return View(vm);
@@ -211,6 +212,7 @@ namespace WebApplication2.Controllers
             }
             return NotFound();
         }
+
 
         [HttpGet]
         public IActionResult Edit(int id)
@@ -244,6 +246,7 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
+
         [HttpPost]
         public IActionResult Edit(EventAddOrEditVM vm)
         {
@@ -293,26 +296,38 @@ namespace WebApplication2.Controllers
                                     PhotoUrl = "/images/" + p
                                 });
                             }
-
                         }
-
-
                         _manager.Update(ev);
                         return RedirectToAction("Index");
                     }
                     return View(vm);
                 }
-                return RedirectToAction("Login", "Account");
             }
-            return NotFound();
+            return RedirectToAction("Login", "Account");
         }
-    
-    
+
+        public IActionResult Approval(int Id,EventStatusEnum decision)
+        {
+            Event ev = _manager.GetByIdWithIncludes(Id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != null && int.Parse(userId) == ev.Venue.OwnerId)
+            {
+                ev.Status = decision;
+                _manager.Update(ev);
+            }
+            return RedirectToAction("Details", "Events", new { id = Id });
+        }
+
+
         public IActionResult Delete(int Id)
         {
-            _manager.Delete(Id);
-            return View("Index");
+            Event ev = _manager.GetByIdWithIncludes(Id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId != null && int.Parse(userId) == ev.OrganizerId)
+            {
+                _manager.Delete(Id);
+            }
+            return RedirectToAction("Index", "Events");
         }
-    
     }
 }

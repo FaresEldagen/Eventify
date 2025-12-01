@@ -957,3 +957,30 @@ document.addEventListener("DOMContentLoaded", () => {
     initTheme()
     initEarningsDisplay()
 })
+
+
+// ============================================
+// Share section
+// ============================================
+const shareBtn = document.getElementById("shareBtn");
+
+if (shareBtn) {
+    shareBtn.addEventListener("click", async () => {
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: document.title,
+                    text: "Check out this event!",
+                    url: window.location.href
+                });
+            } catch (error) {
+                console.log("Share canceled or failed:", error);
+            }
+        }
+        else {
+            // Browsers that don’t support Web Share API
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link copied to clipboard!");
+        }
+    });
+}
