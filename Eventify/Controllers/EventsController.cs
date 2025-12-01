@@ -137,12 +137,12 @@ namespace WebApplication2.Controllers
 
 
         [HttpGet]
-        public IActionResult Add(int VenueId)
+        public IActionResult Add(int id)
         {
             if (User.Identity.IsAuthenticated && User.IsInRole("Organizer"))
             {
                 EventAddOrEditVM vm = new EventAddOrEditVM();
-                vm.VenueId = VenueId;
+                vm.VenueId = id;
                 return View(vm);
             }
             return RedirectToAction("Login", "Account");
@@ -256,6 +256,13 @@ namespace WebApplication2.Controllers
                 int Id = int.Parse(userId);
                 if (User.IsInRole("Organizer"))
                 {
+                    foreach (var x in vm.FormFiles)
+                    {
+                        string p = UploadEventPhoto.UploadFile("images", x);
+                        EventPhoto eventPhoto = new EventPhoto();
+                        eventPhoto.PhotoUrl = $"/images/" + p;
+                        vm.EventPhotos.Add(eventPhoto);
+                    }
                     if (ModelState.IsValid)
                     {
                         var ev = _manager.GetByIdWithIncludes(vm.EventId);
@@ -309,7 +316,7 @@ namespace WebApplication2.Controllers
 
         public IActionResult Approval(int Id,EventStatusEnum decision)
         {
-            Event ev = _manager.GetByIdWithIncludes(Id);
+            Event ev = _manager.GetById(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null && int.Parse(userId) == ev.Venue.OwnerId)
             {

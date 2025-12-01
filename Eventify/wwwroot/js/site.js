@@ -306,7 +306,6 @@ if (priceRangeInput && priceRangeValue) {
 
 const eventStartDate = document.getElementById("eventStartDate")
 const eventEndDate = document.getElementById("eventEndDate")
-const endDateError = document.getElementById("endDateError")
 
 if (eventStartDate && eventEndDate) {
     // Update end date min when start date changes
@@ -326,31 +325,9 @@ if (eventStartDate && eventEndDate) {
         }
     })
 
-    // Validate end date when it changes
-    eventEndDate.addEventListener("change", () => {
-        if (eventStartDate.value && eventEndDate.value) {
-            if (eventEndDate.value < eventStartDate.value) {
-                eventEndDate.classList.add("is-invalid")
-                if (endDateError) {
-                    endDateError.style.display = "block"
-                }
-            } else {
-                eventEndDate.classList.remove("is-invalid")
-                if (endDateError) {
-                    endDateError.style.display = "none"
-                }
-            }
-        } else {
-            eventEndDate.classList.remove("is-invalid")
-            if (endDateError) {
-                endDateError.style.display = "none"
-            }
-        }
-    })
-
     // Set initial min value if start date has a value on load
     if (eventStartDate.value) {
-        eventEndDate.min = eventStartDate.value
+        eventEndDate.min  = eventStartDate.value
     }
 }
 
@@ -445,75 +422,106 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
 })
 
 // ============================================
-// IMAGE UPLOAD FUNCTIONALITY
+// IMAGE UPLOAD FUNCTIONALITY (FINAL VERSION)
 // ============================================
 
 // Venue Photos Upload
-const venuePhotosUpload = document.getElementById("venuePhotosUpload")
-const venuePhotosInput = document.getElementById("venuePhotosInput")
-const venuePhotosPreview = document.getElementById("venuePhotosPreview")
-let uploadedVenuePhotos = []
+const venuePhotosUpload = document.getElementById("venuePhotosUpload");
+const venuePhotosInput = document.getElementById("venuePhotosInput");
+const venuePhotosPreview = document.getElementById("venuePhotosPreview");
+let uploadedVenuePhotos = [];
 
 if (venuePhotosUpload && venuePhotosInput && venuePhotosPreview) {
-    venuePhotosUpload.addEventListener("click", () => {
-        venuePhotosInput.click()
-    })
 
+    // Click on upload area ? open input
+    venuePhotosUpload.addEventListener("click", () => {
+        venuePhotosInput.click();
+    });
+
+    // On selecting files
     venuePhotosInput.addEventListener("change", (e) => {
-        const files = Array.from(e.target.files)
-        const remainingSlots = 10 - uploadedVenuePhotos.length
+        const files = Array.from(e.target.files);
+        const remainingSlots = 4 - uploadedVenuePhotos.length;
 
         if (files.length > remainingSlots) {
-            showToast(`You can only upload ${remainingSlots} more photo(s). Maximum 10 photos allowed.`, "warning")
-            return
+            showToast(`You can only upload ${remainingSlots} more photo(s). Maximum 10 photos allowed.`, "warning");
+            return;
         }
 
         files.forEach((file) => {
             if (file.type.startsWith("image/")) {
-                uploadedVenuePhotos.push(file)
-                displayVenuePhoto(file)
+                uploadedVenuePhotos.push(file);
+                displayVenuePhoto(file);
             }
-        })
+        });
 
-        // Reset input to allow selecting the same file again
-        venuePhotosInput.value = ""
-    })
+        refreshInputFiles();   
+        venuePhotosInput.value = ""; 
+    });
 
+    // Display image preview
     function displayVenuePhoto(file) {
-        const reader = new FileReader()
+        const reader = new FileReader();
         reader.onload = (e) => {
-            const col = document.createElement("div")
-            col.className = "col-md-3 col-sm-4 col-6"
-            // Store file reference on the element
-            col.dataset.fileName = file.name
-            col.dataset.fileSize = file.size
+            const col = document.createElement("div");
+            col.className = "col-md-3 col-sm-4 col-6";
+            col.dataset.fileName = file.name;
+            col.dataset.fileSize = file.size;
+
             col.innerHTML = `
                 <div class="position-relative">
                     <img src="${e.target.result}" class="img-thumbnail w-100" style="height: 150px; object-fit: cover;" alt="Venue photo">
-                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 delete-photo" style="border-radius: 50%; width: 30px; height: 30px; padding: 0;">
+                    <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 delete-photo" 
+                            style="border-radius: 50%; width: 30px; height: 30px; padding: 0;">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-            `
-            venuePhotosPreview.appendChild(col)
+            `;
 
-            // Add delete functionality
-            const deleteBtn = col.querySelector(".delete-photo")
+            venuePhotosPreview.appendChild(col);
+
+            // Delete button logic
+            const deleteBtn = col.querySelector(".delete-photo");
             deleteBtn.addEventListener("click", (e) => {
-                e.stopPropagation()
-                // Find and remove the file from array
-                const fileName = col.dataset.fileName
-                const fileSize = col.dataset.fileSize
-                const index = uploadedVenuePhotos.findIndex(f => f.name === fileName && f.size === fileSize)
+                e.stopPropagation();
+
+                const fileName = col.dataset.fileName;
+                const fileSize = col.dataset.fileSize;
+
+                const index = uploadedVenuePhotos.findIndex(f =>
+                    f.name === fileName && f.size == fileSize
+                );
+
                 if (index > -1) {
-                    uploadedVenuePhotos.splice(index, 1)
+                    uploadedVenuePhotos.splice(index, 1);
                 }
-                col.remove()
-            })
-        }
-        reader.readAsDataURL(file)
+
+                col.remove();
+                refreshInputFiles();   
+            });
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    function refreshInputFiles() {
+        const dt = new DataTransfer();
+
+        uploadedVenuePhotos.forEach(file => {
+            dt.items.add(file);
+        });
+
+        venuePhotosInput.files = dt.files;
+    }
+
+    const form = document.getElementById("AddEventForm");
+    if (form) {
+        form.addEventListener("submit", function () {
+            refreshInputFiles();
+        });
     }
 }
+
 
 // Proof of Ownership Upload
 const proofUpload = document.getElementById("proofUpload")

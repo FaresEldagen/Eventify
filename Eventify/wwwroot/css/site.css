@@ -96,6 +96,7 @@ header {
 .navbar {
     background-color: var(--background) !important;
     backdrop-filter: blur(10px);
+    z-index:2000;
 }
 
 .navbar-brand {
