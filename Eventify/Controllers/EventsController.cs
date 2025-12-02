@@ -68,6 +68,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -134,29 +135,32 @@ namespace WebApplication2.Controllers
         }
 
 
+
         [HttpGet]
-        public IActionResult Add(int VenueId)
+        public IActionResult Add(int id)
         {
             if (User.Identity.IsAuthenticated && User.IsInRole("Organizer"))
             {
-                EventAddOrEditVM vm = new EventAddOrEditVM();
-                vm.VenueId = VenueId;
+                EventAddVM vm = new EventAddVM();
+                vm.VenueId = id;
                 return View(vm);
             }
             return RedirectToAction("Login", "Account");
         }
 
         [HttpPost]
-        public IActionResult Add(EventAddOrEditVM vm)
+        public IActionResult Add(EventAddVM vm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!string.IsNullOrEmpty(userId) && User.IsInRole("Organizer"))
             {
+                List<string> uploadedFileNames = new List<string>();
                 foreach (var x in vm.FormFiles)
                 {
                     string p = UploadEventPhoto.UploadFile("images", x);
                     EventPhoto eventPhoto = new EventPhoto();
                     eventPhoto.PhotoUrl = $"/images/" + p;
+                    uploadedFileNames.Add(p);
                     vm.EventPhotos.Add(eventPhoto);
                 }
                 if (ModelState.IsValid)
@@ -179,10 +183,19 @@ namespace WebApplication2.Controllers
                     _manager.Insert(ev, userId);
                     return RedirectToAction("Index");
                 }
-                return View(vm);
+                else 
+                {
+                    foreach (var file in uploadedFileNames)
+                    {
+                        UploadEventPhoto.RemoveFile("images", file);
+                    }
+                    vm.EventPhotos.Clear();
+                    return View(vm);
+                }
             }
             return RedirectToAction("Login", "Account");
         }
+
 
 
         public IActionResult Details(int id)
@@ -212,6 +225,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -224,7 +238,7 @@ namespace WebApplication2.Controllers
                     Event ev = _manager.GetByIdWithIncludes(id);
                     if (ev != null)
                     {
-                        EventAddOrEditVM vm = new EventAddOrEditVM();
+                        EventEditVM vm = new EventEditVM();
                         vm.EventId = ev.EventId;
                         vm.EventTitle = ev.EventTitle;
                         vm.Category = ev.Category;
@@ -238,6 +252,7 @@ namespace WebApplication2.Controllers
                         {
                             vm.EventPhotos.Add(t);
                         }
+                        vm.OriginalPhotoCount = ev.EventPhotos.Count;
                         return View(vm);
                     }
                 }
@@ -246,7 +261,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EventAddOrEditVM vm)
+        public IActionResult Edit(EventEditVM vm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null)
@@ -254,6 +269,13 @@ namespace WebApplication2.Controllers
                 int Id = int.Parse(userId);
                 if (User.IsInRole("Organizer"))
                 {
+                    foreach (var x in vm.FormFiles)
+                    {
+                        string p = UploadEventPhoto.UploadFile("images", x);
+                        EventPhoto eventPhoto = new EventPhoto();
+                        eventPhoto.PhotoUrl = $"/images/" + p;
+                        vm.EventPhotos.Add(eventPhoto);
+                    }
                     if (ModelState.IsValid)
                     {
                         var ev = _manager.GetByIdWithIncludes(vm.EventId);
@@ -305,9 +327,11 @@ namespace WebApplication2.Controllers
             return RedirectToAction("Login", "Account");
         }
 
+
+
         public IActionResult Approval(int Id,EventStatusEnum decision)
         {
-            Event ev = _manager.GetByIdWithIncludes(Id);
+            Event ev = _manager.GetById(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null && int.Parse(userId) == ev.Venue.OwnerId)
             {
@@ -316,6 +340,7 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Details", "Events", new { id = Id });
         }
+
 
 
         public IActionResult Delete(int Id)

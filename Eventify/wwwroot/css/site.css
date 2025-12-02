@@ -96,6 +96,7 @@ header {
 .navbar {
     background-color: var(--background) !important;
     backdrop-filter: blur(10px);
+    z-index:2000;
 }
 
 .navbar-brand {
@@ -114,6 +115,12 @@ header {
     .nav-link:hover {
         color: var(--primary) !important;
     }
+
+@media (max-width: 992px) {
+    .dropdown-menu-end[data-bs-popper] {
+        right: auto;
+    }
+}
 
 /* ============================================
    BUTTONS
