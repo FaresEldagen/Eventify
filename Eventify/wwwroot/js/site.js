@@ -441,12 +441,6 @@ if (venuePhotosUpload && venuePhotosInput && venuePhotosPreview) {
     // On selecting files
     venuePhotosInput.addEventListener("change", (e) => {
         const files = Array.from(e.target.files);
-        const remainingSlots = 4 - uploadedVenuePhotos.length;
-
-        if (files.length > remainingSlots) {
-            showToast(`You can only upload ${remainingSlots} more photo(s). Maximum 10 photos allowed.`, "warning");
-            return;
-        }
 
         files.forEach((file) => {
             if (file.type.startsWith("image/")) {

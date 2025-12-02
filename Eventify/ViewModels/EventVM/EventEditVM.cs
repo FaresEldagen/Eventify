@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Eventify.ViewModels.EventVM
 {
-    public class EventAddOrEditVM
+    public class EventEditVM
     {
         public int EventId { get; set; }
 
@@ -31,6 +31,7 @@ namespace Eventify.ViewModels.EventVM
 
 
         [Required(ErrorMessage = "Ticket Price is Required")]
+        [Range(1, double.MaxValue, ErrorMessage = "Ticket Price must be greater than 0")]
         public decimal TicketPrice { get; set; }
 
 

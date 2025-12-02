@@ -11,7 +11,7 @@ namespace Eventify.Validators
         public EndDateAfterStartAttribute(string startDateProperty)
         {
             _startDateProperty = startDateProperty;
-            ErrorMessage = "End Date must be after Start Date.";
+            ErrorMessage = "End Date must be at least 1 hour after the Start Date.";
         }
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
@@ -19,7 +19,6 @@ namespace Eventify.Validators
             if (value == null)
                 return ValidationResult.Success;
 
-            // End Date value
             DateTime endDate = (DateTime)value;
 
             // Get Start Date property
@@ -30,8 +29,8 @@ namespace Eventify.Validators
 
             DateTime startDate = (DateTime)startDateProp.GetValue(validationContext.ObjectInstance);
 
-            // Compare
-            if (endDate < startDate)
+            // Compare (End must be >= Start + 1 hour)
+            if (endDate < startDate.AddHours(1))
                 return new ValidationResult(ErrorMessage);
 
             return ValidationResult.Success;

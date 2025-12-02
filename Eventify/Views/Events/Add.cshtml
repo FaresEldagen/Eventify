@@ -1,6 +1,6 @@
 @using Eventify.Models.Enums
 @using Eventify.ViewModels.EventVM
-@model EventAddOrEditVM
+@model EventAddVM
 
 @{
     ViewBag.Title = "List Your Event";
@@ -123,9 +123,10 @@
                             <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="venuePhotosUpload" style="background-color: var(--card-bg); cursor: pointer;">
                                 <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
                                 <h6 class="fw-semibold mb-2">Upload Event Photos</h6>
-                                <p class="text-muted small mb-0">Add up to 4 high-quality photos of your Event (Start with the main photo)</p>
+                                <p class="text-muted small mb-0">Add high-quality photos of your Event (Start with the main photo)</p>
                                 <input asp-for="FormFiles" class="d-none" id="venuePhotosInput" type="file" multiple /> 
                             </div>
+                            <span asp-validation-for="FormFiles" class="text-danger"></span>
                             <div class="row g-3" id="venuePhotosPreview"></div>
                         </div>
 
@@ -142,7 +143,6 @@
                                 <label class="form-check-label">Private</label>
                             </div>
                         </div>
-
 
 
                         <!-- Submit -->

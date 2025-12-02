@@ -141,7 +141,7 @@ namespace WebApplication2.Controllers
         {
             if (User.Identity.IsAuthenticated && User.IsInRole("Organizer"))
             {
-                EventAddOrEditVM vm = new EventAddOrEditVM();
+                EventAddVM vm = new EventAddVM();
                 vm.VenueId = id;
                 return View(vm);
             }
@@ -149,16 +149,18 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add(EventAddOrEditVM vm)
+        public IActionResult Add(EventAddVM vm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (!string.IsNullOrEmpty(userId) && User.IsInRole("Organizer"))
             {
+                List<string> uploadedFileNames = new List<string>();
                 foreach (var x in vm.FormFiles)
                 {
                     string p = UploadEventPhoto.UploadFile("images", x);
                     EventPhoto eventPhoto = new EventPhoto();
                     eventPhoto.PhotoUrl = $"/images/" + p;
+                    uploadedFileNames.Add(p);
                     vm.EventPhotos.Add(eventPhoto);
                 }
                 if (ModelState.IsValid)
@@ -181,7 +183,15 @@ namespace WebApplication2.Controllers
                     _manager.Insert(ev, userId);
                     return RedirectToAction("Index");
                 }
-                return View(vm);
+                else 
+                {
+                    foreach (var file in uploadedFileNames)
+                    {
+                        UploadEventPhoto.RemoveFile("images", file);
+                    }
+                    vm.EventPhotos.Clear();
+                    return View(vm);
+                }
             }
             return RedirectToAction("Login", "Account");
         }
@@ -226,7 +236,7 @@ namespace WebApplication2.Controllers
                     Event ev = _manager.GetByIdWithIncludes(id);
                     if (ev != null)
                     {
-                        EventAddOrEditVM vm = new EventAddOrEditVM();
+                        EventEditVM vm = new EventEditVM();
                         vm.EventId = ev.EventId;
                         vm.EventTitle = ev.EventTitle;
                         vm.Category = ev.Category;
@@ -248,7 +258,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(EventAddOrEditVM vm)
+        public IActionResult Edit(EventEditVM vm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null)
@@ -313,6 +323,7 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Login", "Account");
         }
+
 
         public IActionResult Approval(int Id,EventStatusEnum decision)
         {
