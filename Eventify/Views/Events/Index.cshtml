@@ -75,9 +75,9 @@
                     <!-- Price Range Filter -->
                     <div class="mb-4">
                         <h6 class="fw-semibold mb-3">Price Range</h6>
-                        <input asp-for="MaxPrice" type="range" class="form-range" min="0" max="500" step="10" id="priceRange" value="@Model.MaxPrice">
+                        <input asp-for="MaxPrice" type="range" class="form-range" min="10" max="500" step="10" id="priceRange" value="@Model.MaxPrice">
                         <div class="d-flex justify-content-between mt-2 small text-muted">
-                            <span>$0</span>
+                            <span>$10</span>
                             <span>$500</span>
                         </div>
                         <div class="mt-2 fw-semibold text-primary small" id="priceRangeValue">Selected: $250</div>

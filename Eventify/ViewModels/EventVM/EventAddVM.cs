@@ -31,7 +31,7 @@ namespace Eventify.ViewModels.EventVM
 
 
         [Required(ErrorMessage = "Ticket Price is Required")]
-        [Range(1, double.MaxValue, ErrorMessage = "Ticket Price must be greater than 0")]
+        [Range(10, 500, ErrorMessage = "Ticket Price must be greater than 10 and lower than or equal 500")]
         public decimal TicketPrice { get; set; }
 
 

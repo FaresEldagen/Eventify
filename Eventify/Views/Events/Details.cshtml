@@ -270,7 +270,7 @@
                 <hr>
             }
                     <!-- Booking Card -->
-                    @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+                    @* @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
                     {
                         @if (Model.Status == EventStatusEnum.Approved)
                         {
@@ -295,7 +295,7 @@
                             </div>
                         }
                         <hr>
-                    }
+                    } *@
 
 
                     <!-- Booking Card -->
