@@ -125,8 +125,8 @@
                                 <h6 class="fw-semibold mb-2">Upload Event Photos</h6>
                                 <p class="text-muted small mb-0">Add high-quality photos of your Event (Start with the main photo)</p>
                                 <input asp-for="FormFiles" class="d-none" id="venuePhotosInput" type="file" multiple /> 
+                                <span asp-validation-for="FormFiles" class="text-danger"></span>
                             </div>
-                            <span asp-validation-for="FormFiles" class="text-danger"></span>
                             <div class="row g-3" id="venuePhotosPreview"></div>
                         </div>
 

@@ -68,6 +68,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -136,6 +137,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         [HttpGet]
         public IActionResult Add(int id)
         {
@@ -197,6 +199,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         public IActionResult Details(int id)
         {
             Event ev = _manager.GetByIdWithIncludes(id);
@@ -222,6 +225,7 @@ namespace WebApplication2.Controllers
             }
             return NotFound();
         }
+
 
 
         [HttpGet]
@@ -250,6 +254,7 @@ namespace WebApplication2.Controllers
                         {
                             vm.EventPhotos.Add(t);
                         }
+                        vm.OriginalPhotoCount = ev.EventPhotos.Count;
                         return View(vm);
                     }
                 }
@@ -325,6 +330,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         public IActionResult Approval(int Id,EventStatusEnum decision)
         {
             Event ev = _manager.GetById(Id);
@@ -336,6 +342,7 @@ namespace WebApplication2.Controllers
             }
             return RedirectToAction("Details", "Events", new { id = Id });
         }
+
 
 
         public IActionResult Delete(int Id)
