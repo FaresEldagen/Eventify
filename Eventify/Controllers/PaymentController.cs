@@ -24,9 +24,9 @@ public class PaymentController : Controller
         _paymentService = paymentService;
     }
 
-    // GET: /Payment/PreparePaymentData/5
+    // /Payment/PreparePaymentData/5
     [Authorize(Roles ="Organizer")]
-    public IActionResult PreparePaymentData(int eventId)
+    public IActionResult PaymentWithStripe(int eventId)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         
@@ -165,6 +165,29 @@ public class PaymentController : Controller
             }
         }
         return RedirectToAction("Details", "Events", new { id = eventId });
+    }
+
+    public IActionResult Withdraw(int ownerId)
+    {
+        using(var transaction = _db.Database.BeginTransaction())
+        {
+            try
+            {
+                var rowsEffected = _applicationUser.WithdrawMonyFromOwnerById(ownerId);
+
+                if (rowsEffected != 1)
+                    throw new Exception("there is error Occurred while Withdrawing Mony");
+                transaction.Commit();
+            }
+            catch(Exception ex)
+            {
+                TempData["WithdrawFailed"] = true; 
+                transaction.Rollback();
+                return RedirectToAction("Index", "Profile");
+            }
+        }
+        TempData["WithdrawSuccess"] = true;
+        return RedirectToAction("Index", "Profile");
     }
 }
 

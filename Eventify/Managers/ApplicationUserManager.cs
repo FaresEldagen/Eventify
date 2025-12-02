@@ -19,5 +19,14 @@ namespace Eventify.Managers
             owner!.WithdrawableEarnings += amount;
             return _db.SaveChanges();
         }
+
+        public int WithdrawMonyFromOwnerById(int ownerId)
+        {
+            var owner = _db.Owners.FirstOrDefault(o => o.Id == ownerId);
+            if (owner == null)
+                return 0;
+            owner.WithdrawableEarnings = 0;
+            return _db.SaveChanges();
+        }
     }
 }
