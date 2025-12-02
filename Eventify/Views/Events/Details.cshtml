@@ -1,4 +1,3 @@
-@using Eventify.ViewModels.EventVM
 @model EventDetailsVM
 @{
     ViewBag.Title = "Event Details";
@@ -9,30 +8,139 @@
         <!-- Main Content -->
         <div class="col-lg-8">
             <!-- Image Gallery -->
+            @* <div class="mb-5"> *@
+            @*     @if (Model.EventPhotos != null && Model.EventPhotos.Any()) *@
+            @*     { *@
+            @*         <div class="position-relative rounded-3 overflow-hidden mb-3" style="height: 400px;"> *@
+            @*             <img src="@Model.EventPhotos.First().PhotoUrl" class="w-100 h-100" style="object-fit: cover;" alt="@Model.EventTitle"> *@
+            @*             <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span> *@
+            @*         </div> *@
+
+            @*         <!-- Thumbnails --> *@
+            @*         <div class="d-flex gap-2 overflow-auto"> *@
+            @*             @foreach (var photo in Model.EventPhotos) *@
+            @*             { *@
+            @*                 <img src="@photo.PhotoUrl" class="rounded cursor-pointer" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid transparent;" alt=""> *@
+            @*             } *@
+            @*         </div> *@
+            @*     } *@
+            @*     else *@
+            @*     { *@
+            @*         <div class="position-relative rounded-3 overflow-hidden mb-3" style="height: 400px;"> *@
+            @*             <img src="~/images/event2.jpg" class="w-100 h-100" style="object-fit: cover;" alt="@Model.EventTitle"> *@
+            @*             <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span> *@
+            @*         </div> *@
+            @*     } *@
+            @* </div> *@
+            <!-- Image Gallery -->
             <div class="mb-5">
                 @if (Model.EventPhotos != null && Model.EventPhotos.Any())
                 {
-                    <div class="position-relative rounded-3 overflow-hidden mb-3" style="height: 400px;">
-                        <img src="@Model.EventPhotos.First().PhotoUrl" class="w-100 h-100" style="object-fit: cover;" alt="@Model.EventTitle">
-                        <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span>
+                    <!-- Main Carousel -->
+                    <div id="mainCarousel" class="carousel slide mb-3 rounded-3" data-bs-ride="carousel">
+                        <div class="carousel-inner rounded-3" >
+                            @for (int i = 0; i < Model.EventPhotos.Count; i++)
+                            {
+                                <div class="carousel-item @(i == 0 ? "active" : "")" style="height: 400px;">
+                                    <img src="@Model.EventPhotos[i].PhotoUrl"
+                                         class="d-block w-100 h-100"
+                                         style="object-fit: contain;"
+                                         alt="@Model.EventTitle">
+                                    <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Prev / Next Buttons -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
                     </div>
 
-                    <!-- Thumbnails -->
-                    <div class="d-flex gap-2 overflow-auto">
-                        @foreach (var photo in Model.EventPhotos)
-                        {
-                            <img src="@photo.PhotoUrl" class="rounded cursor-pointer" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid transparent;" alt="">
-                        }
-                    </div>
+                    <!-- Thumbnails (Carousel only if more than 10 images) -->
+                    @if (Model.EventPhotos.Count > 10)
+                    {
+                        <!-- Thumbnails Carousel -->
+                        <div id="thumbCarousel" class="carousel slide" data-bs-interval="false">
+                            <div class="carousel-inner">
+
+                                @{
+                                    int groupSize = 10;
+                                    int totalGroups = (int)Math.Ceiling(Model.EventPhotos.Count / (double)groupSize);
+                                }
+
+                                @for (int g = 0; g < totalGroups; g++)
+                                {
+                                    <div class="carousel-item @(g == 0 ? "active" : "")">
+                                        <div class="d-flex gap-2 justify-content-start">
+
+                                            @foreach (var photo in Model.EventPhotos.Skip(g * groupSize).Take(groupSize))
+                                            {
+                                                <img src="@photo.PhotoUrl"
+                                                     class="rounded thumb-img"
+                                                     style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent;">
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- Thumbnails Controls -->
+                            <button class="carousel-control-prev" type="button" data-bs-target="#thumbCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon small"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#thumbCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon small"></span>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Thumbnails normally if <= 10 -->
+                        <div class="d-flex gap-2 overflow-auto">
+                            @foreach (var photo in Model.EventPhotos)
+                            {
+                                <img src="@photo.PhotoUrl"
+                                     class="rounded thumb-img"
+                                     style="width: 80px; height: 80px; object-fit: cover; cursor: pointer; border: 2px solid transparent;">
+                            }
+                        </div>
+                    }
                 }
                 else
                 {
                     <div class="position-relative rounded-3 overflow-hidden mb-3" style="height: 400px;">
-                        <img src="~/images/event2.jpg" class="w-100 h-100" style="object-fit: cover;" alt="@Model.EventTitle">
+                        <img src="~/images/event2.jpg"
+                             class="w-100 h-100"
+                             style="object-fit: cover;"
+                             alt="@Model.EventTitle">
                         <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span>
                     </div>
                 }
             </div>
+
+            <!-- JS: Click Thumbnail -> Change Main Carousel Slide -->
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    const thumbs = document.querySelectorAll(".thumb-img");
+                    const mainCarousel = bootstrap.Carousel.getOrCreateInstance("#mainCarousel");
+
+                    thumbs.forEach((thumb, i) => {
+                        thumb.addEventListener("click", () => {
+                            mainCarousel.to(i);
+
+                            // Remove highlight from all thumbs
+                            thumbs.forEach(t => t.style.border = "2px solid transparent");
+
+                            // Highlight selected thumbnail
+                            thumb.style.border = "2px solid #0d6efd";
+                        });
+                    });
+                });
+            </script>
 
             <!-- Event Details -->
             <div>
@@ -91,38 +199,142 @@
             </div>
 
             <!-- What's Included -->
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-light border-0">
-                    <h5 class="card-title fw-bold mb-0">What's Included</h5>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex gap-2 mb-2">
-                        <i class="fas fa-circle-dot text-primary" style="font-size: 0.5rem; margin-top: 0.5rem;"></i>
-                        <span>@Model.Features</span>
+            @if (!string.IsNullOrEmpty(Model.Features))
+            {
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-light border-0">
+                        <h5 class="card-title fw-bold mb-0">What's Included</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex gap-2 mb-2">
+                            <i class="fas fa-circle-dot text-primary" style="font-size: 0.5rem; margin-top: 0.5rem;"></i>
+                            <span>@Model.Features</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
 
         <!-- Sidebar -->
         <div class="col-lg-4">
-            <!-- Booking Card -->
             <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
                 <div class="card-body">
+                    <!-- Booking Card -->
                     <div class="mb-4">
                         <h3 class="fw-bold">From <span class="text-primary">$@Model.TicketPrice</span></h3>
                         <small class="text-muted">per person</small>
                     </div>
+                    @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+                    {
+                        <div class="d-grid gap-2 mb-3">
+                            <a class="btn btn-outline-primary" href="@Url.Action("Edit", "Events", new { id = Model.EventId})">Edit</a>
+                            <a class="btn btn-outline-danger" href="@Url.Action("Delete", "Events", new { id = Model.EventId})">Delete</a>
+                        </div>
+                    }
+                    else
+                    {
+                        @* <div class="d-grid gap-2 mb-3"> *@
+                        @*     <button class="btn btn-primary">Book Now</button> *@
+                        @* </div> *@
+                    }
+                    <hr>
 
+            <!-- Booking Card -->
+            @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+            {
+                @if (Model.Status == EventStatusEnum.Approved)
+                {
+                    <div class="mb-4">
+                        <h3>Statues: <span class="text-success fw-bold">@Model.Status</span></h3>
+                    </div>
+                    <div class="d-grid gap-2 mb-3">
+                        <a class="btn btn-primary"
+                           href="@Url.Action("PaymentWithStripe", "Payment", new { eventId = Model.EventId })">
+                            Pay Now
+                        </a>
+                    </div>
+                }
+                else if (Model.Status == EventStatusEnum.Rejected)
+                {
+                    <div class="mb-4">
+                        <h3>Statues: <span class="text-danger fw-bold">@Model.Status</span></h3>
+                        <small class="text-muted">You can edit and resubmit</small>
+                    </div>
+                }
+                else
+                {
+                    <div class="mb-4">
+                        <h3>Statues: <span class="text-primary fw-bold">@Model.Status</span></h3>
+                    </div>
+                }
+                <hr>
+            }
+                    <!-- Booking Card -->
+                    @* @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+                    {
+                        @if (Model.Status == EventStatusEnum.Approved)
+                        {
+                            <div class="mb-4">
+                                <h3>Statues: <span class="text-success fw-bold">@Model.Status</span></h3>
+                            </div>
+                            <div class="d-grid gap-2 mb-3">
+                                <a class="btn btn-primary">Pay Now</a>
+                            </div>
+                        }
+                        else if (Model.Status == EventStatusEnum.Rejected)
+                        {
+                            <div class="mb-4">
+                                <h3>Statues: <span class="text-danger fw-bold">@Model.Status</span></h3>
+                                <small class="text-muted">You can edit and resubmit</small>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-4">
+                                <h3>Statues: <span class="text-primary fw-bold">@Model.Status</span></h3>
+                            </div>
+                        }
+                        <hr>
+                    } *@
+
+
+                    <!-- Booking Card -->
+                    @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OwnerId && Model.Status == EventStatusEnum.Pending)
+                    {
+                        <div class="mb-4">
+                            <h3 class="text-primary fw-bold">Your Decision:</h3>
+                        </div>
+                        <div class="d-grid gap-2 mb-3">
+                            <a href="@Url.Action("Approval", "Events", new { Id = Model.EventId , decision = EventStatusEnum.Approved })" class="btn btn-primary">Approve</a>
+                            <a href="@Url.Action("Approval", "Events", new { Id = Model.EventId , decision = EventStatusEnum.Rejected })" class="btn btn-outline-danger">Reject</a>
+                        </div>
+                        <hr>
+                    }
+
+
+                    <!-- Booking Card -->
                     <div class="mb-3">
                         <h6 class="fw-semibold mb-2">Organized by</h6>
-                        <a href="#" class="small">@Model.OrganizerName</a>
+                        <a href="@Url.Action("View", "Profile", new { id = Model.OrganizerId })" class="small">@Model.OrganizerName</a>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-sm btn-outline-primary flex-fill" id="shareBtn"><i class="fas fa-share-alt me-1"></i>Share</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@if (TempData["ShowSuccessPopup"] != null)
+{
+    @await Html.PartialAsync("_Success")
+}
+else if (TempData["ShowCancelPopup"] != null)
+{
+    @await Html.PartialAsync("_Cancel")
+}
+
 
 @section Scripts {
     <script>

@@ -10,7 +10,6 @@ namespace Eventify.ViewModels.EventVM
         public decimal? MaxPrice {get;set;}
         public DateTime? StartDate {get;set;}
         public DateTime? EndDate {get;set;}
-        public bool? IsPrivate {get;set;}
 
         public int PageNumber { get; set; }
         public List<EventCardVM> EventCards { get; set; } = new List<EventCardVM>();
@@ -24,7 +23,6 @@ namespace Eventify.ViewModels.EventVM
             MaxPrice = 500;
             StartDate = null;
             EndDate = null;
-            IsPrivate = null;
             PageNumber = 1;
             EventCards = new List<EventCardVM>();
             TotalPages = 1;

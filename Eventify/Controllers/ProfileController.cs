@@ -151,7 +151,6 @@ namespace WebApplication2.Controllers
             }
         }
 
-
         public async Task<IActionResult> View(int Id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -286,7 +285,6 @@ namespace WebApplication2.Controllers
                 { return RedirectToAction("Login", "Account"); }
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveEdit(EditProfileVM profile)
@@ -398,8 +396,11 @@ namespace WebApplication2.Controllers
 
         public async Task<IActionResult> Delete()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            await _managerUser.DeleteAsync(await _managerUser.FindByIdAsync(userId));
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                await _managerUser.DeleteAsync(await _managerUser.FindByIdAsync(userId));
+            }
             return RedirectToAction("Logout", "Account");
         }
     }
