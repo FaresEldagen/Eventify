@@ -16,24 +16,6 @@ namespace Eventify.Managers
             this.context = context;
         }
 
-        public int Delete(int id)
-        {
-            var ev = context.Events.FirstOrDefault(x => x.EventId == id);
-            var paument = context.Payments.Where(x=>x.EventId == id).ToList();
-            foreach (var p in paument)
-            {
-                p.EventId = null;
-            }
-            context.Events.Remove(ev);
-            return context.SaveChanges();            
-        }
-
-        public List<Event> Get3()
-        {
-            var res = context.Events.Take(3).Include(e => e.EventPhotos).ToList();
-            return res;
-        }
-
 
 
         public List<Event> GetByFilter_Search(
@@ -99,10 +81,17 @@ namespace Eventify.Managers
             return result;
         }
 
-
         private int GetTotalEventFromQuery(IQueryable<Event> query)
         {
             return query.Count();
+        }
+
+
+
+        public List<Event> Get3()
+        {
+            var res = context.Events.Take(3).Include(e => e.EventPhotos).ToList();
+            return res;
         }
 
         public Event GetById(int id)
@@ -122,12 +111,19 @@ namespace Eventify.Managers
             return context.Events.Where(e => e.OrganizerId == id).Include(e => e.EventPhotos).ToList();
         }
 
-        public int Insert(Event obj)
+
+
+        public int Insert(Event ev)
         {
-            context.Events.Add(obj);
-            
+            var Venue = context.Venues.FirstOrDefault(o => o.Id == ev.VenueId);
+            ev.Address = $"{Venue.Country} / {Venue.Address}";
+            ev.Capacity = Venue.Capacity;
+
+            context.Events.Add(ev);
             return context.SaveChanges();
         }
+
+
 
         public int Update(Event updatedEvent)
         {
@@ -156,21 +152,18 @@ namespace Eventify.Managers
             return context.SaveChanges();
         }
 
-        public void Insert(Event ev, string userId)
+
+
+        public int Delete(int id)
         {
-            var organizer = context.Organizers.FirstOrDefault(o => o.Id == int.Parse(userId));
-            if (organizer == null)
-                throw new Exception("Organizer not found");
-
-            ev.OrganizerId = organizer.Id; 
-            var Venue = context.Venues.FirstOrDefault(o => o.Id == ev.VenueId);
-            ev.Address = Venue.Address;
-            ev.Capacity = Venue.Capacity;
-
-            context.Events.Add(ev);
-            context.SaveChanges();
+            var ev = context.Events.FirstOrDefault(x => x.EventId == id);
+            var paument = context.Payments.Where(x => x.EventId == id).ToList();
+            foreach (var p in paument)
+            {
+                p.EventId = null;
+            }
+            context.Events.Remove(ev);
+            return context.SaveChanges();
         }
-
-
     }
 }

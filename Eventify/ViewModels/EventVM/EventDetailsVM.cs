@@ -9,11 +9,12 @@ namespace Eventify.ViewModels.EventVM
         public string? EventTitle { get; set; }
         public string? Description { get; set; }
         public DateTime StartDateTime { get; set; }
+        public DateTime EndDateTime { get; set; }
         public EventStatusEnum Status { get; set; } 
         public decimal TicketPrice { get; set; }
         public string? Features { get; set; }
         public string? Address { get; set; }
-        public string OrganizerName { get; set; }
+        public string? OrganizerName { get; set; }
         public int OrganizerId { get; set; }
         public int OwnerId { get; set; }
         public int? Capacity { get; set; }

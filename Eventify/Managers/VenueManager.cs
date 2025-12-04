@@ -4,6 +4,7 @@ using Eventify.Services;
 using Eventify.Data;
 using Eventify.Models.Enums;
 using System.Threading.Tasks;
+using System.Diagnostics.Metrics;
 
 namespace Eventify.Managers
 {
@@ -15,36 +16,7 @@ namespace Eventify.Managers
             this.context = context;
         }
 
-        public int Delete(int id)
-        {
-            var VenueToDelete = context.Venues.Include(x => x.Events).FirstOrDefault(i=>i.Id == id);
-            if (VenueToDelete == null) return 0;
-            
-            else if (VenueToDelete.Events.Any(v=>v.Status==EventStatusEnum.Paid))
-            {
-                return -1;
-            }
-            else 
-            {
-                
-                foreach (var EventItem in VenueToDelete.Events)
-                {
-                   EventItem.VenueId=null;
-                   
-                }
-                context.Venues.Remove(VenueToDelete);
-                context.SaveChanges();
 
-            }
-
-            return 0;
-        }
-
-        public List<Venue> Get3()
-        {
-            var result = context.Venues.Take(3).Include(v => v.VenuePhotos).ToList();
-            return result;
-        }
 
         public List<Venue> GetByFilter_Search(
             SortByEnum? sortBy,
@@ -53,7 +25,7 @@ namespace Eventify.Managers
             string? title,
             VenueTypeEnum? venueType,
             int? maxprice ,
-            string? city,
+            CountryEnum? country,
             bool? airConditioning,    
             bool? catering,
             bool? wifi,
@@ -76,8 +48,8 @@ namespace Eventify.Managers
             if (venueType.HasValue)
                 query = query.Where(v => v.VenueType == venueType.Value);
 
-            if (!string.IsNullOrWhiteSpace(city))
-                query = query.Where(v => v.City==city);
+            if (country.HasValue)
+                query = query.Where(v => v.Country == country);
 
             if (airConditioning.HasValue && airConditioning.Value)
                 query = query.Where(v => v.AirConditioningAvailable);
@@ -100,7 +72,6 @@ namespace Eventify.Managers
             if (audioVisual.HasValue && audioVisual.Value)
                 query = query.Where(v => v.AudioVisualEquipment);
 
-
            
             if (sortBy.HasValue)
             {
@@ -117,8 +88,6 @@ namespace Eventify.Managers
 
             }
 
-            
-            
 
             // get related photos
             query = query.Include(v => v.VenuePhotos);
@@ -141,9 +110,17 @@ namespace Eventify.Managers
             return query.Count();
         }
 
-        public Venue GetById(int id)
+
+
+        public List<Venue> Get3()
         {
-            var result = context.Venues.FirstOrDefault(v=>v.Id == id);
+            var result = context.Venues.Take(3).Include(v => v.VenuePhotos).ToList();
+            return result;
+        }
+
+        public Venue? GetById(int id)
+        {
+            var result = context.Venues.FirstOrDefault(v => v.Id == id);
             if (result == null)
             {
                 return null;
@@ -151,10 +128,23 @@ namespace Eventify.Managers
             return result;
         }
 
+        public Venue? GetByIdWithIncludes(int id)
+        {
+            var venue = context.Venues
+                .Include(v => v.VenuePhotos)
+                .Include(v => v.Events)
+                .Include(v => v.Owner)
+                .FirstOrDefault(v => v.Id == id);
+
+            return venue!;
+        }
+
         public List<Venue> GetByUserId(int id)
         {
-            return context.Venues.Where(v=>v.Id==id).Include(v => v.VenuePhotos).ToList();
+            return context.Venues.Where(v => v.Id == id).Include(v => v.VenuePhotos).ToList();
         }
+
+
 
         public int Insert(Venue obj)
         {
@@ -164,9 +154,7 @@ namespace Eventify.Managers
 
 
 
-
-    public int Update(Venue venueFromApp)
-
+        public int Update(Venue venueFromApp)
         {
             var venueFromDb = context.Venues.FirstOrDefault(v => v.Id == venueFromApp.Id);
 
@@ -177,8 +165,7 @@ namespace Eventify.Managers
             venueFromDb.Name = venueFromApp.Name;
             venueFromDb.VenueType = venueFromApp.VenueType;
             venueFromDb.Address = venueFromApp.Address;
-            venueFromDb.City = venueFromApp.City;
-            venueFromDb.State = venueFromApp.State;
+            venueFromDb.Country = venueFromApp.Country;
             venueFromDb.ZIP = venueFromApp.ZIP;
             venueFromDb.Description = venueFromApp.Description;
 
@@ -205,6 +192,29 @@ namespace Eventify.Managers
             return context.SaveChanges();
         }
 
+
+
+        public int Delete(int id)
+        {
+            var VenueToDelete = context.Venues.Include(x => x.Events).FirstOrDefault(i => i.Id == id);
+            if (VenueToDelete == null) return 0;
+
+            else if (VenueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))
+            {
+                return -1;
+            }
+            else
+            {
+                foreach (var EventItem in VenueToDelete.Events)
+                {
+                    EventItem.VenueId = null;
+                }
+                context.Venues.Remove(VenueToDelete);
+                context.SaveChanges();
+
+            }
+            return 0;
+        }
     }
 }
 

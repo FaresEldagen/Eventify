@@ -167,6 +167,7 @@ namespace WebApplication2.Controllers
                 {
                     Event ev = new Event
                     {
+                        OrganizerId = int.Parse(userId),
                         EventTitle = vm.EventTitle,
                         Category = vm.Category,
                         Description = vm.Description,
@@ -180,7 +181,7 @@ namespace WebApplication2.Controllers
                         Status = EventStatusEnum.Pending
                     };
 
-                    _manager.Insert(ev, userId);
+                    _manager.Insert(ev);
                     return RedirectToAction("Index");
                 }
                 else 
@@ -208,6 +209,7 @@ namespace WebApplication2.Controllers
                 vm.EventTitle = ev.EventTitle;
                 vm.Description = ev.Description;
                 vm.StartDateTime = ev.StartDateTime;
+                vm.EndDateTime = ev.EndDateTime;
                 vm.Status = ev.Status;
                 vm.TicketPrice = ev.TicketPrice;
                 vm.Features = ev.Features;
@@ -331,7 +333,7 @@ namespace WebApplication2.Controllers
 
         public IActionResult Approval(int Id,EventStatusEnum decision)
         {
-            Event ev = _manager.GetById(Id);
+            Event ev = _manager.GetByIdWithIncludes(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null && int.Parse(userId) == ev.Venue.OwnerId)
             {

@@ -57,7 +57,7 @@
                     <!-- City Filter -->
                     <div class="mb-4">
                         <h6 class="fw-semibold mb-3">City</h6>
-                        <select asp-for="city" class="form-select">
+                        <select asp-for="country" class="form-select">
                             <option value="@null">All Countries</option>
                             @foreach(var city in Enum.GetValues<CountryEnum>())
                             {

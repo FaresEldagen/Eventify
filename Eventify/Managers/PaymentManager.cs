@@ -13,15 +13,7 @@ namespace Eventify.Managers
             _db = db;
         }
 
-        public int Delete(int id)
-        {
-            var payment = _db.Payments.FirstOrDefault(p=>p.Id==id);
-            var deletedPayment=_db.Payments.Remove(payment);
-            if (deletedPayment == null)
-                return -1;
-            _db.SaveChanges();
-            return 1;
-        }
+
 
         public List<Payment> Get3()
         {
@@ -33,16 +25,25 @@ namespace Eventify.Managers
             throw new NotImplementedException();
         }
 
+        public Payment? GetByIdWithIncludes(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Payment> GetByUserId(int id)
         {
             throw new NotImplementedException();
         }
+
+
 
         public int Insert(Payment payment)
         {
             _db.Payments.Add(payment);
             return _db.SaveChanges();
         }
+
+
 
         public int Update(Payment obj)
         {
@@ -55,6 +56,18 @@ namespace Eventify.Managers
             oldPayment.Reference = obj.Reference;
 
             return _db.SaveChanges();
+        }
+
+
+
+        public int Delete(int id)
+        {
+            var payment = _db.Payments.FirstOrDefault(p => p.Id == id);
+            var deletedPayment = _db.Payments.Remove(payment);
+            if (deletedPayment == null)
+                return -1;
+            _db.SaveChanges();
+            return 1;
         }
     }
 }

@@ -8,37 +8,12 @@
         <!-- Main Content -->
         <div class="col-lg-8">
             <!-- Image Gallery -->
-            @* <div class="mb-5"> *@
-            @*     @if (Model.EventPhotos != null && Model.EventPhotos.Any()) *@
-            @*     { *@
-            @*         <div class="position-relative rounded-3 overflow-hidden mb-3" style="height: 400px;"> *@
-            @*             <img src="@Model.EventPhotos.First().PhotoUrl" class="w-100 h-100" style="object-fit: cover;" alt="@Model.EventTitle"> *@
-            @*             <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span> *@
-            @*         </div> *@
-
-            @*         <!-- Thumbnails --> *@
-            @*         <div class="d-flex gap-2 overflow-auto"> *@
-            @*             @foreach (var photo in Model.EventPhotos) *@
-            @*             { *@
-            @*                 <img src="@photo.PhotoUrl" class="rounded cursor-pointer" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid transparent;" alt=""> *@
-            @*             } *@
-            @*         </div> *@
-            @*     } *@
-            @*     else *@
-            @*     { *@
-            @*         <div class="position-relative rounded-3 overflow-hidden mb-3" style="height: 400px;"> *@
-            @*             <img src="~/images/event2.jpg" class="w-100 h-100" style="object-fit: cover;" alt="@Model.EventTitle"> *@
-            @*             <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span> *@
-            @*         </div> *@
-            @*     } *@
-            @* </div> *@
-            <!-- Image Gallery -->
             <div class="mb-5">
                 @if (Model.EventPhotos != null && Model.EventPhotos.Any())
                 {
                     <!-- Main Carousel -->
-                    <div id="mainCarousel" class="carousel slide mb-3 rounded-3" data-bs-ride="carousel">
-                        <div class="carousel-inner rounded-3" >
+                    <div id="mainCarousel" class="carousel slide mb-3 rounded-3" data-bs-ride="carousel" style="background-color: var(--card-bg);">
+                        <div class="carousel-inner rounded-3">
                             @for (int i = 0; i < Model.EventPhotos.Count; i++)
                             {
                                 <div class="carousel-item @(i == 0 ? "active" : "")" style="height: 400px;">
@@ -46,17 +21,17 @@
                                          class="d-block w-100 h-100"
                                          style="object-fit: contain;"
                                          alt="@Model.EventTitle">
-                                    <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span>
+                                    @* <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span> *@
                                 </div>
                             }
                         </div>
 
                         <!-- Prev / Next Buttons -->
                         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
+                            <i class="fa fa-angle-left fs-1 text-primary"></i>
                         </button>
                         <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
+                            <i class="fa fa-angle-right fs-1 text-primary"></i>
                         </button>
                     </div>
 
@@ -89,11 +64,11 @@
                             </div>
 
                             <!-- Thumbnails Controls -->
-                            <button class="carousel-control-prev" type="button" data-bs-target="#thumbCarousel" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon small"></span>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                                <i class="fa fa-angle-left fs-1 text-primary"></i>
                             </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#thumbCarousel" data-bs-slide="next">
-                                <span class="carousel-control-next-icon small"></span>
+                            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                                <i class="fa fa-angle-right fs-1 text-primary"></i>
                             </button>
                         </div>
                     }
@@ -109,16 +84,6 @@
                             }
                         </div>
                     }
-                }
-                else
-                {
-                    <div class="position-relative rounded-3 overflow-hidden mb-3" style="height: 400px;">
-                        <img src="~/images/event2.jpg"
-                             class="w-100 h-100"
-                             style="object-fit: cover;"
-                             alt="@Model.EventTitle">
-                        <span class="badge bg-primary position-absolute top-0 start-0 m-3">@Model.Category</span>
-                    </div>
                 }
             </div>
 
@@ -170,15 +135,15 @@
                     <div class="d-flex align-items-center mb-3">
                         <i class="fas fa-calendar text-primary me-3 fs-5"></i>
                         <div>
-                            <small class="text-muted">Date</small>
-                            <div>@Model.StartDateTime.ToString("MMMM dd, yyyy")</div>
+                            <small class="text-muted">Start Time</small>
+                            <div>@Model.StartDateTime.ToString("MMMM dd, yyyy hh:mm tt")</div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
                         <i class="fas fa-clock text-primary me-3 fs-5"></i>
                         <div>
-                            <small class="text-muted">Time</small>
-                            <div>@Model.StartDateTime.ToString("hh:mm tt")</div>
+                            <small class="text-muted">End Time</small>
+                            <div>@Model.EndDateTime.ToString("MMMM dd, yyyy hh:mm tt")</div>
                         </div>
                     </div>
                     <div class="d-flex align-items-center mb-3">
@@ -239,38 +204,8 @@
                     }
                     <hr>
 
-            <!-- Booking Card -->
-            @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
-            {
-                @if (Model.Status == EventStatusEnum.Approved)
-                {
-                    <div class="mb-4">
-                        <h3>Statues: <span class="text-success fw-bold">@Model.Status</span></h3>
-                    </div>
-                    <div class="d-grid gap-2 mb-3">
-                        <a class="btn btn-primary"
-                           href="@Url.Action("PaymentWithStripe", "Payment", new { eventId = Model.EventId })">
-                            Pay Now
-                        </a>
-                    </div>
-                }
-                else if (Model.Status == EventStatusEnum.Rejected)
-                {
-                    <div class="mb-4">
-                        <h3>Statues: <span class="text-danger fw-bold">@Model.Status</span></h3>
-                        <small class="text-muted">You can edit and resubmit</small>
-                    </div>
-                }
-                else
-                {
-                    <div class="mb-4">
-                        <h3>Statues: <span class="text-primary fw-bold">@Model.Status</span></h3>
-                    </div>
-                }
-                <hr>
-            }
                     <!-- Booking Card -->
-                    @* @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+                    @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
                     {
                         @if (Model.Status == EventStatusEnum.Approved)
                         {
@@ -278,7 +213,10 @@
                                 <h3>Statues: <span class="text-success fw-bold">@Model.Status</span></h3>
                             </div>
                             <div class="d-grid gap-2 mb-3">
-                                <a class="btn btn-primary">Pay Now</a>
+                                <a class="btn btn-primary"
+                                   href="@Url.Action("PaymentWithStripe", "Payment", new { eventId = Model.EventId })">
+                                    Pay Now
+                                </a>
                             </div>
                         }
                         else if (Model.Status == EventStatusEnum.Rejected)
@@ -295,7 +233,8 @@
                             </div>
                         }
                         <hr>
-                    } *@
+                    }
+                   
 
 
                     <!-- Booking Card -->
@@ -336,12 +275,12 @@ else if (TempData["ShowCancelPopup"] != null)
 }
 
 
-@section Scripts {
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            new StarRating('eventRatingStars', function(rating) {
-                console.log('Rating: ' + rating);
-            });
-        });
-    </script>
-}
+@* @section Scripts { *@
+@*     <script> *@
+@*         document.addEventListener('DOMContentLoaded', function() { *@
+@*             new StarRating('eventRatingStars', function(rating) { *@
+@*                 console.log('Rating: ' + rating); *@
+@*             }); *@
+@*         }); *@
+@*     </script> *@
+@* } *@

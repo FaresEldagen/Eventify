@@ -3,7 +3,7 @@ using Eventify.Models.Enums;
 
 namespace Eventify.ViewModels.VenueVM
 {
-    public class VenueAddAndEditVM
+    public class VenueDetailsVM
     {
         public int Id { get; set; }
         public string? Name { get; set; }
@@ -22,11 +22,9 @@ namespace Eventify.ViewModels.VenueVM
         public bool BarServiceAvailable { get; set; }
         public bool RestroomsAvailable { get; set; }
         public bool AudioVisualEquipment { get; set; }
-        public string? ProofOfOwnership { get; set; }
-        public IFormFile? ProofOfOwnershipFile { get; set; }
-        public List<string> DeletedPhotos { get; set; } = new List<string>();
-        public List<IFormFile> FormFiles { get; set; } = new List<IFormFile>();
         public List<VenuePhoto>? venuePhotos { get; set; }
-
+        public List<DateRange>? DateRange { get; set; }
+        public int OwnerId { get; set; }
+        public string? OwnerName { get; set; }
     }
 }
