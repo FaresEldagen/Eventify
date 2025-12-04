@@ -399,9 +399,10 @@ namespace WebApplication2.Controllers
 
                     if (vm.FormFiles != null && vm.FormFiles.Any())
                     {
+                        i = 0;
                         foreach (var x in vm.FormFiles)
                         {
-                            string p = UploadEventPhoto.UploadFile("images", x);
+                            string p = UploadEventPhoto.UploadFile("images", x, i++);
 
                             venueToUpdate.VenuePhotos.Add(new VenuePhoto
                             {
