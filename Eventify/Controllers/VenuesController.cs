@@ -14,12 +14,12 @@ namespace WebApplication2.Controllers
 {
     public static class UploadVenuePhoto
     {
-        public static string UploadFile(string FolderName, IFormFile File)
+        public static string UploadFile(string FolderName, IFormFile File, int i)
         {
             try
             {
                 string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName;
-                string FileName = Guid.NewGuid() + Path.GetFileName(File.FileName);
+                string FileName = $"{i}" + Guid.NewGuid() + Path.GetFileName(File.FileName);
                 string FinalPath = Path.Combine(FolderPath, FileName);
                 using (var Stream = new FileStream(FinalPath, FileMode.Create))
                 {
@@ -259,9 +259,10 @@ namespace WebApplication2.Controllers
             if (userIdString != null && User.IsInRole("Owner"))
             {
                 List<string> uploadedFileNames = new List<string>();
+                int i = 0;
                 foreach (var x in vm.FormFiles)
                 {
-                    string p = UploadVenuePhoto.UploadFile("images", x);
+                    string p = UploadVenuePhoto.UploadFile("images", x, i++);
                     VenuePhoto venuePhoto = new VenuePhoto();
                     venuePhoto.PhotoUrl = $"/images/" + p;
                     uploadedFileNames.Add(p);
@@ -311,162 +312,125 @@ namespace WebApplication2.Controllers
 
 
 
-        //[HttpGet]
-        //public IActionResult Edit(int id)
-        //{
-        //    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    if (userIdString == null || !User.IsInRole("Owner"))
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var venue = _venueManager.GetByIdWithIncludes(id);
+            if (userIdString != null && venue.OwnerId.ToString() == userIdString)
+            {
+                var vm = new VenueEditVM
+                {
+                    Id = venue.Id,
+                    Name = venue.Name,
+                    VenueType = venue.VenueType,
+                    Address = venue.Address,
+                    Country = venue.Country,
+                    ZIP = venue.ZIP,
+                    Description = venue.Description,
+                    Capacity = venue.Capacity,
+                    PricePerHour = venue.PricePerHour,
+                    SpecialFeatures = venue.SpecialFeatures,
+                    AirConditioningAvailable = venue.AirConditioningAvailable,
+                    CateringAvailable = venue.CateringAvailable,
+                    WifiAvailable = venue.WifiAvailable,
+                    ParkingAvailable = venue.ParkingAvailable,
+                    BarServiceAvailable = venue.BarServiceAvailable,
+                    RestroomsAvailable = venue.RestroomsAvailable,
+                    AudioVisualEquipment = venue.AudioVisualEquipment,
+                    ProofOfOwnership = venue.ProofOfOwnership,
+                    venuePhotos = venue.VenuePhotos.ToList()
+                };
+                return View(vm);
+            }
+            return RedirectToAction("Login", "Account");
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(VenueEditVM vm)
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var venueToUpdate = _venueManager.GetByIdWithIncludes(vm.Id);
+            if (userIdString != null && venueToUpdate.OwnerId.ToString() == userIdString)
+            {
+                List<string> uploadedFileNames = new List<string>();
+                int i = 0;
+                foreach (var x in vm.FormFiles)
+                {
+                    string p = UploadVenuePhoto.UploadFile("images", x, i++);
+                    VenuePhoto venuePhoto = new VenuePhoto();
+                    venuePhoto.PhotoUrl = $"/images/" + p;
+                    uploadedFileNames.Add(p);
+                    vm.venuePhotos.Add(venuePhoto);
+                }
+                if (ModelState.IsValid)
+                {
+                    venueToUpdate.Name = vm.Name;
+                    venueToUpdate.VenueType = vm.VenueType;
+                    venueToUpdate.Address = vm.Address;
+                    venueToUpdate.Country = vm.Country;
+                    venueToUpdate.ZIP = vm.ZIP;
+                    venueToUpdate.Description = vm.Description;
+                    venueToUpdate.Capacity = vm.Capacity;
+                    venueToUpdate.PricePerHour = vm.PricePerHour;
+                    venueToUpdate.SpecialFeatures = vm.SpecialFeatures;
+                    venueToUpdate.AirConditioningAvailable = vm.AirConditioningAvailable;
+                    venueToUpdate.CateringAvailable = vm.CateringAvailable;
+                    venueToUpdate.WifiAvailable = vm.WifiAvailable;
+                    venueToUpdate.ParkingAvailable = vm.ParkingAvailable;
+                    venueToUpdate.BarServiceAvailable = vm.BarServiceAvailable;
+                    venueToUpdate.RestroomsAvailable = vm.RestroomsAvailable;
+                    venueToUpdate.AudioVisualEquipment = vm.AudioVisualEquipment;
 
-        //    var venue = _venueManager.GetByIdWithPhotos(id);
-        //    if (venue == null)
-        //    {
-        //        return NotFound();
-        //    }
+                    if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
+                    {
+                        foreach (var fileName in vm.DeletedPhotos)
+                        {
+                            UploadEventPhoto.RemoveFile("images", fileName);
 
-        //    if (venue.OwnerId.ToString() != userIdString)
-        //    {
-        //        return Forbid();
-        //    }
+                            var photoEntity = venueToUpdate.VenuePhotos
+                                .FirstOrDefault(p => p.PhotoUrl.EndsWith(fileName));
 
+                            if (photoEntity != null)
+                                venueToUpdate.VenuePhotos.Remove(photoEntity);
+                        }
+                    }
 
-        //    var vm = new VenueAddAndEditVM
-        //    {
-        //        Id = venue.Id,
-        //        Name = venue.Name,
-        //        VenueType = venue.VenueType,
-        //        Address = venue.Address,
-        //        City = venue.City,
-        //        State = venue.State,
-        //        ZIP = venue.ZIP,
-        //        Description = venue.Description,
-        //        Capacity = venue.Capacity,
-        //        PricePerHour = venue.PricePerHour,
-        //        SpecialFeatures = venue.SpecialFeatures,
-        //        AirConditioningAvailable = venue.AirConditioningAvailable,
-        //        CateringAvailable = venue.CateringAvailable,
-        //        WifiAvailable = venue.WifiAvailable,
-        //        ParkingAvailable = venue.ParkingAvailable,
-        //        BarServiceAvailable = venue.BarServiceAvailable,
-        //        RestroomsAvailable = venue.RestroomsAvailable,
-        //        AudioVisualEquipment = venue.AudioVisualEquipment,
-        //        ProofOfOwnership = venue.ProofOfOwnership,
-        //        venuePhotos = venue.VenuePhotos.ToList()
-        //    };
+                    if (vm.FormFiles != null && vm.FormFiles.Any())
+                    {
+                        foreach (var x in vm.FormFiles)
+                        {
+                            string p = UploadEventPhoto.UploadFile("images", x);
 
-        //    return View(vm);
-        //}
+                            venueToUpdate.VenuePhotos.Add(new VenuePhoto
+                            {
+                                PhotoUrl = "/images/" + p
+                            });
+                        }
+                    }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult SaveEdit(VenueAddAndEditVM vm)
-        //{
-        //    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    if (userIdString == null || !User.IsInRole("Owner"))
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
+                    if (vm.RemoveProofOfOwnershipPhoto)
+                    {
+                        UploadProfilePhoto.RemoveFile($"wwwroot{venueToUpdate.ProofOfOwnership}");
+                        venueToUpdate.ProofOfOwnership = null;
+                    }
+                    else if (vm.ProofOfOwnershipFile != null)
+                    {
+                        var PhotoName = UploadProfilePhoto.UploadFile("images", vm.ProofOfOwnershipFile);
+                        venueToUpdate.ProofOfOwnership = $"/images/{PhotoName}";
+                    }
 
-
-        //    var venueToUpdate = _venueManager.GetByIdWithPhotos(vm.Id);
-        //    if (venueToUpdate == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    if (venueToUpdate.OwnerId.ToString() != userIdString)
-        //    {
-        //        return Forbid();
-        //    }
-
-        //    if (ModelState.IsValid)
-        //    {
-
-        //        if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
-        //        {
-        //            foreach (var photoUrl in vm.DeletedPhotos)
-        //            {
-        //                var photoEntity = venueToUpdate.VenuePhotos
-        //                    .FirstOrDefault(p => p.PhotoUrl == photoUrl);
-
-        //                if (photoEntity != null)
-        //                {
-
-        //                    var fileName = photoUrl.Split('/').Last();
-        //                    _fileService.RemoveFile("images", fileName);
-
-
-        //                    venueToUpdate.VenuePhotos.Remove(photoEntity);
-        //                }
-        //            }
-        //        }
-
-
-        //        if (vm.FormFiles != null && vm.FormFiles.Any())
-        //        {
-        //            foreach (var file in vm.FormFiles)
-        //            {
-        //                string uniqueName = _fileService.SaveFile(file);
-
-        //                venueToUpdate.VenuePhotos.Add(new VenuePhoto
-        //                {
-        //                    PhotoUrl = uniqueName,
-        //                    VenueId = venueToUpdate.Id
-        //                });
-        //            }
-        //        }
-
-        //        if (vm.ProofOfOwnershipFile != null)
-        //        {
-
-        //            if (!string.IsNullOrEmpty(venueToUpdate.ProofOfOwnership))
-        //            {
-
-        //                var oldFileName = venueToUpdate.ProofOfOwnership.Split('/').Last();
-        //                _fileService.RemoveFile("images", oldFileName);
-        //            }
-
-
-        //            venueToUpdate.ProofOfOwnership = _fileService.SaveFile(vm.ProofOfOwnershipFile);
-        //        }
-        //        else
-        //        {
-
-        //            venueToUpdate.ProofOfOwnership = vm.ProofOfOwnership;
-        //        }
-
-
-        //        venueToUpdate.Name = vm.Name;
-        //        venueToUpdate.VenueType = vm.VenueType;
-        //        venueToUpdate.Address = vm.Address;
-        //        venueToUpdate.City = vm.City;
-        //        venueToUpdate.State = vm.State;
-        //        venueToUpdate.ZIP = vm.ZIP;
-        //        venueToUpdate.Description = vm.Description;
-        //        venueToUpdate.Capacity = vm.Capacity;
-        //        venueToUpdate.PricePerHour = vm.PricePerHour;
-        //        venueToUpdate.SpecialFeatures = vm.SpecialFeatures;
-        //        venueToUpdate.AirConditioningAvailable = vm.AirConditioningAvailable;
-        //        venueToUpdate.CateringAvailable = vm.CateringAvailable;
-        //        venueToUpdate.WifiAvailable = vm.WifiAvailable;
-        //        venueToUpdate.ParkingAvailable = vm.ParkingAvailable;
-        //        venueToUpdate.BarServiceAvailable = vm.BarServiceAvailable;
-        //        venueToUpdate.RestroomsAvailable = vm.RestroomsAvailable;
-        //        venueToUpdate.AudioVisualEquipment = vm.AudioVisualEquipment;
-
-
-        //        _venueManager.Update(venueToUpdate);
-
-        //        return RedirectToAction("Details", new { id = venueToUpdate.Id });
-        //    }
-        //    var reloadedVenue = _venueManager.GetByIdWithPhotos(vm.Id);
-        //    vm.venuePhotos = reloadedVenue?.VenuePhotos.ToList();
-
-        //    return View("Edit", vm);
-        //}
-
+                    _venueManager.Update(venueToUpdate);
+                    return RedirectToAction("Details", new { id = venueToUpdate.Id });
+                }
+                var reloadedVenue = _venueManager.GetByIdWithIncludes(vm.Id);
+                vm.venuePhotos = reloadedVenue.VenuePhotos.ToList();
+                vm.ProofOfOwnership = reloadedVenue.ProofOfOwnership;
+                return View(vm);
+            }
+            return RedirectToAction("Login", "Account");
+        }
 
 
 

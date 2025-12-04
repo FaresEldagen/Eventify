@@ -49,7 +49,7 @@
     
     <!-- Form -->
     <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-10 mx-auto">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-light border-0">
                     <h5 class="card-title fw-bold mb-0">Venue Details</h5>
@@ -167,7 +167,7 @@
                             <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="venuePhotosUpload" style="background-color: var(--card-bg); cursor: pointer;">
                                 <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
                                 <h6 class="fw-semibold mb-2">Upload Venue Photos</h6>
-                                <p class="text-muted small mb-0">Add high-quality photos of your Venue</p>
+                                <p class="text-muted small mb-0">Add high-quality photos of your Venue (Start with the main photo)</p>
                                 <input asp-for="FormFiles" class="d-none" id="venuePhotosInput" type="file" multiple />
                                 <span asp-validation-for="FormFiles" class="text-danger"></span>
                             </div>

@@ -14,12 +14,12 @@ namespace WebApplication2.Controllers
 
     public static class UploadEventPhoto
     {
-        public static string UploadFile(string FolderName, IFormFile File)
+        public static string UploadFile(string FolderName, IFormFile File, int i)
         {
             try
             {
                 string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName;
-                string FileName = Guid.NewGuid() + Path.GetFileName(File.FileName);
+                string FileName = $"{i}" + Guid.NewGuid() + Path.GetFileName(File.FileName);
                 string FinalPath = Path.Combine(FolderPath, FileName);
                 using (var Stream = new FileStream(FinalPath, FileMode.Create))
                 {
@@ -156,9 +156,10 @@ namespace WebApplication2.Controllers
             if (!string.IsNullOrEmpty(userId) && User.IsInRole("Organizer"))
             {
                 List<string> uploadedFileNames = new List<string>();
+                int i = 0;
                 foreach (var x in vm.FormFiles)
                 {
-                    string p = UploadEventPhoto.UploadFile("images", x);
+                    string p = UploadEventPhoto.UploadFile("images", x, i++);
                     EventPhoto eventPhoto = new EventPhoto();
                     eventPhoto.PhotoUrl = $"/images/" + p;
                     uploadedFileNames.Add(p);
@@ -233,32 +234,25 @@ namespace WebApplication2.Controllers
         public IActionResult Edit(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId != null)
+            Event ev = _manager.GetByIdWithIncludes(id);
+            if (userId != null && ev != null && ev.OrganizerId.ToString() == userId)
             {
-                int Id = int.Parse(userId);
-                if (User.IsInRole("Organizer"))
+                EventEditVM vm = new EventEditVM();
+                vm.EventId = ev.EventId;
+                vm.EventTitle = ev.EventTitle;
+                vm.Category = ev.Category;
+                vm.Description = ev.Description;
+                vm.StartDateTime = ev.StartDateTime;
+                vm.EndDateTime = ev.EndDateTime;
+                vm.TicketPrice = ev.TicketPrice;
+                vm.Features = ev.Features;
+                vm.IsPrivate = ev.IsPrivate;
+                foreach(var t in ev.EventPhotos)
                 {
-                    Event ev = _manager.GetByIdWithIncludes(id);
-                    if (ev != null)
-                    {
-                        EventEditVM vm = new EventEditVM();
-                        vm.EventId = ev.EventId;
-                        vm.EventTitle = ev.EventTitle;
-                        vm.Category = ev.Category;
-                        vm.Description = ev.Description;
-                        vm.StartDateTime = ev.StartDateTime;
-                        vm.EndDateTime = ev.EndDateTime;
-                        vm.TicketPrice = ev.TicketPrice;
-                        vm.Features = ev.Features;
-                        vm.IsPrivate = ev.IsPrivate;
-                        foreach(var t in ev.EventPhotos)
-                        {
-                            vm.EventPhotos.Add(t);
-                        }
-                        //vm.OriginalPhotoCount = ev.EventPhotos.Count;
-                        return View(vm);
-                    }
+                    vm.EventPhotos.Add(t);
                 }
+                //vm.OriginalPhotoCount = ev.EventPhotos.Count;
+                return View(vm); 
             }
             return RedirectToAction("Login", "Account");
         }
@@ -268,65 +262,60 @@ namespace WebApplication2.Controllers
         public IActionResult Edit(EventEditVM vm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId != null)
+            Event ev = _manager.GetByIdWithIncludes(vm.EventId);
+            if (userId != null && ev != null && ev.OrganizerId.ToString() == userId)
             {
-                int Id = int.Parse(userId);
-                if (User.IsInRole("Organizer"))
+                int i = 0; 
+                foreach (var x in vm.FormFiles)
                 {
-                    foreach (var x in vm.FormFiles)
-                    {
-                        string p = UploadEventPhoto.UploadFile("images", x);
-                        EventPhoto eventPhoto = new EventPhoto();
-                        eventPhoto.PhotoUrl = $"/images/" + p;
-                        vm.EventPhotos.Add(eventPhoto);
-                    }
-                    if (ModelState.IsValid)
-                    {
-                        var ev = _manager.GetByIdWithIncludes(vm.EventId);
-                        if (ev == null)
-                        {
-                            return NotFound();
-                        }
-                        ev.EventTitle = vm.EventTitle;
-                        ev.Category = vm.Category;
-                        ev.Description = vm.Description;
-                        ev.StartDateTime = vm.StartDateTime;
-                        ev.EndDateTime = vm.EndDateTime;
-                        ev.TicketPrice = vm.TicketPrice;
-                        ev.Features = vm.Features;
-                        ev.IsPrivate = vm.IsPrivate;
-                        ev.Status = EventStatusEnum.Pending;
-
-                        if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
-                        {
-                            foreach (var fileName in vm.DeletedPhotos)
-                            {
-                                UploadEventPhoto.RemoveFile("images", fileName);
-
-                                var photoEntity = ev.EventPhotos
-                                   .FirstOrDefault(p => p.PhotoUrl.EndsWith(fileName));
-
-                                if (photoEntity != null)
-                                    ev.EventPhotos.Remove(photoEntity);
-                            }
-                        }
-                        if (vm.FormFiles != null && vm.FormFiles.Any())
-                        {
-                            foreach (var x in vm.FormFiles)
-                            {
-                                string p = UploadEventPhoto.UploadFile("images", x);
-
-                                ev.EventPhotos.Add(new EventPhoto
-                                {
-                                    PhotoUrl = "/images/" + p
-                                });
-                            }
-                        }
-                        _manager.Update(ev);
-                        return RedirectToAction("Index");
-                    }
-                    return View(vm);
+                    string p = UploadEventPhoto.UploadFile("images", x, i++);
+                    EventPhoto eventPhoto = new EventPhoto();
+                    eventPhoto.PhotoUrl = $"/images/" + p;
+                    vm.EventPhotos.Add(eventPhoto);
                 }
+                if (ModelState.IsValid)
+                {
+                    ev.EventTitle = vm.EventTitle;
+                    ev.Category = vm.Category;
+                    ev.Description = vm.Description;
+                    ev.StartDateTime = vm.StartDateTime;
+                    ev.EndDateTime = vm.EndDateTime;
+                    ev.TicketPrice = vm.TicketPrice;
+                    ev.Features = vm.Features;
+                    ev.IsPrivate = vm.IsPrivate;
+                    ev.Status = EventStatusEnum.Pending;
+
+                    if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
+                    {
+                        foreach (var fileName in vm.DeletedPhotos)
+                        {
+                            UploadEventPhoto.RemoveFile("images", fileName);
+
+                            var photoEntity = ev.EventPhotos
+                                .FirstOrDefault(p => p.PhotoUrl.EndsWith(fileName));
+
+                            if (photoEntity != null)
+                                ev.EventPhotos.Remove(photoEntity);
+                        }
+                    }
+                    if (vm.FormFiles != null && vm.FormFiles.Any())
+                    {
+                        foreach (var x in vm.FormFiles)
+                        {
+                            string p = UploadEventPhoto.UploadFile("images", x);
+
+                            ev.EventPhotos.Add(new EventPhoto
+                            {
+                                PhotoUrl = "/images/" + p
+                            });
+                        }
+                    }
+                    _manager.Update(ev);
+                    return RedirectToAction("Index");
+                }
+                var reloadedVenue = _manager.GetByIdWithIncludes(vm.EventId);
+                vm.EventPhotos = reloadedVenue.EventPhotos.ToList();
+                return View(vm);
             }
             return RedirectToAction("Login", "Account");
         }
