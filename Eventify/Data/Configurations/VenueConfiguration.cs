@@ -40,7 +40,7 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("INT").IsRequired();
 
             builder.Property(v => v.SpecialFeatures)
-                .HasColumnType("VARCHAR(Max)").IsRequired();
+                .HasColumnType("VARCHAR(Max)");
 
             builder.Property(v => v.AirConditioningAvailable)
                 .HasColumnType("BIT").IsRequired();

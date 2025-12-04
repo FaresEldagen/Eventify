@@ -45,9 +45,9 @@ namespace Eventify.ViewModels.EventVM
         [Required]
         public int VenueId { get; set; }
 
-        public List<EventPhoto> EventPhotos { get; set; } = new List<EventPhoto>();
 
         [MinPhotos(1)]
         public List<IFormFile> FormFiles { get; set; } = new List<IFormFile>();
+        public List<EventPhoto> EventPhotos { get; set; } = new List<EventPhoto>();
     }
 }

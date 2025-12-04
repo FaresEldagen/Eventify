@@ -211,7 +211,6 @@ namespace Eventify.Managers
                 }
                 context.Venues.Remove(VenueToDelete);
                 context.SaveChanges();
-
             }
             return 0;
         }

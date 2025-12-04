@@ -149,6 +149,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add(EventAddVM vm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -254,7 +255,7 @@ namespace WebApplication2.Controllers
                         {
                             vm.EventPhotos.Add(t);
                         }
-                        vm.OriginalPhotoCount = ev.EventPhotos.Count;
+                        //vm.OriginalPhotoCount = ev.EventPhotos.Count;
                         return View(vm);
                     }
                 }
@@ -263,6 +264,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit(EventEditVM vm)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

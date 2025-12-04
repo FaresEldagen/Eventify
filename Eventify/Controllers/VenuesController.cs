@@ -1,14 +1,63 @@
 ﻿using Eventify.Managers;
+using Eventify.Models.Entities;
 using Eventify.Models.Enums;
 using Eventify.Services;
 using Eventify.ViewModels;
 using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 using System.Security.Claims;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebApplication2.Controllers
 {
+    public static class UploadVenuePhoto
+    {
+        public static string UploadFile(string FolderName, IFormFile File)
+        {
+            try
+            {
+                string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName;
+                string FileName = Guid.NewGuid() + Path.GetFileName(File.FileName);
+                string FinalPath = Path.Combine(FolderPath, FileName);
+                using (var Stream = new FileStream(FinalPath, FileMode.Create))
+                {
+                    File.CopyTo(Stream);
+                }
+                return FileName;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+
+        }
+        public static string RemoveFile(string FolderName, string FileName)
+        {
+            try
+            {
+                var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", FolderName, FileName);
+
+                if (System.IO.File.Exists(directory))
+                {
+                    System.IO.File.Delete(directory);
+                    return "File Detected";
+                }
+                else
+                {
+                    return "FileNotFound";
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
+    }
+
+
 
     public class VenuesController : Controller
     {
@@ -17,6 +66,7 @@ namespace WebApplication2.Controllers
         {
             _venueManager = venueManager;
         }
+
 
 
         [HttpGet]
@@ -190,14 +240,250 @@ namespace WebApplication2.Controllers
 
 
 
+        [HttpGet]
+
         public IActionResult Add()
         {
-            return View();
+            if (User.Identity.IsAuthenticated && User.IsInRole("Owner"))
+            {
+                return View(new VenueAddVM());
+            }
+            return RedirectToAction("Login", "Account");
         }
 
-        public IActionResult Edit()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Add(VenueAddVM vm)
         {
-            return View();
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString != null && User.IsInRole("Owner"))
+            {
+                List<string> uploadedFileNames = new List<string>();
+                foreach (var x in vm.FormFiles)
+                {
+                    string p = UploadVenuePhoto.UploadFile("images", x);
+                    VenuePhoto venuePhoto = new VenuePhoto();
+                    venuePhoto.PhotoUrl = $"/images/" + p;
+                    uploadedFileNames.Add(p);
+                    vm.venuePhotos.Add(venuePhoto);
+                }
+                if (ModelState.IsValid)
+                {
+                    var ProofOfOwnershipPhoto = UploadProfilePhoto.UploadFile("images", vm.ProofOfOwnershipFile);
+                    var venue = new Venue
+                    {
+                        OwnerId = int.Parse(userIdString),
+                        Name = vm.Name!,
+                        VenueType = vm.VenueType,
+                        Address = vm.Address!,
+                        Country = vm.Country,
+                        ZIP = vm.ZIP,
+                        Description = vm.Description,
+                        Capacity = vm.Capacity,
+                        PricePerHour = vm.PricePerHour,
+                        SpecialFeatures = vm.SpecialFeatures,
+                        AirConditioningAvailable = vm.AirConditioningAvailable,
+                        CateringAvailable = vm.CateringAvailable,
+                        WifiAvailable = vm.WifiAvailable,
+                        ParkingAvailable = vm.ParkingAvailable,
+                        BarServiceAvailable = vm.BarServiceAvailable,
+                        RestroomsAvailable = vm.RestroomsAvailable,
+                        AudioVisualEquipment = vm.AudioVisualEquipment,
+
+                        VenuePhotos = vm.venuePhotos,
+                        ProofOfOwnership = $"/images/{ProofOfOwnershipPhoto}"
+                    };
+                    _venueManager.Insert(venue);
+                    return RedirectToAction("Details", new { id = venue.Id });
+                }
+                else
+                {
+                    foreach (var file in uploadedFileNames)
+                    {
+                        UploadEventPhoto.RemoveFile("images", file);
+                    }
+                    vm.venuePhotos.Clear();
+                    return View(vm);
+                }
+            }
+            return RedirectToAction("Login", "Account");
+        }
+
+
+
+        //[HttpGet]
+        //public IActionResult Edit(int id)
+        //{
+        //    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    if (userIdString == null || !User.IsInRole("Owner"))
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+
+        //    var venue = _venueManager.GetByIdWithPhotos(id);
+        //    if (venue == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    if (venue.OwnerId.ToString() != userIdString)
+        //    {
+        //        return Forbid();
+        //    }
+
+
+        //    var vm = new VenueAddAndEditVM
+        //    {
+        //        Id = venue.Id,
+        //        Name = venue.Name,
+        //        VenueType = venue.VenueType,
+        //        Address = venue.Address,
+        //        City = venue.City,
+        //        State = venue.State,
+        //        ZIP = venue.ZIP,
+        //        Description = venue.Description,
+        //        Capacity = venue.Capacity,
+        //        PricePerHour = venue.PricePerHour,
+        //        SpecialFeatures = venue.SpecialFeatures,
+        //        AirConditioningAvailable = venue.AirConditioningAvailable,
+        //        CateringAvailable = venue.CateringAvailable,
+        //        WifiAvailable = venue.WifiAvailable,
+        //        ParkingAvailable = venue.ParkingAvailable,
+        //        BarServiceAvailable = venue.BarServiceAvailable,
+        //        RestroomsAvailable = venue.RestroomsAvailable,
+        //        AudioVisualEquipment = venue.AudioVisualEquipment,
+        //        ProofOfOwnership = venue.ProofOfOwnership,
+        //        venuePhotos = venue.VenuePhotos.ToList()
+        //    };
+
+        //    return View(vm);
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult SaveEdit(VenueAddAndEditVM vm)
+        //{
+        //    var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    if (userIdString == null || !User.IsInRole("Owner"))
+        //    {
+        //        return RedirectToAction("Login", "Account");
+        //    }
+
+
+        //    var venueToUpdate = _venueManager.GetByIdWithPhotos(vm.Id);
+        //    if (venueToUpdate == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    if (venueToUpdate.OwnerId.ToString() != userIdString)
+        //    {
+        //        return Forbid();
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+
+        //        if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
+        //        {
+        //            foreach (var photoUrl in vm.DeletedPhotos)
+        //            {
+        //                var photoEntity = venueToUpdate.VenuePhotos
+        //                    .FirstOrDefault(p => p.PhotoUrl == photoUrl);
+
+        //                if (photoEntity != null)
+        //                {
+
+        //                    var fileName = photoUrl.Split('/').Last();
+        //                    _fileService.RemoveFile("images", fileName);
+
+
+        //                    venueToUpdate.VenuePhotos.Remove(photoEntity);
+        //                }
+        //            }
+        //        }
+
+
+        //        if (vm.FormFiles != null && vm.FormFiles.Any())
+        //        {
+        //            foreach (var file in vm.FormFiles)
+        //            {
+        //                string uniqueName = _fileService.SaveFile(file);
+
+        //                venueToUpdate.VenuePhotos.Add(new VenuePhoto
+        //                {
+        //                    PhotoUrl = uniqueName,
+        //                    VenueId = venueToUpdate.Id
+        //                });
+        //            }
+        //        }
+
+        //        if (vm.ProofOfOwnershipFile != null)
+        //        {
+
+        //            if (!string.IsNullOrEmpty(venueToUpdate.ProofOfOwnership))
+        //            {
+
+        //                var oldFileName = venueToUpdate.ProofOfOwnership.Split('/').Last();
+        //                _fileService.RemoveFile("images", oldFileName);
+        //            }
+
+
+        //            venueToUpdate.ProofOfOwnership = _fileService.SaveFile(vm.ProofOfOwnershipFile);
+        //        }
+        //        else
+        //        {
+
+        //            venueToUpdate.ProofOfOwnership = vm.ProofOfOwnership;
+        //        }
+
+
+        //        venueToUpdate.Name = vm.Name;
+        //        venueToUpdate.VenueType = vm.VenueType;
+        //        venueToUpdate.Address = vm.Address;
+        //        venueToUpdate.City = vm.City;
+        //        venueToUpdate.State = vm.State;
+        //        venueToUpdate.ZIP = vm.ZIP;
+        //        venueToUpdate.Description = vm.Description;
+        //        venueToUpdate.Capacity = vm.Capacity;
+        //        venueToUpdate.PricePerHour = vm.PricePerHour;
+        //        venueToUpdate.SpecialFeatures = vm.SpecialFeatures;
+        //        venueToUpdate.AirConditioningAvailable = vm.AirConditioningAvailable;
+        //        venueToUpdate.CateringAvailable = vm.CateringAvailable;
+        //        venueToUpdate.WifiAvailable = vm.WifiAvailable;
+        //        venueToUpdate.ParkingAvailable = vm.ParkingAvailable;
+        //        venueToUpdate.BarServiceAvailable = vm.BarServiceAvailable;
+        //        venueToUpdate.RestroomsAvailable = vm.RestroomsAvailable;
+        //        venueToUpdate.AudioVisualEquipment = vm.AudioVisualEquipment;
+
+
+        //        _venueManager.Update(venueToUpdate);
+
+        //        return RedirectToAction("Details", new { id = venueToUpdate.Id });
+        //    }
+        //    var reloadedVenue = _venueManager.GetByIdWithPhotos(vm.Id);
+        //    vm.venuePhotos = reloadedVenue?.VenuePhotos.ToList();
+
+        //    return View("Edit", vm);
+        //}
+
+
+
+
+        public IActionResult Delete(int id)
+        {
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var venueToDelete = _venueManager.GetById(id);
+            if (userIdString != null && venueToDelete.OwnerId.ToString() == userIdString)
+            {
+                int result = _venueManager.Delete(id);
+                if (result == -1)
+                {
+                    TempData["ErrorMessage"] = "The venue cannot be deleted because it has paid events associated with it.";
+                }
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Login", "Account");
         }
     }
 }
