@@ -444,7 +444,8 @@ namespace WebApplication2.Controllers
                 int result = _venueManager.Delete(id);
                 if (result == -1)
                 {
-                    TempData["ErrorMessage"] = "The venue cannot be deleted because it has paid events associated with it.";
+                    TempData["DeleteVenueError"] = true;
+                    return RedirectToAction("Details", "Venues",new { id = id });
                 }
                 return RedirectToAction("Index");
             }

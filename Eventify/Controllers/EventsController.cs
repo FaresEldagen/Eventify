@@ -295,18 +295,22 @@ namespace WebApplication2.Controllers
                     eventPhoto.PhotoUrl = $"/images/" + p;
                     vm.EventPhotos.Add(eventPhoto);
                 }
-                var venue = _venueManager.GetByIdWithIncludes(vm.VenueId??0);
-                var venueEventsDates = venue.Events.Select(e => new { e.StartDateTime, e.EndDateTime });
-
                 var isInvalid = false;
-
-                foreach (var e in venueEventsDates)
+                if(vm.VenueId != null)
                 {
-                    if (vm.StartDateTime <= e.EndDateTime &&
-                                    vm.EndDateTime >= e.StartDateTime)
+                    int venueId = vm.VenueId ?? 0;
+                    var venue = _venueManager.GetByIdWithIncludes(venueId);
+                    var venueEventsDates = venue.Events.Select(e => new { e.StartDateTime, e.EndDateTime });
+
+
+                    foreach (var e in venueEventsDates)
                     {
-                        isInvalid = true;
-                        break;
+                        if (vm.StartDateTime <= e.EndDateTime &&
+                                        vm.EndDateTime >= e.StartDateTime)
+                        {
+                            isInvalid = true;
+                            break;
+                        }
                     }
                 }
                 if (ModelState.IsValid && !isInvalid)

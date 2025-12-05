@@ -412,7 +412,7 @@ namespace WebApplication2.Controllers
                         var VenueToDelete = _managerVenues.GetByIdWithIncludes(venue.Id);
                         if (VenueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))
                         {
-                            TempData["ErrorMessage"] = "Some venues cannot be deleted because they have paid events associated with them.";
+                            TempData["DeleteProfileError"] = true;
                             return RedirectToAction("Edit");
                         }
                     }

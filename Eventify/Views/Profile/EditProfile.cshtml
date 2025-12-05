@@ -198,8 +198,8 @@
                 </div>
                 <button class="btn btn-outline-danger"
                         data-bs-toggle="modal"
-                        data-bs-target="#deleteModal@Model.Id">
-                    <i class="fas fa-trash"></i>
+                        data-bs-target="#deleteModal">
+                    Delete Account
                 </button>
             </div>
         </div>
@@ -207,7 +207,7 @@
 </div>
 
 
-<div class="modal fade" id="deleteModal@Model.Id" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
@@ -231,3 +231,8 @@
         </div>
     </div>
 </div>
+
+@if (TempData["DeleteProfileError"] != null)
+{
+    @await Html.PartialAsync("_CantDeleteAccount")
+}

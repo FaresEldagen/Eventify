@@ -20,7 +20,7 @@
                     <a class="btn btn-outline-primary" title="Edit" href="@Url.Action("Edit", "Events", new { id = Model.Id })"><i class="fas fa-edit"></i></a>
                     <button class="btn btn-outline-danger"
                             data-bs-toggle="modal"
-                            data-bs-target="#deleteModal@Model.Id">
+                            data-bs-target="#deleteModal{@Model.Id}">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -30,7 +30,7 @@
 </div>
 
 
-<div class="modal fade" id="deleteModal@Model.Id" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="deleteModal{@Model.Id}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
