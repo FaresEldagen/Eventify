@@ -62,9 +62,11 @@ namespace WebApplication2.Controllers
     public class EventsController : Controller
     {
         IEventService _manager;
-        public EventsController(IEventService managerEvents)
+        private readonly IVenueService _venueManager;
+        public EventsController(IEventService managerEvents, IVenueService venueService)
         {
             _manager = managerEvents;
+            _venueManager = venueService;
         }
 
 
@@ -165,7 +167,22 @@ namespace WebApplication2.Controllers
                     uploadedFileNames.Add(p);
                     vm.EventPhotos.Add(eventPhoto);
                 }
-                if (ModelState.IsValid)
+                var venue = _venueManager.GetByIdWithIncludes(vm.VenueId);
+                var venueEventsDates = venue.Events.Select(e => new { e.StartDateTime, e.EndDateTime });
+
+                var isInvalid = false;
+
+                foreach (var e in venueEventsDates)
+                {
+                    if(vm.StartDateTime <= e.EndDateTime &&
+                                    vm.EndDateTime >= e.StartDateTime)
+                    {
+                        isInvalid = true;
+                        break;
+                    }
+                }
+
+                if (ModelState.IsValid && !isInvalid)
                 {
                     Event ev = new Event
                     {
@@ -193,6 +210,10 @@ namespace WebApplication2.Controllers
                         UploadEventPhoto.RemoveFile("images", file);
                     }
                     vm.EventPhotos.Clear();
+
+                    if (isInvalid)
+                        TempData["Selected Date is Invalid"] = true;
+
                     return View(vm);
                 }
             }
@@ -247,6 +268,7 @@ namespace WebApplication2.Controllers
                 vm.TicketPrice = ev.TicketPrice;
                 vm.Features = ev.Features;
                 vm.IsPrivate = ev.IsPrivate;
+                vm.VenueId = ev.VenueId;
                 foreach(var t in ev.EventPhotos)
                 {
                     vm.EventPhotos.Add(t);
@@ -273,7 +295,21 @@ namespace WebApplication2.Controllers
                     eventPhoto.PhotoUrl = $"/images/" + p;
                     vm.EventPhotos.Add(eventPhoto);
                 }
-                if (ModelState.IsValid)
+                var venue = _venueManager.GetByIdWithIncludes(vm.VenueId??0);
+                var venueEventsDates = venue.Events.Select(e => new { e.StartDateTime, e.EndDateTime });
+
+                var isInvalid = false;
+
+                foreach (var e in venueEventsDates)
+                {
+                    if (vm.StartDateTime <= e.EndDateTime &&
+                                    vm.EndDateTime >= e.StartDateTime)
+                    {
+                        isInvalid = true;
+                        break;
+                    }
+                }
+                if (ModelState.IsValid && !isInvalid)
                 {
                     ev.EventTitle = vm.EventTitle;
                     ev.Category = vm.Category;
@@ -300,9 +336,10 @@ namespace WebApplication2.Controllers
                     }
                     if (vm.FormFiles != null && vm.FormFiles.Any())
                     {
+                        i = 0;
                         foreach (var x in vm.FormFiles)
                         {
-                            string p = UploadEventPhoto.UploadFile("images", x);
+                            string p = UploadEventPhoto.UploadFile("images", x,i++);
 
                             ev.EventPhotos.Add(new EventPhoto
                             {
@@ -313,8 +350,11 @@ namespace WebApplication2.Controllers
                     _manager.Update(ev);
                     return RedirectToAction("Index");
                 }
+
                 var reloadedVenue = _manager.GetByIdWithIncludes(vm.EventId);
                 vm.EventPhotos = reloadedVenue.EventPhotos.ToList();
+                if (isInvalid)
+                    TempData["Selected Date is Invalid"] = true;
                 return View(vm);
             }
             return RedirectToAction("Login", "Account");

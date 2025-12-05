@@ -63,6 +63,15 @@
                     <form id="AddEventForm" asp-action="Add" method="post" enctype="multipart/form-data">
                         @Html.AntiForgeryToken()
                         <input type="hidden" asp-for="VenueId"/>
+                        @* <input type="hidden" asp-for="EventTitle"/>
+                        <input type="hidden" asp-for="Category"/>
+                        <input type="hidden" asp-for="Description"/>
+                        <input type="hidden" asp-for="StartDateTime"/>
+                        <input type="hidden" asp-for="EndDateTime"/>
+                        <input type="hidden" asp-for="TicketPrice"/>
+                        <input type="hidden" asp-for="Features"/>
+                        <input type="hidden" asp-for="IsPrivate"/> *@
+
 
                         <!-- Basic Information -->
                         <h6 class="fw-bold mb-3">Basic Information</h6>
@@ -157,6 +166,11 @@
         </div>
     </div>
 </div>
+
+@if (TempData["Selected Date is Invalid"] != null)
+{
+    @await Html.PartialAsync("_InvalidBookingDate")
+}
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

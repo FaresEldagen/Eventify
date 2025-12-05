@@ -141,7 +141,7 @@ namespace Eventify.Managers
 
         public List<Venue> GetByUserId(int id)
         {
-            return context.Venues.Where(v => v.Id == id).Include(v => v.VenuePhotos).ToList();
+            return context.Venues.Where(v => v.OwnerId == id).Include(v => v.VenuePhotos).ToList();
         }
 
 
