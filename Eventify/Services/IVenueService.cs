@@ -12,7 +12,7 @@ namespace Eventify.Services
              string? title,
              VenueTypeEnum? venueType,
              int? maxprice,
-             string? city,
+             CountryEnum? country,
              bool? airConditioning,
              bool? catering,
              bool? wifi,

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eventify.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251130185359_SeedData")]
+    [Migration("20251204160507_Seed-Data")]
     partial class SeedData
     {
         /// <inheritdoc />
@@ -208,6 +208,7 @@ namespace Eventify.Migrations
                         {
                             EventId = 1,
                             Address = "Cairo Grand Hall, Nasr City",
+                            Capacity = 700,
                             Category = 1,
                             Description = "A conference discussing the future of AI and technology.",
                             EndDateTime = new DateTime(2025, 4, 12, 18, 0, 0, 0, DateTimeKind.Unspecified),
@@ -747,10 +748,8 @@ namespace Eventify.Migrations
                     b.Property<bool>("CateringAvailable")
                         .HasColumnType("BIT");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("VARCHAR");
+                    b.Property<int>("Country")
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -767,8 +766,8 @@ namespace Eventify.Migrations
                     b.Property<bool>("ParkingAvailable")
                         .HasColumnType("BIT");
 
-                    b.Property<decimal>("PricePerHour")
-                        .HasColumnType("DECIMAL(18,2)");
+                    b.Property<int>("PricePerHour")
+                        .HasColumnType("INT");
 
                     b.Property<string>("ProofOfOwnership")
                         .IsRequired()
@@ -779,13 +778,7 @@ namespace Eventify.Migrations
                         .HasColumnType("BIT");
 
                     b.Property<string>("SpecialFeatures")
-                        .IsRequired()
                         .HasColumnType("VARCHAR(Max)");
-
-                    b.Property<string>("State")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("VARCHAR");
 
                     b.Property<int>("VenueType")
                         .HasColumnType("int");
@@ -814,16 +807,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = false,
                             Capacity = 500,
                             CateringAvailable = true,
-                            City = "Cairo",
+                            Country = 1,
                             Description = "Large premium indoor venue.",
                             Name = "Cairo Grand Hall",
                             OwnerId = 1,
                             ParkingAvailable = true,
-                            PricePerHour = 2500m,
+                            PricePerHour = 2500,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Stage, LED Screens",
-                            State = "Cairo",
                             VenueType = 1,
                             WifiAvailable = true,
                             ZIP = "11371"
@@ -837,16 +829,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = true,
                             Capacity = 300,
                             CateringAvailable = true,
-                            City = "Dubai",
+                            Country = 3,
                             Description = "Open-air event arena with sea view.",
                             Name = "Dubai Outdoor Arena",
                             OwnerId = 2,
                             ParkingAvailable = true,
-                            PricePerHour = 1800m,
+                            PricePerHour = 1800,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Sea View",
-                            State = "Dubai",
                             VenueType = 2,
                             WifiAvailable = true,
                             ZIP = "00000"
@@ -860,16 +851,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = false,
                             Capacity = 700,
                             CateringAvailable = false,
-                            City = "Riyadh",
+                            Country = 2,
                             Description = "Modern multi-purpose venue.",
                             Name = "Riyadh Event Center",
                             OwnerId = 3,
                             ParkingAvailable = true,
-                            PricePerHour = 3000m,
+                            PricePerHour = 3000,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "VIP Rooms",
-                            State = "Riyadh",
                             VenueType = 1,
                             WifiAvailable = true,
                             ZIP = "11564"
@@ -883,16 +873,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = false,
                             Capacity = 250,
                             CateringAvailable = true,
-                            City = "Alexandria",
+                            Country = 1,
                             Description = "Outdoor venue with stunning sea view.",
                             Name = "Alexandria Seaside Hall",
                             OwnerId = 1,
                             ParkingAvailable = false,
-                            PricePerHour = 1500m,
+                            PricePerHour = 1500,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Sea Breeze, Open Stage",
-                            State = "Alexandria",
                             VenueType = 2,
                             WifiAvailable = true,
                             ZIP = "21500"
@@ -906,16 +895,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = false,
                             Capacity = 600,
                             CateringAvailable = true,
-                            City = "Giza",
+                            Country = 1,
                             Description = "Cultural event venue facing pyramids.",
                             Name = "Giza Pyramid Arena",
                             OwnerId = 1,
                             ParkingAvailable = true,
-                            PricePerHour = 3500m,
+                            PricePerHour = 3500,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Historic View",
-                            State = "Giza",
                             VenueType = 2,
                             WifiAvailable = false,
                             ZIP = "12556"
@@ -929,16 +917,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = true,
                             Capacity = 450,
                             CateringAvailable = true,
-                            City = "Abu Dhabi",
+                            Country = 3,
                             Description = "Luxury indoor venue for premium events.",
                             Name = "Abu Dhabi Royal Hall",
                             OwnerId = 2,
                             ParkingAvailable = true,
-                            PricePerHour = 4000m,
+                            PricePerHour = 4000,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Gold Interior, VIP Lounge",
-                            State = "Abu Dhabi",
                             VenueType = 1,
                             WifiAvailable = true,
                             ZIP = "00001"
@@ -952,16 +939,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = true,
                             Capacity = 800,
                             CateringAvailable = false,
-                            City = "Jeddah",
+                            Country = 2,
                             Description = "Outdoor beach concert venue.",
                             Name = "Jeddah Beach Stage",
                             OwnerId = 3,
                             ParkingAvailable = true,
-                            PricePerHour = 2800m,
+                            PricePerHour = 2800,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Beachfront Stage",
-                            State = "Mecca",
                             VenueType = 2,
                             WifiAvailable = true,
                             ZIP = "23415"
@@ -975,16 +961,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = false,
                             Capacity = 1000,
                             CateringAvailable = false,
-                            City = "Doha",
+                            Country = 6,
                             Description = "Large conference and exhibition hall.",
                             Name = "Doha Convention Hall",
                             OwnerId = 2,
                             ParkingAvailable = true,
-                            PricePerHour = 5000m,
+                            PricePerHour = 5000,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Conference Rooms",
-                            State = "Doha",
                             VenueType = 1,
                             WifiAvailable = true,
                             ZIP = "00022"
@@ -998,16 +983,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = false,
                             Capacity = 350,
                             CateringAvailable = false,
-                            City = "Luxor",
+                            Country = 1,
                             Description = "Historic indoor cultural venue.",
                             Name = "Luxor Cultural Theatre",
                             OwnerId = 1,
                             ParkingAvailable = true,
-                            PricePerHour = 1700m,
+                            PricePerHour = 1700,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Theatre Stage",
-                            State = "Luxor",
                             VenueType = 1,
                             WifiAvailable = false,
                             ZIP = "85958"
@@ -1021,16 +1005,15 @@ namespace Eventify.Migrations
                             BarServiceAvailable = false,
                             Capacity = 120,
                             CateringAvailable = false,
-                            City = "Sharjah",
+                            Country = 3,
                             Description = "Gallery space for exhibitions.",
                             Name = "Sharjah Art Gallery",
                             OwnerId = 2,
                             ParkingAvailable = true,
-                            PricePerHour = 900m,
+                            PricePerHour = 900,
                             ProofOfOwnership = "/Images/ownership1.jpg",
                             RestroomsAvailable = true,
                             SpecialFeatures = "Art Lighting",
-                            State = "Sharjah",
                             VenueType = 1,
                             WifiAvailable = true,
                             ZIP = "00033"
@@ -1461,7 +1444,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "ff9c6550-3e5f-42ce-8c17-59c789585816",
+                            ConcurrencyStamp = "4f2797a7-283e-46ad-85ab-f95c16a27e52",
                             Country = 1,
                             Email = "Organizer1@test.com",
                             EmailConfirmed = true,
@@ -1472,7 +1455,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER1@TEST.COM",
                             NormalizedUserName = "FARES",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBWXIHv3QjqrQ2oTxyv359fZyA/YPNsMzjvJ2EZrgnLgnvbidaNOu0A+1+bSWchY1w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELpIz+rgrdE+bShn79Q0dVjNiz3CFS/LA0XkPwaXh+b+Tc1Dq3ic/2LjgzodRXicHg==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1490,7 +1473,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "a0fabe54-e852-4738-9506-a354dcec2b06",
+                            ConcurrencyStamp = "b8efa07c-56f9-4f94-a309-b7252f8d5812",
                             Country = 1,
                             Email = "Organizer2@test.com",
                             EmailConfirmed = true,
@@ -1501,7 +1484,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER2@TEST.COM",
                             NormalizedUserName = "AHMED",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFyJ02iUYAYl4LIcb2mDZehsNxRK9DJu46imTcJKebvhlwSqbQNI90FBO5YxoPPMbA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDfv44u6xZnjpQ+7Y1vIkeFnSIsed0KrC2OjJp20EvoE/d8KkgbE20E6pQSRzWf55w==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1519,7 +1502,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "7640063f-68bf-44f4-a286-584881d1491a",
+                            ConcurrencyStamp = "d8e0989b-3e76-42cc-baab-e14836508d0c",
                             Country = 1,
                             Email = "Organizer3@test.com",
                             EmailConfirmed = true,
@@ -1530,7 +1513,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER3@TEST.COM",
                             NormalizedUserName = "ZIAD",
-                            PasswordHash = "AQAAAAIAAYagAAAAELOvAN0U/s0YvCi2nYvt0nx3cFPbaux7/3PwCFXa1dG5VqawQhGOjgfFXjvAHj5ynw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOwij1EulpQj6PNaNSRLq14q5RmqnTZ+GVSaPnrgggGH46VlOlVx+OUuZdVBFavOJQ==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1564,7 +1547,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "4198f3dc-28b6-46a9-a068-3646f4a13fff",
+                            ConcurrencyStamp = "fd97583f-2d70-429c-9309-2fc035f0ec0f",
                             Country = 1,
                             Email = "Owner1@test.com",
                             EmailConfirmed = true,
@@ -1575,7 +1558,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER1@TEST.COM",
                             NormalizedUserName = "MAHMOUD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOcVQPgEVaePg/iVYDBo7IdzIyKdVmWQLdZ3YsaD5vrYKpxeuDI8MOCcelvPxMUSHw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPU3vU11JKO7+24uNyA1XiT/KKN7d5IMrS3efMssgc9RN87ve+A+1lHIO5WOzifcSQ==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1592,7 +1575,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "7caca728-195f-4bb2-811c-faea09049ed6",
+                            ConcurrencyStamp = "02cdbc0f-1c9a-4fff-babc-d7434e140304",
                             Country = 1,
                             Email = "Owner2@test.com",
                             EmailConfirmed = true,
@@ -1603,7 +1586,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER2@TEST.COM",
                             NormalizedUserName = "ALI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPUHvMgLli5Pt+2bCSb7jq9si4XGZqh1RQAIxuyDB/jjO4u9MCl71MrgPemk4bockA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEG78FcKzChQWY1Aq9iyJSsolBEBsNpVt0FOvB+MXP63rnvsbrOjysno+Zl7AjDAeeA==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1620,7 +1603,7 @@ namespace Eventify.Migrations
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "3c5f8bb8-a612-4715-9065-0110b211a0d8",
+                            ConcurrencyStamp = "8ce49f6b-a18a-41b2-adfe-010b16455674",
                             Country = 1,
                             Email = "Owner3@test.com",
                             EmailConfirmed = true,
@@ -1631,7 +1614,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER3@TEST.COM",
                             NormalizedUserName = "AMR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEKxsW0uWdxAxXWT4AvpfCReOCD5WmENUQwpb+zmUnsTP79UFwwpre6+tWC+xmfvNLQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEIn5dYtwRF/KjWkkjrQp2x2+6XtOAqojiuYyXdCaa5LAQxLogW+DjJBHypBTCkpO0Q==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",

@@ -1,4 +1,6 @@
-﻿using Eventify.Models.Entities;
+﻿using Eventify.Managers;
+using Eventify.Models.Entities;
+using Eventify.Models.Enums;
 using Eventify.Services;
 using Eventify.ViewModels.EventVM;
 using Eventify.ViewModels.ProfileVM;
@@ -69,6 +71,7 @@ namespace WebApplication2.Controllers
             _managerEvents = managerEvents;
             _managerUser = managerUser;
         }
+
 
 
         public async Task<IActionResult> Index()
@@ -236,6 +239,7 @@ namespace WebApplication2.Controllers
         }
 
 
+
         public async Task<IActionResult> Edit()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -394,11 +398,33 @@ namespace WebApplication2.Controllers
         }
 
 
+
         public async Task<IActionResult> Delete()
         {
             if (User.Identity.IsAuthenticated)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (User.IsInRole("Owner"))
+                {
+                    var venues = _managerVenues.GetByUserId(int.Parse(userId));
+                    foreach (var venue in venues)
+                    {
+                        var VenueToDelete = _managerVenues.GetByIdWithIncludes(venue.Id);
+                        if (VenueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))
+                        {
+                            TempData["DeleteProfileError"] = true;
+                            return RedirectToAction("Edit");
+                        }
+                    }
+                    foreach (var venue in venues)
+                        { var result = _managerVenues.Delete(venue.Id); }
+                }
+                else if (User.IsInRole("Organizer"))
+                {
+                    var events = _managerEvents.GetByUserId(int.Parse(userId));
+                    foreach (var event_ in events)
+                        { var result = _managerEvents.Delete(event_.EventId); }
+                }
                 await _managerUser.DeleteAsync(await _managerUser.FindByIdAsync(userId));
             }
             return RedirectToAction("Logout", "Account");

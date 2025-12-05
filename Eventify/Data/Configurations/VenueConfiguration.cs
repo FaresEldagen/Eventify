@@ -23,13 +23,8 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(250).IsRequired();
 
-            builder.Property(v => v.City)
-                .HasColumnType("VARCHAR")
-                .HasMaxLength(100).IsRequired();
-
-            builder.Property(v => v.State)
-                .HasColumnType("VARCHAR")
-                .HasMaxLength(100).IsRequired();
+            builder.Property(v => v.Country)
+                .HasConversion<int>().IsRequired();
 
             builder.Property(v => v.ZIP)
                 .HasColumnType("VARCHAR")
@@ -42,10 +37,10 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("INT").IsRequired();
 
             builder.Property(v => v.PricePerHour)
-                .HasColumnType("DECIMAL(18,2)").IsRequired();
+                .HasColumnType("INT").IsRequired();
 
             builder.Property(v => v.SpecialFeatures)
-                .HasColumnType("VARCHAR(Max)").IsRequired();
+                .HasColumnType("VARCHAR(Max)");
 
             builder.Property(v => v.AirConditioningAvailable)
                 .HasColumnType("BIT").IsRequired();

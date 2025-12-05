@@ -4,41 +4,32 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Eventify.Models.Entities;
+using Eventify.ViewModels.EventVM;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Eventify.Validators
 {
     public class EnsureAtLeastOnePhotoAttribute : ValidationAttribute
     {
-        private readonly string _deletedPhotosProperty;
-        private readonly string _originalCountProperty;
+        private readonly string _eventPhotosProperty;
 
-        public EnsureAtLeastOnePhotoAttribute(string originalCountProperty, string deletedPhotosProperty)
+        public EnsureAtLeastOnePhotoAttribute(string eventPhotosProperty)
         {
-            _deletedPhotosProperty = deletedPhotosProperty;
-            _originalCountProperty = originalCountProperty;
-            ErrorMessage = "You must keep at least one existing photo or upload a new one.";
+            _eventPhotosProperty = eventPhotosProperty;
+            ErrorMessage = "The Event Must Have at Least ONE Photo";
         }
 
         protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var formFiles = value as List<IFormFile>;
-
-            var deletedProp = validationContext.ObjectType.GetProperty(_deletedPhotosProperty);
-            var originalCountProp = validationContext.ObjectType.GetProperty(_originalCountProperty);
-
-            int originalCount = (int)originalCountProp.GetValue(validationContext.ObjectInstance);
-            var deletedPhotos = deletedProp.GetValue(validationContext.ObjectInstance) as List<string>;
-
-            int deletedCount = deletedPhotos?.Count ?? 0;
-            int newUploadedCount = formFiles?.Count ?? 0;
-
-            // If all original photos deleted AND no new photos uploaded
-            if (deletedCount == originalCount && newUploadedCount == 0)
+            var DeletedPhotos = (List<string>)value!;
+            var eventPhotosPropertyInfo = validationContext.ObjectType.GetProperty(_eventPhotosProperty);
+            var eventPhotos = eventPhotosPropertyInfo!.GetValue(validationContext.ObjectInstance) as List<IFormFile>;
+            if (DeletedPhotos.Count >= eventPhotos!.Count)
             {
                 return new ValidationResult(ErrorMessage);
             }
-
             return ValidationResult.Success;
+
         }
     }
 }

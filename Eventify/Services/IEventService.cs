@@ -14,8 +14,5 @@ namespace Eventify.Services
               DateTime? startDate,
               DateTime? endDate,
               out int totalEvents);
-        public List<Event> GetByUserId(int id);
-        public Event? GetByIdWithIncludes(int id);
-        public void Insert(Event ev, string userId);
     }
 }

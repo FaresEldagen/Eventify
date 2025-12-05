@@ -1,6 +1,7 @@
 @{
     ViewBag.Title = "List Your Venue";
 }
+@model VenueAddVM
 
 <div class="container-lg py-5">
     <!-- Page Header -->
@@ -48,107 +49,115 @@
     
     <!-- Form -->
     <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-10 mx-auto">
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-light border-0">
                     <h5 class="card-title fw-bold mb-0">Venue Details</h5>
                     <small class="text-muted">Tell us about your venue so we can help you attract the right events</small>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form id="AddEventForm" asp-action="Add" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+
                         <!-- Basic Information -->
                         <h6 class="fw-bold mb-3">Basic Information</h6>
+
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
-                                <label class="form-label">Venue Name *</label>
-                                <input type="text" class="form-control" placeholder="Enter venue name">
+                                <label asp-for="Name" class="form-label">Venue Name *</label>
+                                <input asp-for="Name" type="text" class="form-control" placeholder="Enter venue name">
+                                <span asp-validation-for="Name" class="text-danger"></span>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Venue Type *</label>
-                                <input type="text" class="form-control" placeholder="e.g., Wedding Venue, Conference Center">
+                                <label asp-for="VenueType" class="form-label">Venue Type *</label>
+                                <select asp-for="VenueType" class="form-control" asp-items="Html.GetEnumSelectList<VenueTypeEnum>()">
+                                    <option value="">Select Venue Type</option>
+                                </select>
+                                <span asp-validation-for="VenueType" class="text-danger"></span>
                             </div>
                         </div>
                         
                         <div class="mb-4">
-                            <label class="form-label">Description *</label>
-                            <textarea class="form-control" rows="4" placeholder="Describe your venue, and what makes it special..."></textarea>
+                            <label asp-for="Description" class="form-label">Description *</label>
+                            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Describe your venue, and what makes it special..."></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
                         
+
                         <!-- Location -->
                         <h6 class="fw-bold mb-3"><i class="fas fa-map-marker-alt me-2"></i>Location</h6>
+
                         <div class="mb-4">
-                            <label class="form-label">Street Address *</label>
-                            <input type="text" class="form-control" placeholder="123 Main Street">
+                            <label asp-for="Address" class="form-label">Street Address *</label>
+                            <input asp-for="Address" type="text" class="form-control" placeholder="123 Main Street">
+                            <span asp-validation-for="Address" class="text-danger"></span>
                         </div>
-                        
+
                         <div class="row g-3 mb-4">
-                            <div class="col-md-4">
-                                <label class="form-label">City *</label>
-                                <input type="text" class="form-control" placeholder="City">
+                            <div class="col-md-6">
+                                <label asp-for="Country" class="form-label">Country *</label>
+                                <select asp-for="Country" class="form-control" asp-items="Html.GetEnumSelectList<CountryEnum>()">
+                                    <option value="">Country</option>
+                                </select>
+                                <span asp-validation-for="Country" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label">State *</label>
-                                <input type="text" class="form-control" placeholder="State">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">ZIP Code *</label>
-                                <input type="text" class="form-control" placeholder="12345">
+                            <div class="col-md-6">
+                                <label asp-for="ZIP" class="form-label">ZIP Code *</label>
+                                <input asp-for="ZIP" type="text" class="form-control" placeholder="12345">
+                                <span asp-validation-for="ZIP" class="text-danger"></span>
                             </div>
                         </div>
                         
+
                         <!-- Capacity & Pricing -->
                         <h6 class="fw-bold mb-3"><i class="fas fa-users me-2"></i>Capacity & Pricing</h6>
+
                         <div class="row g-3 mb-4">
-                            <div class="col-md-4">
-                                <label class="form-label">Maximum Capacity *</label>
-                                <input type="number" class="form-control" placeholder="100">
+                            <div class="col-md-6">
+                                <label asp-for="Capacity" class="form-label">Maximum Capacity *</label>
+                                <input asp-for="Capacity" type="number" class="form-control" placeholder="100">
+                                <span asp-validation-for="Capacity" class="text-danger"></span>
                             </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Price per Hour ($)</label>
-                                <input type="number" class="form-control" placeholder="150">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="form-label">Price per Day ($)</label>
-                                <input type="number" class="form-control" placeholder="1200">
+                            <div class="col-md-6">
+                                <label asp-for="PricePerHour" class="form-label">Price per Hour ($)</label>
+                                <input asp-for="PricePerHour" type="number" class="form-control" placeholder="150">
+                                <span asp-validation-for="PricePerHour" class="text-danger"></span>
                             </div>
                         </div>
                         
+
                         <!-- Amenities -->
                         <h6 class="fw-bold mb-3">Amenities</h6>
                         <div class="row g-3">
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Air Conditioning</label>
+                                <input asp-for="AirConditioningAvailable" class="form-check-input" type="checkbox"/>
+                                <label asp-for="AirConditioningAvailable" class="form-label" for="Amenities">Air Conditioning</label>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Catering</label>
+                                <input asp-for="CateringAvailable" class="form-check-input" type="checkbox"/>
+                                <label asp-for="CateringAvailable" class="form-label" for="Amenities">Catering</label>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Wi-Fi</label>
+                                <input asp-for="WifiAvailable" class="form-check-input" type="checkbox"/>
+                                <label asp-for="WifiAvailable" class="form-label" for="Amenities">Wi-Fi</label>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Parking</label>
+                                <input asp-for="ParkingAvailable" class="form-check-input" type="checkbox"/>
+                                <label asp-for="ParkingAvailable" class="form-label" for="Amenities">Parking</label>
                             </div>
                         </div>
                         <div class="row g-3 mb-3">
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Bar Service</label>
+                                <input asp-for="BarServiceAvailable" class="form-check-input" type="checkbox"/>
+                                <label asp-for="BarServiceAvailable" class="form-label" for="Amenities">Bar Service</label>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Restrooms</label>
+                                <input asp-for="AudioVisualEquipment" class="form-check-input" type="checkbox"/>
+                                <label asp-for="AudioVisualEquipment" class="form-label" for="Amenities">Audio Visual Equipment</label>
                             </div>
                             <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Audio Visual Equipment</label>
-                            </div>
-                            <div class="col-md-3">
-                                <input class="form-check-input" type="checkbox" name="Amenities" />
-                                <label class="form-label" for="Amenities">Restrooms</label>
+                                <input asp-for="RestroomsAvailable" class="form-check-input" type="checkbox"/>
+                                <label asp-for="RestroomsAvailable" class="form-label" for="Amenities">Restrooms</label>
                             </div>
                         </div>
 
@@ -158,29 +167,59 @@
                             <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="venuePhotosUpload" style="background-color: var(--card-bg); cursor: pointer;">
                                 <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
                                 <h6 class="fw-semibold mb-2">Upload Venue Photos</h6>
-                                <p class="text-muted small mb-0">Add up to 10 high-quality photos of your venue (Start with the main photo)</p>
-                                <input type="file" class="d-none" id="venuePhotosInput" accept="image/*" multiple>
+                                <p class="text-muted small mb-0">Add high-quality photos of your Venue (Start with the main photo)</p>
+                                <input asp-for="FormFiles" class="d-none" id="venuePhotosInput" type="file" multiple />
+                                <span asp-validation-for="FormFiles" class="text-danger"></span>
                             </div>
                             <div class="row g-3" id="venuePhotosPreview"></div>
                         </div>
 
                         <!-- Proof of ownership -->
                         <h6 class="fw-bold mb-3">Proof of ownership</h6>
-                        <div class="mb-4">
-                            <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="proofUpload" style="background-color: var(--card-bg); cursor: pointer;">
-                                <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i>
-                                <h6 class="fw-semibold mb-2">Upload Venue Proof of ownership file</h6>
-                                <p class="text-muted small mb-0">Add up to 5 MB file or photo of your venue's proof of ownership</p>
-                                <input type="file" class="d-none" id="proofInput" accept="image/*,.pdf">
+                        @* <div class="mb-4"> *@
+                        @*     <div class="upload-area border border-2 border-dashed rounded p-5 text-center mb-3" id="proofUpload" style="background-color: var(--card-bg); cursor: pointer;"> *@
+                        @*         <i class="fas fa-arrow-up fs-1 text-muted mb-3"></i> *@
+                        @*         <h6 class="fw-semibold mb-2">Upload Venue Proof of ownership file</h6> *@
+                        @*         <p class="text-muted small mb-0">Add up to 5 MB file or photo of your venue's proof of ownership</p> *@
+                        @*         <input type="file" class="d-none" id="proofInput" accept="image/*,.pdf"> *@
+                        @*     </div> *@
+                        @*     <div id="proofPreview"></div> *@
+                        @* </div> *@
+                        <div class="col-md-6 mb-3">
+                            <div class="position-relative" id="FrontIdPreviewWrapper" style="width: 100%; height: 180px;">
+                                <!-- Placeholder Upload Box -->
+                                <div class="upload-area border border-2 border-dashed rounded p-4 text-center
+                                                h-100 d-flex flex-column justify-content-center align-items-center"
+                                     id="FrontIdUploadArea"
+                                     style="background-color: var(--card-bg); cursor: pointer;">
+                                    <i class="fas fa-cloud-upload-alt fs-1 text-muted mb-3"></i>
+                                    <p class="fw-semibold mb-1">Upload Venue Proof of ownership file</p>
+                                    <p class="text-muted small mb-0">Add up to 5 MB file or photo of your venue's proof of ownership</p>
+                                    <span asp-validation-for="ProofOfOwnershipFile" class="text-danger"></span>
+                                </div>
+
+                                <!-- Preview Image -->
+                                <img id="FrontIdImage"
+                                     src="@Model.ProofOfOwnership"
+                                     class="rounded w-100 h-100 d-none"
+                                     style="object-fit: cover;">
+
+                                <!-- Delete Button -->
+                                <button type="button" id="removeFrontId"
+                                        class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 d-none"
+                                        style="border-radius: 50%; width: 30px; height: 30px; padding: 0;">
+                                    <i class="fas fa-times"></i>
+                                </button>
                             </div>
-                            <div id="proofPreview"></div>
+
+                            <input asp-for="ProofOfOwnershipFile" type="file" id="FrontIdInput" class="d-none" accept="image/*">
+                            <input type="hidden" id="removeFrontIdFlag" name="RemoveFrontIdPhoto" value="false">
                         </div>
 
                         <!-- Special Features -->
                         <h6 class="fw-bold mb-3">Special Features</h6>
                         <div class="mb-4">
-                            <label class="form-label">Special Features</label>
-                            <textarea class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
+                            <textarea asp-for="SpecialFeatures" class="form-control" rows="4" placeholder="Describe the Special Features of your venue"></textarea>
                         </div>
                         
                         <!-- Submit -->
@@ -188,10 +227,14 @@
                             <button type="submit" class="btn btn-primary">Submit Venue for Review</button>
                             <button type="reset" class="btn btn-outline-primary">Clear Form</button>
                         </div>
-                        <small class="text-muted d-block mt-2">We'll review your submission and get back to you within 24 hours.</small>
+                        @* <small class="text-muted d-block mt-2">We'll review your submission and get back to you within 24 hours.</small> *@
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

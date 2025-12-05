@@ -196,8 +196,43 @@
                     <h5 class="fw-bold mb-1 text-danger">Danger Zone</h5>
                     <p class="text-muted mb-0 small">Delete your account and all related data. This process cannot be undone.</p>
                 </div>
-                <a type="button" class="btn btn-outline-danger mt-3 mt-md-0" href="@Url.Action("Delete", "Profile")">Delete Account</a>
+                <button class="btn btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal">
+                    Delete Account
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                Are you sure you want to delete your account? This action cannot be undone.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                <a href="@Url.Action("Delete", "Profile", new { id = User.FindFirstValue(ClaimTypes.NameIdentifier) })" class="btn btn-danger">
+                    Yes, Delete
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if (TempData["DeleteProfileError"] != null)
+{
+    @await Html.PartialAsync("_CantDeleteAccount")
+}
