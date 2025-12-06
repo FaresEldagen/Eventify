@@ -277,6 +277,14 @@ else if (TempData["ShowCancelPopup"] != null)
 {
     @await Html.PartialAsync("_Cancel")
 }
+else if (TempData["EditEventError"] != null)
+{
+    @await Html.PartialAsync("_EditEventErrorMessage")
+}
+else if (TempData["DeleteEventError"]!= null)
+{
+    @await Html.PartialAsync("_DeleteEventErrorMessage")
+}
 
 
 

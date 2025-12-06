@@ -91,7 +91,7 @@ namespace WebApplication2.Controllers
                     out int totalVenues
                 );
 
-            var venueCards = venues.Select(v =>
+            var venueCards = venues.Where(v=>v.VenueVerification == VenueVerification.Verified).Select(v =>
                 new VenueCardVM
                 {
                     Id = v.Id,
@@ -135,7 +135,7 @@ namespace WebApplication2.Controllers
                     out int totalVenues
                 );
 
-            var venueCards = venues.Select(v =>
+            var venueCards = venues.Where(v => v.VenueVerification == VenueVerification.Verified).Select(v =>
                 new VenueCardVM
                 {
                     Id = v.Id,
@@ -170,7 +170,7 @@ namespace WebApplication2.Controllers
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
             int.TryParse(userIdString, out int currentUserId);
 
-            var bookedDates = venue.Events.Where(e => e.Status == Eventify.Models.Enums.EventStatusEnum.Approved || e.Status == Eventify.Models.Enums.EventStatusEnum.Paid)
+            var bookedDates = venue.Events.Where(e => (e.Status == EventStatusEnum.Approved || e.Status == EventStatusEnum.Paid) && e.EventVerification == EventVerification.Verified)
                 .Select(e => new DateRange
                 {
                     StartDate = e.StartDateTime,
@@ -178,7 +178,7 @@ namespace WebApplication2.Controllers
                 }).ToList();
 
             var pendingEventsList = venue.Events
-                .Where(e => e.Status == Eventify.Models.Enums.EventStatusEnum.Pending)
+                .Where(e => e.Status == EventStatusEnum.Pending)
                 .ToList();
 
             if (User.IsInRole("Owner") && venue.OwnerId == currentUserId)
@@ -292,7 +292,9 @@ namespace WebApplication2.Controllers
                         AudioVisualEquipment = vm.AudioVisualEquipment,
 
                         VenuePhotos = vm.venuePhotos,
-                        ProofOfOwnership = $"/images/{ProofOfOwnershipPhoto}"
+                        ProofOfOwnership = $"/images/{ProofOfOwnershipPhoto}",
+                        VenueVerification = VenueVerification.Pending
+                        
                     };
                     _venueManager.Insert(venue);
                     return RedirectToAction("Details", new { id = venue.Id });
@@ -319,6 +321,12 @@ namespace WebApplication2.Controllers
             var venue = _venueManager.GetByIdWithIncludes(id);
             if (userIdString != null && venue.OwnerId.ToString() == userIdString)
             {
+                if (venue.Events.Any(v => v.Status == EventStatusEnum.Paid))
+                {
+                    TempData["EditVenueError"] = true;
+                    return RedirectToAction("Details", "Venues", new { id = id });
+                }
+
                 var vm = new VenueEditVM
                 {
                     Id = venue.Id,
@@ -340,8 +348,10 @@ namespace WebApplication2.Controllers
                     AudioVisualEquipment = venue.AudioVisualEquipment,
                     ProofOfOwnership = venue.ProofOfOwnership,
                     venuePhotos = venue.VenuePhotos.ToList()
+                    
                 };
                 return View(vm);
+                
             }
             return RedirectToAction("Login", "Account");
         }
@@ -422,6 +432,8 @@ namespace WebApplication2.Controllers
                         venueToUpdate.ProofOfOwnership = $"/images/{PhotoName}";
                     }
 
+                    venueToUpdate.VenueVerification = VenueVerification.Pending;
+
                     _venueManager.Update(venueToUpdate);
                     return RedirectToAction("Details", new { id = venueToUpdate.Id });
                 }
@@ -441,12 +453,13 @@ namespace WebApplication2.Controllers
             var venueToDelete = _venueManager.GetById(id);
             if (userIdString != null && venueToDelete.OwnerId.ToString() == userIdString)
             {
-                int result = _venueManager.Delete(id);
-                if (result == -1)
+                if (venueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))
                 {
                     TempData["DeleteVenueError"] = true;
                     return RedirectToAction("Details", "Venues",new { id = id });
                 }
+
+                int result = _venueManager.Delete(id);
                 return RedirectToAction("Index");
             }
             return RedirectToAction("Login", "Account");

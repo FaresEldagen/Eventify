@@ -197,7 +197,9 @@ namespace WebApplication2.Controllers
                         IsPrivate = vm.IsPrivate,
                         EventPhotos = vm.EventPhotos,
                         VenueId = vm.VenueId,
-                        Status = EventStatusEnum.Pending
+                        Status = EventStatusEnum.Pending,
+                        EventVerification = EventVerification.Pending
+                        
                     };
 
                     _manager.Insert(ev);
@@ -243,6 +245,7 @@ namespace WebApplication2.Controllers
                 vm.OwnerId = ev.Venue.OwnerId;
                 vm.Capacity = ev.Capacity;
                 vm.EventPhotos = ev.EventPhotos;
+                vm.EventVerification = ev.EventVerification;
                 return View(vm);
 
             }
@@ -255,7 +258,13 @@ namespace WebApplication2.Controllers
         public IActionResult Edit(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            Event ev = _manager.GetByIdWithIncludes(id);
+            Event ev = _manager.GetByIdWithIncludes(id)!;
+
+            if (ev.Status == EventStatusEnum.Paid)
+            {
+                TempData["EditEventError"] = true;
+                return RedirectToAction("Details", "Events", new { id = id });
+            }
             if (userId != null && ev != null && ev.OrganizerId.ToString() == userId)
             {
                 EventEditVM vm = new EventEditVM();
@@ -287,7 +296,7 @@ namespace WebApplication2.Controllers
             Event ev = _manager.GetByIdWithIncludes(vm.EventId);
             if (userId != null && ev != null && ev.OrganizerId.ToString() == userId)
             {
-                int i = 0; 
+                int i = 0;
                 foreach (var x in vm.FormFiles)
                 {
                     string p = UploadEventPhoto.UploadFile("images", x, i++);
@@ -296,17 +305,18 @@ namespace WebApplication2.Controllers
                     vm.EventPhotos.Add(eventPhoto);
                 }
                 var isInvalid = false;
-                if(vm.VenueId != null)
+                if (vm.VenueId != null)
                 {
                     int venueId = vm.VenueId ?? 0;
                     var venue = _venueManager.GetByIdWithIncludes(venueId);
-                    var venueEventsDates = venue.Events.Select(e => new { e.StartDateTime, e.EndDateTime });
+                    var venueEventsDates = venue.Events.Where(e => e.EventId != vm.EventId && (e.Status == EventStatusEnum.Approved || e.Status == EventStatusEnum.Paid))
+                        .Select(e => new { e.StartDateTime, e.EndDateTime });
 
 
                     foreach (var e in venueEventsDates)
                     {
-                        if (vm.StartDateTime <= e.EndDateTime &&
-                                        vm.EndDateTime >= e.StartDateTime)
+                        if (vm.StartDateTime < e.EndDateTime &&
+                                        vm.EndDateTime > e.StartDateTime)
                         {
                             isInvalid = true;
                             break;
@@ -324,6 +334,7 @@ namespace WebApplication2.Controllers
                     ev.Features = vm.Features;
                     ev.IsPrivate = vm.IsPrivate;
                     ev.Status = EventStatusEnum.Pending;
+                    ev.EventVerification = EventVerification.Pending;
 
                     if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
                     {
@@ -384,6 +395,12 @@ namespace WebApplication2.Controllers
         {
             Event ev = _manager.GetByIdWithIncludes(Id);
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if(ev.Status == EventStatusEnum.Paid)
+            {
+                TempData["DeleteEventError"] = true;
+                return RedirectToAction("Details", "Events", new { id = Id });
+            }
+
             if (userId != null && int.Parse(userId) == ev.OrganizerId)
             {
                 _manager.Delete(Id);

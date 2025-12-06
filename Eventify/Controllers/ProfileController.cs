@@ -260,10 +260,10 @@ namespace WebApplication2.Controllers
             if (userId != null)
             {
                 var user = await _managerUser.FindByIdAsync(userId);
+                var profile = new EditProfileVM();
                 if (await _managerUser.IsInRoleAsync(user, "Owner"))
                 {
                     Owner OwnerUser = (Owner)user;
-                    var profile = new EditProfileVM();
                     profile.Photo = OwnerUser.Photo;
                     profile.Gender = OwnerUser.Gender;
                     profile.Country = OwnerUser.Country;
@@ -276,12 +276,11 @@ namespace WebApplication2.Controllers
                     profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
                     profile.BackIdPhoto = OwnerUser.BackIdPhoto;
                     profile.Photo = OwnerUser.Photo;
-                    return View("EditProfile", profile);
+                    profile.AccountStatus = OwnerUser.AccountStatus;
                 }
                 else
                 {
                     Organizer OrganizerUser = (Organizer)user;
-                    var profile = new EditProfileVM();
                     profile.Photo = OrganizerUser.Photo;
                     profile.Gender = OrganizerUser.Gender;
                     profile.Country = OrganizerUser.Country;
@@ -296,8 +295,10 @@ namespace WebApplication2.Controllers
                     profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
                     profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
                     profile.Photo = OrganizerUser.Photo;
-                    return View("EditProfile", profile);
+                    profile.AccountStatus = OrganizerUser.AccountStatus;
+                    
                 }
+                return View("EditProfile", profile);
             }
             else
                 { return RedirectToAction("Login", "Account"); }
@@ -320,6 +321,7 @@ namespace WebApplication2.Controllers
                     OwnerUser.ArabicAddress = profile.ArabicAddress;
                     OwnerUser.ArabicFullName = profile.ArabicFullName;
                     OwnerUser.NationalIDNumber = profile.NationalIDNumber;
+                    OwnerUser.AccountStatus = profile.AccountStatus;
 
 
                     if (profile.RemovePhoto)
@@ -369,6 +371,7 @@ namespace WebApplication2.Controllers
                     OrganizerUser.ArabicAddress = profile.ArabicAddress;
                     OrganizerUser.ArabicFullName = profile.ArabicFullName;
                     OrganizerUser.NationalIDNumber = profile.NationalIDNumber;
+                    OrganizerUser.AccountStatus = profile.AccountStatus;
 
                     if (profile.RemovePhoto)
                     {

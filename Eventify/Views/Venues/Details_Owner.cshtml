@@ -362,6 +362,10 @@
 {
     @await Html.PartialAsync("_CantDeleteVenue",Model)
 }
+@if (TempData["EditVenueError"]!= null)
+{
+    @await Html.PartialAsync("_EditVenueErrorMessage")
+}
 
 @* @section Scripts { *@
 @*     <script> *@

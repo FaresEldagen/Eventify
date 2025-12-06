@@ -11,7 +11,9 @@ namespace Eventify.Data.Configurations
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder.HasDiscriminator<string>("UserType")
-                .HasValue<Organizer>("Organizier").HasValue<Owner>("Owner");
+                .HasValue<Organizer>("Organizier")
+                .HasValue<Owner>("Owner")
+                .HasValue<Admin>("Admin");
 
 
 
@@ -53,6 +55,9 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("DATETIME2")
                 .IsRequired()
                 .HasDefaultValueSql("SYSDATETIME()");
+
+            builder.Property(e => e.AccountStatus)
+                .HasConversion<int>().IsRequired(false);
         }
     }
 }
