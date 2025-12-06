@@ -322,7 +322,6 @@ namespace WebApplication2.Controllers
                     OwnerUser.AccountStatus = AccountStatus.Pending;
 
 
-
                     if (profile.RemovePhoto)
                     {
                         UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.Photo}");
@@ -347,7 +346,7 @@ namespace WebApplication2.Controllers
                     }
 
 
-                    if (profile.RemoveBacktIdPhoto)
+                    if (profile.RemoveBackIdPhoto)
                     {
                         UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.BackIdPhoto}");
                         OwnerUser.BackIdPhoto = null;
@@ -361,7 +360,6 @@ namespace WebApplication2.Controllers
                 else
                 {
                     Organizer OrganizerUser = (Organizer)user;
-                    OrganizerUser.Photo = profile.Photo;
                     OrganizerUser.Gender = profile.Gender;
                     OrganizerUser.Country = profile.Country;
                     OrganizerUser.BIO = profile.BIO;
@@ -371,6 +369,7 @@ namespace WebApplication2.Controllers
                     OrganizerUser.ArabicFullName = profile.ArabicFullName;
                     OrganizerUser.NationalIDNumber = profile.NationalIDNumber;
                     OrganizerUser.AccountStatus = AccountStatus.Pending;
+
 
                     if (profile.RemovePhoto)
                     {
@@ -389,19 +388,19 @@ namespace WebApplication2.Controllers
                         UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.FrontIdPhoto}");
                         OrganizerUser.FrontIdPhoto = null;
                     }
-                    else if (profile.FrontIdPhoto != null)
+                    else if (profile.FrontIdFile != null)
                     {
                         var PhotoName = UploadProfilePhoto.UploadFile("images", profile.FrontIdFile);
                         OrganizerUser.FrontIdPhoto = $"/images/{PhotoName}";
                     }
 
 
-                    if (profile.RemoveBacktIdPhoto)
+                    if (profile.RemoveBackIdPhoto)
                     {
                         UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.BackIdPhoto}");
                         OrganizerUser.BackIdPhoto = null;
                     }
-                    else if (profile.BackIdPhoto != null)
+                    else if (profile.BackIdFile != null)
                     {
                         var PhotoName = UploadProfilePhoto.UploadFile("images", profile.BackIdFile);
                         OrganizerUser.BackIdPhoto = $"/images/{PhotoName}";

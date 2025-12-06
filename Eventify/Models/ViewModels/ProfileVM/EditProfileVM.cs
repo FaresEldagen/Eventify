@@ -37,7 +37,7 @@ namespace Eventify.ViewModels.ProfileVM
         public IFormFile? FrontIdFile { get; set; }
 
         public string? BackIdPhoto { get; set; }
-        public bool RemoveBacktIdPhoto { get; set; } 
+        public bool RemoveBackIdPhoto { get; set; } 
         public IFormFile? BackIdFile { get; set; }
 
         public AccountStatus? AccountStatus { get; set; }
