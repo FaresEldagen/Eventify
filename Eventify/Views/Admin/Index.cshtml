@@ -41,11 +41,11 @@
     <div id="section-admins-content" class="admin-section active">
         <div class="admin-form-card">
             <h3 class="fw-bold mb-3"><i class="fas fa-user-shield me-2"></i>Convert User to Admin</h3>
-            <form id="convertToAdminForm">
+            <form id="convertToAdminForm" asp-action="AddAdmin">
                 <div class="row g-3">
                     <div class="col-md-8">
-                        <label for="adminEmail" class="form-label">User Email</label>
-                        <input type="email" class="form-control" id="adminEmail" placeholder="Enter user email to convert to admin" required>
+                        <label asp-for="UserEmail" class="form-label">User Email</label>
+                        <input asp-for="UserEmail" type="email" class="form-control" id="adminEmail" placeholder="Enter user email to convert to admin" required>
                     </div>
                     <div class="col-md-4 d-flex align-items-end">
                         <button type="submit" class="btn btn-primary w-100">
@@ -70,10 +70,13 @@
                             </tr>
                         </thead>
                         <tbody id="adminsTableBody">
-                            <tr>
-                                <th>Fares</th>
-                                <th>fares@gmail.com</th>
-                            </tr>
+                            @foreach(var admin in Model.Admins!)
+                            {
+                                <tr>
+                                    <th>@admin.UserName</th>
+                                    <th>@admin.Email</th>
+                                </tr> 
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -100,16 +103,23 @@
                         </thead>
                         <tbody id="usersTableBody">
                             <!-- Users will be loaded here -->
-                            <tr>
-                                <th>fares</th>
-                                <th>fares@gmail.com</th>
-                                <th>Owner</th>
-                                <th>
-                                    <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-eye me-1"></i>Review
-                                    </button>
-                                </th>
-                            </tr>
+                            @foreach(var user in Model.Users!)
+                            {
+                                <tr>
+                                    <th>@user.UserName</th>
+                                    <th>@user.Email</th>
+                                    <th>@user.Role</th>
+                                    <th>
+                                        @* <button class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye me-1"></i>Review
+                                        </button> *@
+                                        <a asp-controller="Profile" asp-action="View" asp-route-id="@user.Id"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye me-1"></i> Review
+                                        </a>
+                                    </th>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -134,14 +144,18 @@
                         </thead>
                         <tbody id="venuesTableBody">
                             <!-- Venues will be loaded here -->
-                            <tr>
-                                <th>fares</th>
-                                <th>
-                                    <button class="btn btn-sm btn-primary">
-                                        <i class="fas fa-eye me-1"></i>Review
-                                    </button>
-                                </th>
-                            </tr>
+                            @foreach(var venue in Model.Venues)
+                            {
+                                <tr>
+                                    <th>@venue.Name</th>
+                                    <th>
+                                        <a asp-controller="Admin" asp-action="ReviewVenue" asp-route-id="@venue.Id"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye me-1"></i> Review
+                                        </a>
+                                    </th>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -167,13 +181,19 @@
                         </thead>
                         <tbody id="eventsTableBody">
                             <!-- Events will be loaded here -->
-                        <th>fares</th>
-                        <th>2025-01-01 10:00</th>
-                        <th>
-                            <button class="btn btn-sm btn-primary">
-                                <i class="fas fa-eye me-1"></i>Review
-                            </button>
-                        </th>
+                            @foreach(var evnt in Model.Events)
+                            {
+                                <tr>
+                                    <th>@evnt.EventTitle</th>
+                                    <th>@evnt.StartDateTime</th>
+                                    <th>
+                                    <a asp-controller="Admin" asp-action="ReviewEvent" asp-route-id="@evnt.EventId"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye me-1"></i> Review
+                                    </a>
+                                    </th>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -200,14 +220,25 @@
                         </thead>
                         <tbody id="paymentsTableBody">
                             <!-- Payments will be loaded here -->
-                        <th>fares</th>
-                        <th>100$</th>
-                        <th>2025-01-01 10:00</th>
-                        <th>
-                            <button class="btn btn-sm btn-primary">
-                                <i class="fas fa-eye me-1"></i>View Event
-                            </button>
-                        </th>
+                            @foreach(var payment in Model.Payments)
+                            {
+                                <tr>
+                                    <th>@payment.EventName</th>
+                                    <th>@payment.Amount $</th>
+                                    <th>@payment.PaymentDate</th>
+                                    @if(payment.EventId != null)
+                                    {
+                                        <th>
+                                            
+                                            <a asp-controller="Events" asp-action="Details" asp-route-id="@payment.EventId"
+                                               class="btn btn-sm btn-primary">
+                                                <i class="fas fa-eye me-1"></i> Review
+                                            </a>
+                                        </th>
+                                    }
+                                    
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -227,6 +258,19 @@
         </div>
     </div>
 </div>
+
+@if (TempData["UserNotFoundError"] != null)
+{
+    @await Html.PartialAsync("_UserNotFoundErrorMessage")
+}
+else if (TempData["UserAlreadyAdminError"] != null)
+{
+    @await Html.PartialAsync("_UserAlreadyAdminErrorMessage")
+}
+else if (TempData["SomethingWrongOccuredError"] != null)
+{
+    @await Html.PartialAsync("_SomethingWrongOccuredErrorMassage")
+}
 
 
 <script>

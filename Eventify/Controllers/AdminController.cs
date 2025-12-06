@@ -1,16 +1,56 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Eventify.Models.Entities;
+using Eventify.Services;
+using Eventify.ViewModels.AdminVm;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Eventify.Controllers
 {
+    [Authorize(Roles ="Admin")]
     public class AdminController : Controller
     {
-        public IActionResult Index()
+        private readonly IApplicationUserService _userManager;
+        private readonly IEventService _eventManager;
+        private readonly IVenueService _venueManager;
+        private readonly IPaymentService _paymentManager;
+
+        public AdminController(IApplicationUserService userManager, IEventService eventManager, IVenueService venueManager, IPaymentService paymentManager)
         {
-            return View();
+            _userManager = userManager;
+            _eventManager = eventManager;
+            _venueManager = venueManager;
+            _paymentManager = paymentManager;
         }
-        public IActionResult AddAdmin()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var adminDashboard = new AdminDashboardVM()
+            {
+                Admins = await _userManager.GetAllUserByRoleAsync("Admin"),
+                Users = _userManager.GetApplicationUsers(),
+                Events= _eventManager.GetPendingEvents(),
+                Payments = _paymentManager.GetPayments(),
+                Venues = _venueManager.GetPendingVenues(),
+                UserEmail = null
+            };
+            return View(adminDashboard);
+        }
+
+        public async Task<IActionResult> AddAdmin(AdminDashboardVM dashboardVM)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _userManager.MakeUserAdminByEmailAsync(dashboardVM.UserEmail!);
+                if (result == -1)
+                    TempData["UserNotFoundError"] = true;
+                else if (result == 0)
+                    TempData["UserAlreadyAdminError"] = true;
+                else if (result == -2)
+                    TempData["SomethingWrongOccuredError"] = true;
+            }
+
+            return RedirectToAction("Index","Admin");
         }
         public IActionResult ReviewUser()
         {

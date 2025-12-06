@@ -242,6 +242,11 @@ namespace Eventify.Managers
             }
             return 0;
         }
+
+        public List<Venue> GetPendingVenues()
+        {
+            return context.Venues.Where(v => v.VenueVerification == VenueVerification.Pending).ToList();
+        }
     }
 }
 

@@ -22,6 +22,8 @@ namespace Eventify.Services
              bool? audioVisual,
              out int totalVenues);
 
+        public List<Venue> GetPendingVenues();
+
     }
 
 }

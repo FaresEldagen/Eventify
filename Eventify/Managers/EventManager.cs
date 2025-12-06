@@ -165,5 +165,10 @@ namespace Eventify.Managers
             context.Events.Remove(ev);
             return context.SaveChanges();
         }
+
+        public List<Event> GetPendingEvents()
+        {
+            return context.Events.Where(e => e.Status == EventStatusEnum.Pending).OrderBy(e=>e.StartDateTime).ToList();
+        }
     }
 }
