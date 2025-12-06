@@ -4,9 +4,11 @@ using Eventify.Models.Enums;
 using Eventify.Services;
 using Eventify.ViewModels;
 using Eventify.ViewModels.VenueVM;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -62,9 +64,11 @@ namespace WebApplication2.Controllers
     public class VenuesController : Controller
     {
         private readonly IVenueService _venueManager;
-        public VenuesController(IVenueService venueManager)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public VenuesController(IVenueService venueManager, UserManager<ApplicationUser> userManager)
         {
             _venueManager = venueManager;
+            _userManager = userManager;
         }
 
 
@@ -243,13 +247,18 @@ namespace WebApplication2.Controllers
 
         [HttpGet]
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            if (User.Identity.IsAuthenticated && User.IsInRole("Owner"))
+            if (!User.Identity.IsAuthenticated)
             {
-                return View(new VenueAddVM());
+                return RedirectToAction("Login", "Account");
             }
-            return RedirectToAction("Login", "Account");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (!User.IsInRole("Owner") || user.AccountStatus != AccountStatus.Verified)
+                return RedirectToAction("Index", "Profile");
+
+            return View(new VenueAddVM());
         }
 
         [HttpPost]
@@ -451,7 +460,7 @@ namespace WebApplication2.Controllers
         public IActionResult Delete(int id)
         {
             var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var venueToDelete = _venueManager.GetById(id);
+            var venueToDelete = _venueManager.GetByIdWithIncludes(id);
             if (userIdString != null && venueToDelete.OwnerId.ToString() == userIdString)
             {
                 if (venueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))

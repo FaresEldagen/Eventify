@@ -279,7 +279,6 @@ namespace WebApplication2.Controllers
                 profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
                 profile.BackIdPhoto = OwnerUser.BackIdPhoto;
                 profile.Photo = OwnerUser.Photo;
-                profile.AccountStatus = OwnerUser.AccountStatus;
             }
             else if (await _managerUser.IsInRoleAsync(user, "Organizer"))
             {
@@ -298,7 +297,7 @@ namespace WebApplication2.Controllers
                 profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
                 profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
                 profile.Photo = OrganizerUser.Photo;
-                profile.AccountStatus = OrganizerUser.AccountStatus;
+                
             }
             return View("EditProfile", profile);
         }
@@ -320,7 +319,8 @@ namespace WebApplication2.Controllers
                     OwnerUser.ArabicAddress = profile.ArabicAddress;
                     OwnerUser.ArabicFullName = profile.ArabicFullName;
                     OwnerUser.NationalIDNumber = profile.NationalIDNumber;
-                    OwnerUser.AccountStatus = profile.AccountStatus;
+                    OwnerUser.AccountStatus = AccountStatus.Pending;
+
 
 
                     if (profile.RemovePhoto)
@@ -370,7 +370,7 @@ namespace WebApplication2.Controllers
                     OrganizerUser.ArabicAddress = profile.ArabicAddress;
                     OrganizerUser.ArabicFullName = profile.ArabicFullName;
                     OrganizerUser.NationalIDNumber = profile.NationalIDNumber;
-                    OrganizerUser.AccountStatus = profile.AccountStatus;
+                    OrganizerUser.AccountStatus = AccountStatus.Pending;
 
                     if (profile.RemovePhoto)
                     {
@@ -436,6 +436,14 @@ namespace WebApplication2.Controllers
             else if (User.IsInRole("Organizer"))
             {
                 var events = _managerEvents.GetByUserId(int.Parse(userId));
+                foreach (var evnt in events)
+                {
+                    if (evnt.Status == EventStatusEnum.Paid)
+                    {
+                        TempData["DeleteProfileError"] = true;
+                        return RedirectToAction("Edit");
+                    }
+                }
                 foreach (var event_ in events)
                     { var result = _managerEvents.Delete(event_.EventId); }
             }

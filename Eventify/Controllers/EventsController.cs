@@ -4,6 +4,7 @@ using Eventify.Models.Entities;
 using Eventify.Models.Enums;
 using Eventify.Services;
 using Eventify.ViewModels.EventVM;
+using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -61,12 +62,14 @@ namespace WebApplication2.Controllers
 
     public class EventsController : Controller
     {
-        IEventService _manager;
+        private readonly IEventService _manager;
         private readonly IVenueService _venueManager;
-        public EventsController(IEventService managerEvents, IVenueService venueService)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public EventsController(IEventService managerEvents, IVenueService venueService, UserManager<ApplicationUser> userManager)
         {
             _manager = managerEvents;
             _venueManager = venueService;
+            _userManager = userManager;
         }
 
 
@@ -139,15 +142,20 @@ namespace WebApplication2.Controllers
 
 
         [HttpGet]
-        public IActionResult Add(int id)
+        public async Task<IActionResult> Add(int id)
         {
-            if (User.Identity.IsAuthenticated && User.IsInRole("Organizer"))
+            if (!User.Identity.IsAuthenticated)
             {
-                EventAddVM vm = new EventAddVM();
-                vm.VenueId = id;
-                return View(vm);
+                return RedirectToAction("Login", "Account");
             }
-            return RedirectToAction("Login", "Account");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (!User.IsInRole("Organizer") || user.AccountStatus != AccountStatus.Verified)
+                return RedirectToAction("Index","Profile");
+
+            EventAddVM vm = new EventAddVM();
+            vm.VenueId = id;
+            return View(vm);
         }
 
         [HttpPost]
