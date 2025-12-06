@@ -19,7 +19,7 @@ namespace Eventify.Data.Configurations
                 .HasColumnType("VARCHAR").HasMaxLength(50);
 
 
-            
+
 
         }
 

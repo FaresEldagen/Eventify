@@ -1,0 +1,83 @@
+﻿@model EventDetailsVM
+<div id="cancelOverlay" class="cancel-overlay">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7">
+
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body text-center p-5">
+
+                        <div class="mb-4">
+                            <svg width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="#dc3545" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                                <circle cx="12" cy="12" r="10"></circle>
+                            </svg>
+                        </div>
+
+                        <h2 class="text-danger fw-bold">Can't Delete This Event</h2>
+                        <p class="text-muted mt-3">
+                            you can not delete this event because it is already PAID.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* الـ Overlay */
+    .cancel-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(6px);
+        background: rgba(0, 0, 0, 0.35);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999999;
+        animation: fadeInCancel 0.4s ease-out;
+    }
+
+    .cancel-popup {
+        background: #fff;
+        padding: 40px 50px;
+        border-radius: 18px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        animation: popCancel 0.35s ease-out;
+    }
+
+    @@keyframes popCancel {
+        0% {
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+    @@keyframes fadeInCancel {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+<script>
+    // Redirect after 3 seconds
+    setTimeout(function () {
+        window.location.href = "/Events/Details/@Model.EventId"; // غير إلى الصفحة اللي تريدها
+    }, 5000);
+</script>

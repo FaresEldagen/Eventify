@@ -30,7 +30,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 1
+                    OwnerId = 1,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -52,7 +53,9 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 2
+                    OwnerId = 2,
+                    VenueVerification = VenueVerification.Verified
+
                 },
                 new Venue
                 {
@@ -74,7 +77,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 3
+                    OwnerId = 3,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -96,7 +100,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 1
+                    OwnerId = 1,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -118,7 +123,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 1
+                    OwnerId = 1,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -140,7 +146,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 2
+                    OwnerId = 2,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -162,7 +169,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 3
+                    OwnerId = 3,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -184,7 +192,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = true,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 2
+                    OwnerId = 2,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -206,7 +215,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 1
+                    OwnerId = 1,
+                    VenueVerification = VenueVerification.Verified
                 },
                 new Venue
                 {
@@ -228,7 +238,8 @@ namespace Eventify.Seeding_Data
                     RestroomsAvailable = true,
                     AudioVisualEquipment = false,
                     ProofOfOwnership = "/Images/ownership1.jpg",
-                    OwnerId = 2
+                    OwnerId = 2,
+                    VenueVerification = VenueVerification.Verified
                 }
             );
         }

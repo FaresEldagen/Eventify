@@ -30,7 +30,8 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
             NationalIDNumber = "29701020123455",
             VenueCount = 3,
             WithdrawableEarnings = 15000.75m,
-            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
+            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
+            AccountStatus = AccountStatus.Verified
         };
         Owner1.PasswordHash = hasher.HashPassword(Owner1, "Owner123!");
 
@@ -54,7 +55,8 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
             NationalIDNumber = "29701020123455",
             VenueCount = 3,
             WithdrawableEarnings = 15000.75m,
-            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
+            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
+            AccountStatus = AccountStatus.Verified
         };
         Owner2.PasswordHash = hasher.HashPassword(Owner2, "Owner123!");
 
@@ -78,7 +80,8 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
             NationalIDNumber = "29701020123455",
             VenueCount = 3,
             WithdrawableEarnings = 15000.75m,
-            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54"
+            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
+            AccountStatus = AccountStatus.Verified
         };
         Owner3.PasswordHash = hasher.HashPassword(Owner3, "Owner123!");
 

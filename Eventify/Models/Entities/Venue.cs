@@ -25,6 +25,8 @@ namespace Eventify.Models.Entities
         public bool AudioVisualEquipment { get; set; }
         public string? ProofOfOwnership { get; set; }
 
+        public VenueVerification? VenueVerification { get; set; }
+
 
         // Navigation Property
         public int OwnerId { get; set; }

@@ -11,9 +11,11 @@ namespace Eventify.Managers
     public class VenueManager : IVenueService
     {
         AppDbContext context;
-        public VenueManager(AppDbContext context)
+        IEventService _eventManager;
+        public VenueManager(AppDbContext context, IEventService eventManager)
         {
             this.context = context;
+            _eventManager = eventManager;
         }
 
 
@@ -188,8 +190,25 @@ namespace Eventify.Managers
 
             // Relations (IDs only)
             venueFromDb.OwnerId = venueFromApp.OwnerId;
-
-            return context.SaveChanges();
+            int rowEffected=0;
+            using (var transaction = context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var Events = venueFromDb.Events.Where(e => e.Status == EventStatusEnum.Pending || e.Status == EventStatusEnum.Approved || e.Status == EventStatusEnum.Rejected).ToList();
+                    foreach (var EventItem in Events)
+                    {
+                        _eventManager.Delete(EventItem.EventId);
+                    }
+                    rowEffected = context.SaveChanges();
+                    transaction.Commit();
+                }
+                catch(Exception ex)
+                {
+                    transaction.Rollback();
+                }
+            }
+            return rowEffected;
         }
 
 
@@ -198,19 +217,28 @@ namespace Eventify.Managers
         {
             var VenueToDelete = context.Venues.Include(x => x.Events).FirstOrDefault(i => i.Id == id);
             if (VenueToDelete == null) return 0;
-
-            else if (VenueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))
-            {
-                return -1;
-            }
             else
             {
-                foreach (var EventItem in VenueToDelete.Events)
+                using(var transaction = context.Database.BeginTransaction())
                 {
-                    EventItem.VenueId = null;
+                    try
+                    {
+                        foreach (var EventItem in VenueToDelete.Events)
+                        {
+                            if (EventItem.Status == EventStatusEnum.Finished)
+                                EventItem.VenueId = null;
+                            else
+                                _eventManager.Delete(EventItem.EventId);
+                        }
+                        context.Venues.Remove(VenueToDelete);
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch(Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
                 }
-                context.Venues.Remove(VenueToDelete);
-                context.SaveChanges();
             }
             return 0;
         }

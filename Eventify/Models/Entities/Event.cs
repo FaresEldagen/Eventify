@@ -16,6 +16,7 @@ namespace Eventify.Models.Entities
         public decimal TicketPrice { get; set; }
         public string? Address { get; set; } = string.Empty;
         public int? Capacity { get; set; }
+        public EventVerification EventVerification { get; set; }
 
 
         // Navigation Property

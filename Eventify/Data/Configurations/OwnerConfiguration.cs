@@ -20,6 +20,8 @@ namespace Eventify.Data.Configurations
 
             //NavigationProperty
             builder.HasMany(o => o.Venues).WithOne(s => s.Owner).HasForeignKey(s => s.OwnerId);
+
+
         }
     }
 }
