@@ -1,7 +1,7 @@
 ﻿@model EditProfileVM
 
 <div class="container-lg py-5">
-    <form method="post" asp-controller="Profile" asp-action="SaveEdit" enctype="multipart/form-data">
+    <form method="post" asp-controller="Profile" asp-action="Edit" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
         <!-- Profile Card -->
         <div class="card border-0 shadow-sm mb-4">
@@ -67,7 +67,8 @@
                     <div class="col-lg-4">
                         <label asp-for="Phone" class="form-label fw-semibold">Cell Phone</label>
                         <input asp-for="Phone" class="form-control" placeholder="10 digit number">
-                        <small class="text-muted">Enter your number without leading zeros</small>
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                        <small class="text-muted">Enter your number with your country key</small>
                     </div>
                     @if (User.IsInRole("Organizer"))
                     {
@@ -75,16 +76,19 @@
                             <div class="col-md-6 col-lg-6">
                                 <label asp-for="Specialization" class="form-label fw-semibold">Specialization</label>
                                 <input asp-for="Specialization" class="form-control" placeholder="What are you Specialized at?">
+                                <span asp-validation-for="Specialization" class="text-danger"></span>
                             </div>
                             <div class="col-md-6 col-lg-6">
                                 <label asp-for="ExperienceYear" class="form-label fw-semibold">Experience Years</label>
                                 <input asp-for="ExperienceYear" class="form-control" placeholder="How many years of Experience?">
+                                <span asp-validation-for="ExperienceYear" class="text-danger"></span>
                             </div>
                         </div>
                     }
                     <div class="col-12">
                         <label asp-for="BIO" class="form-label fw-semibold">Bio</label>
                         <textarea asp-for="BIO" class="form-control" rows="4" placeholder="Tell us about yourself..."></textarea>
+                        <span asp-validation-for="BIO" class="text-danger"></span>
                     </div>
                 </div>
             </div>
@@ -105,14 +109,17 @@
                     <div class="col-md-6">
                         <label asp-for="NationalIDNumber" class="form-label fw-semibold">National ID Number*</label>
                         <input asp-for="NationalIDNumber" class="form-control" placeholder="National ID">
+                        <span asp-validation-for="NationalIDNumber" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="ArabicFullName" class="form-label fw-semibold">Arabic Full Name (4 names)*</label>
                         <input asp-for="ArabicFullName" class="form-control" placeholder="الاسم الرباعي كما ببطاقة الهوية">
+                        <span asp-validation-for="ArabicFullName" class="text-danger"></span>
                     </div>
                     <div class="col-md-6">
                         <label asp-for="ArabicAddress" class="form-label fw-semibold">Arabic Address*</label>
                         <input asp-for="ArabicAddress" class="form-control" placeholder="العنوان باللغة العربية">
+                        <span asp-validation-for="ArabicAddress" class="text-danger"></span>
                     </div>
 
 

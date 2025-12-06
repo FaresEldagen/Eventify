@@ -16,7 +16,22 @@
                     }
                 </div>
                 <h3 class="fw-bold">@Model.Name</h3>
-                <p class="text-muted">Venues Owner</p>
+                <p class="fw-bold mb-2">
+                    Verfication:
+                    @if (Model.Verfication == AccountStatus.Verified.ToString())
+                    {
+                        <span class="text-success">Verified</span>
+                    }
+                    else if (Model.Verfication == AccountStatus.Declined.ToString())
+                    {
+                        <span class="text-danger">Declined</span>
+                    }
+                    else if (Model.Verfication == AccountStatus.Declined.ToString())
+                    {
+                        <span class="text-warning">Pending</span>
+                    }
+                </p>
+                <p class="text-muted mb-2">Venues Owner</p>
                 <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Profile")">Edit Profile</a>
             </div>
         </div>

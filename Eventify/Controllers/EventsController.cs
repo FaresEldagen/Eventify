@@ -282,7 +282,6 @@ namespace WebApplication2.Controllers
                 {
                     vm.EventPhotos.Add(t);
                 }
-                //vm.OriginalPhotoCount = ev.EventPhotos.Count;
                 return View(vm); 
             }
             return RedirectToAction("Login", "Account");

@@ -9,7 +9,7 @@
         public int Capacity { get; set; }
         public decimal PricePerHour { get; set; }
         public string Photo { get; set; }
-        public string Type { get; set; }
+        public string Status { get; set; }
 
     }
 }
