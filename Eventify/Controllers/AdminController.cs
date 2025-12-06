@@ -3,8 +3,10 @@ using Eventify.Models.Enums;
 using Eventify.Services;
 using Eventify.ViewModels.AdminVm;
 using Eventify.ViewModels.EventVM;
+using Eventify.ViewModels.ProfileVM;
 using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -17,13 +19,15 @@ namespace Eventify.Controllers
         private readonly IEventService _eventManager;
         private readonly IVenueService _venueManager;
         private readonly IPaymentService _paymentManager;
+        private readonly UserManager<ApplicationUser> _managerUser;
 
-        public AdminController(IApplicationUserService userManager, IEventService eventManager, IVenueService venueManager, IPaymentService paymentManager)
+        public AdminController(IApplicationUserService userManager, IEventService eventManager, IVenueService venueManager, IPaymentService paymentManager, UserManager<ApplicationUser> managerUser)
         {
             _userManager = userManager;
             _eventManager = eventManager;
             _venueManager = venueManager;
             _paymentManager = paymentManager;
+            _managerUser = managerUser;
         }
 
         public async Task<IActionResult> Index()
@@ -55,26 +59,74 @@ namespace Eventify.Controllers
 
             return RedirectToAction("Index", "Admin");
         }
-        public IActionResult ReviewUser()
+        public async Task<IActionResult> ReviewUser(int id)
         {
-            return View();
+            var user = await _managerUser.FindByIdAsync(id.ToString());
+            if (user == null)
+                return NotFound();
+
+            var profile = new EditProfileVM();
+            profile.id = id;
+            if (await _managerUser.IsInRoleAsync(user, "Owner"))
+            {
+                Owner OwnerUser = (Owner)user;
+                profile.Photo = OwnerUser.Photo;
+                profile.Gender = OwnerUser.Gender;
+                profile.Country = OwnerUser.Country;
+                profile.BIO = OwnerUser.BIO;
+                profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OwnerUser.BackIdPhoto;
+                profile.ArabicAddress = OwnerUser.ArabicAddress;
+                profile.ArabicFullName = OwnerUser.ArabicFullName;
+                profile.NationalIDNumber = OwnerUser.NationalIDNumber;
+                profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OwnerUser.BackIdPhoto;
+                profile.Photo = OwnerUser.Photo;
+                profile.AccountStatus = OwnerUser.AccountStatus;
+            }
+            else
+            {
+                Organizer OrganizerUser = (Organizer)user;
+                profile.Photo = OrganizerUser.Photo;
+                profile.Gender = OrganizerUser.Gender;
+                profile.Country = OrganizerUser.Country;
+                profile.BIO = OrganizerUser.BIO;
+                profile.ExperienceYear = OrganizerUser.ExperienceYear;
+                profile.Specialization = OrganizerUser.Specialization;
+                profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
+                profile.ArabicAddress = OrganizerUser.ArabicAddress;
+                profile.ArabicFullName = OrganizerUser.ArabicFullName;
+                profile.NationalIDNumber = OrganizerUser.NationalIDNumber;
+                profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
+                profile.Photo = OrganizerUser.Photo;
+                profile.AccountStatus = OrganizerUser.AccountStatus;
+            }
+            return View(profile);
         }
-        public IActionResult VerifyUser()
+        public async Task<IActionResult> VerifyUser(int id)
         {
-            return View();
+            var user = await _managerUser.FindByIdAsync(id.ToString());
+            if (user == null)
+                return NotFound();
+
+            user.AccountStatus = AccountStatus.Verified;
+            await _managerUser.UpdateAsync(user);
+            return RedirectToAction("Index");
         }
-        public IActionResult DeclineUser()
+        public async Task<IActionResult> DeclineUser(int id)
         {
-            return View();
+            var user = await _managerUser.FindByIdAsync(id.ToString());
+            if (user == null)
+                return NotFound();
+
+            user.AccountStatus = AccountStatus.Declined;
+            await _managerUser.UpdateAsync(user);
+            return RedirectToAction("Index");
         }
         public IActionResult ReviewVenue(int id)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdString == null)
-                return RedirectToAction("Login", "Account");
-            if (!User.IsInRole("Admin"))
-                return Unauthorized();
-
             var venue = _venueManager.GetByIdWithIncludes(id);
             if (venue == null || venue.VenueVerification != VenueVerification.Pending)
                 return NotFound();
@@ -105,12 +157,6 @@ namespace Eventify.Controllers
         }
         public IActionResult VerifyVenue(int id)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdString == null)
-                return RedirectToAction("Login", "Account");
-            if (!User.IsInRole("Admin"))
-                return Unauthorized();
-
             var venue = _venueManager.GetByIdWithIncludes(id);
             if (venue == null || venue.VenueVerification != VenueVerification.Pending)
                 return NotFound();
@@ -121,12 +167,6 @@ namespace Eventify.Controllers
         }
         public IActionResult DeclineVenue(int id)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdString == null)
-                return RedirectToAction("Login", "Account");
-            if (!User.IsInRole("Admin"))
-                return Unauthorized();
-
             var venue = _venueManager.GetByIdWithIncludes(id);
             if (venue == null || venue.VenueVerification != VenueVerification.Pending)
                 return NotFound();
@@ -140,12 +180,6 @@ namespace Eventify.Controllers
 
         public IActionResult ReviewEvent(int id)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdString == null)
-                return RedirectToAction("Login", "Account");
-            if (!User.IsInRole("Admin"))
-                return Unauthorized();
-
             Event ev = _eventManager.GetByIdWithIncludes(id)!;
             if (ev == null || ev.EventVerification != EventVerification.Pending)
                 return NotFound();
@@ -169,12 +203,6 @@ namespace Eventify.Controllers
         }
         public IActionResult VerifyEvent(int id)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdString == null)
-                return RedirectToAction("Login", "Account");
-            if (!User.IsInRole("Admin"))
-                return Unauthorized();
-
             Event ev = _eventManager.GetByIdWithIncludes(id)!;
             if (ev == null || ev.EventVerification != EventVerification.Pending)
                 return NotFound();
@@ -185,12 +213,6 @@ namespace Eventify.Controllers
         }
         public IActionResult DeclineEvent(int id)
         {
-            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userIdString == null)
-                return RedirectToAction("Login", "Account");
-            if (!User.IsInRole("Admin"))
-                return Unauthorized();
-
             Event ev = _eventManager.GetByIdWithIncludes(id)!;
             if (ev == null || ev.EventVerification != EventVerification.Pending)
                 return NotFound();

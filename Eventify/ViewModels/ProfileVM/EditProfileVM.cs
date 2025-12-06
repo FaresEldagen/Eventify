@@ -5,6 +5,7 @@ namespace Eventify.ViewModels.ProfileVM
 {
     public class EditProfileVM
     {
+        public int? id { get; set; }
         public GenderEnum? Gender { get; set; }
         public CountryEnum? Country { get; set; }
 
