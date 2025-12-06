@@ -95,15 +95,11 @@ namespace WebApplication2.Controllers
                         venuecard.Capacity = venue.Capacity;
                         venuecard.VenueType = venue.VenueType.ToString();
                         venuecard.Address = venue.Address;
-                        venuecard.Type = venue.VenueType.ToString();
+                        venuecard.Status = venue.VenueVerification.ToString();
                         if (venue.VenuePhotos.Count > 0)
-                        {
                             venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
-                        }
                         else
-                        {
                             venuecard.Photo = "/images/default.jpg";
-                        }
                         venuesCards.Add(venuecard);
                     }
 
@@ -119,9 +115,10 @@ namespace WebApplication2.Controllers
                     profile.VenueCount = venuesCards.Count;
                     profile.Venues = venuesCards;
                     profile.WithdrawableEarnings = user.WithdrawableEarnings;
+                    profile.Verfication = user.AccountStatus.ToString();
                     return View("PersonalVenueOwner", profile);
                 }
-                else
+                else if(User.IsInRole("Organizer"))
                 {
                     var user = (Organizer)await _managerUser.FindByIdAsync(userId);
                     List<Event> events = _managerEvents.GetByUserId(Id);
@@ -136,12 +133,9 @@ namespace WebApplication2.Controllers
                         eventcard.Address = event_.Address;
                         eventcard.Status = event_.Status.ToString();
                         if (event_.EventPhotos.Count > 0)
-                        {
-                            eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;                        }
+                            eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
                         else
-                        {
                             eventcard.EventPhoto = "/images/default.jpg";
-                        }
                         eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
                         EventCards.Add(eventcard);
                     }
@@ -159,7 +153,16 @@ namespace WebApplication2.Controllers
                     profile.ExperienceYear = user.ExperienceYear;
                     profile.EventsCount = EventCards.Count;
                     profile.Events = EventCards;
+                    profile.Verfication = user.AccountStatus.ToString();
                     return View("PersonalEventOrganizer", profile);
+                }
+                else if (User.IsInRole("Admin"))
+                {
+                    return RedirectToAction("Index", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
                 }
             }
             else
@@ -192,8 +195,11 @@ namespace WebApplication2.Controllers
                         venuecard.Capacity = venue.Capacity;
                         venuecard.VenueType = venue.VenueType.ToString();
                         venuecard.Address = venue.Address;
-                        venuecard.Type = venue.VenueType.ToString();
-                        venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
+                        venuecard.Status = venue.VenueVerification.ToString();
+                        if (venue.VenuePhotos.Count > 0)
+                            venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
+                        else
+                            venuecard.Photo = "/images/default.jpg";
                         venuesCards.Add(venuecard);
                     }
 
@@ -211,7 +217,7 @@ namespace WebApplication2.Controllers
                     profile.WithdrawableEarnings = OwnerUser.WithdrawableEarnings;
                     return View("OtherVenueOwner", profile);
                 }
-                else
+                else if (await _managerUser.IsInRoleAsync(user, "Organizer"))
                 {
                     Organizer OrganizerUser = (Organizer)user;
                     List<Event> events = _managerEvents.GetByUserId(Id);
@@ -225,7 +231,10 @@ namespace WebApplication2.Controllers
                         eventcard.Category = event_.Category.ToString();
                         eventcard.Address = event_.Address;
                         eventcard.Status = event_.Status.ToString();
-                        eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
+                        if (event_.EventPhotos.Count > 0)
+                            eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
+                        else
+                            eventcard.EventPhoto = "/images/default.jpg";
                         eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
                         EventCards.Add(eventcard);
                     }
@@ -244,6 +253,10 @@ namespace WebApplication2.Controllers
                     profile.EventsCount = EventCards.Count;
                     profile.Events = EventCards;
                     return View("OtherEventOrganizer", profile);
+                }
+                else
+                {
+                    return NotFound();
                 }
             }
             else
@@ -306,7 +319,7 @@ namespace WebApplication2.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveEdit(EditProfileVM profile)
+        public async Task<IActionResult> Edit(EditProfileVM profile)
         {
             if (ModelState.IsValid) 
             {

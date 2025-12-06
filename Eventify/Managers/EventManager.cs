@@ -168,7 +168,7 @@ namespace Eventify.Managers
 
         public List<Event> GetPendingEvents()
         {
-            return context.Events.Where(e => e.Status == EventStatusEnum.Pending).OrderBy(e=>e.StartDateTime).ToList();
+            return context.Events.Where(e => e.EventVerification == EventVerification.Pending).OrderBy(e=>e.StartDateTime).ToList();
         }
     }
 }

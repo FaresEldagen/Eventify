@@ -1,13 +1,16 @@
 ﻿using Eventify.Models.Entities;
+using Eventify.Models.Enums;
 using Eventify.Services;
 using Eventify.ViewModels.AdminVm;
+using Eventify.ViewModels.EventVM;
+using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace Eventify.Controllers
 {
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly IApplicationUserService _userManager;
@@ -29,7 +32,7 @@ namespace Eventify.Controllers
             {
                 Admins = await _userManager.GetAllUserByRoleAsync("Admin"),
                 Users = _userManager.GetApplicationUsers(),
-                Events= _eventManager.GetPendingEvents(),
+                Events = _eventManager.GetPendingEvents(),
                 Payments = _paymentManager.GetPayments(),
                 Venues = _venueManager.GetPendingVenues(),
                 UserEmail = null
@@ -50,7 +53,7 @@ namespace Eventify.Controllers
                     TempData["SomethingWrongOccuredError"] = true;
             }
 
-            return RedirectToAction("Index","Admin");
+            return RedirectToAction("Index", "Admin");
         }
         public IActionResult ReviewUser()
         {
@@ -64,29 +67,137 @@ namespace Eventify.Controllers
         {
             return View();
         }
-        public IActionResult ReviewVenue()
+        public IActionResult ReviewVenue(int id)
         {
-            return View();
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return Unauthorized();
+
+            var venue = _venueManager.GetByIdWithIncludes(id);
+            if (venue == null || venue.VenueVerification != VenueVerification.Pending)
+                return NotFound();
+
+            var vm = new VenueEditVM
+            {
+                Id = venue.Id,
+                Name = venue.Name,
+                VenueType = venue.VenueType,
+                Address = venue.Address,
+                Country = venue.Country,
+                ZIP = venue.ZIP,
+                Description = venue.Description,
+                Capacity = venue.Capacity,
+                PricePerHour = venue.PricePerHour,
+                SpecialFeatures = venue.SpecialFeatures,
+                AirConditioningAvailable = venue.AirConditioningAvailable,
+                CateringAvailable = venue.CateringAvailable,
+                WifiAvailable = venue.WifiAvailable,
+                ParkingAvailable = venue.ParkingAvailable,
+                BarServiceAvailable = venue.BarServiceAvailable,
+                RestroomsAvailable = venue.RestroomsAvailable,
+                AudioVisualEquipment = venue.AudioVisualEquipment,
+                ProofOfOwnership = venue.ProofOfOwnership,
+                venuePhotos = venue.VenuePhotos.ToList()
+            };
+            return View(vm);
         }
-        public IActionResult VerifyVenue()
+        public IActionResult VerifyVenue(int id)
         {
-            return View();
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return Unauthorized();
+
+            var venue = _venueManager.GetByIdWithIncludes(id);
+            if (venue == null || venue.VenueVerification != VenueVerification.Pending)
+                return NotFound();
+
+            venue.VenueVerification = VenueVerification.Verified;
+            _venueManager.Update(venue);
+            return RedirectToAction("Index");
         }
-        public IActionResult DeclineVenue()
+        public IActionResult DeclineVenue(int id)
         {
-            return View();
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return Unauthorized();
+
+            var venue = _venueManager.GetByIdWithIncludes(id);
+            if (venue == null || venue.VenueVerification != VenueVerification.Pending)
+                return NotFound();
+
+            venue.VenueVerification = VenueVerification.Declined;
+            _venueManager.Update(venue);
+            return RedirectToAction("Index");
         }
-        public IActionResult ReviewEvent()
+
+
+
+        public IActionResult ReviewEvent(int id)
         {
-            return View();
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return Unauthorized();
+
+            Event ev = _eventManager.GetByIdWithIncludes(id)!;
+            if (ev == null || ev.EventVerification != EventVerification.Pending)
+                return NotFound();
+
+            EventEditVM vm = new EventEditVM();
+            vm.EventId = ev.EventId;
+            vm.EventTitle = ev.EventTitle;
+            vm.Category = ev.Category;
+            vm.Description = ev.Description;
+            vm.StartDateTime = ev.StartDateTime;
+            vm.EndDateTime = ev.EndDateTime;
+            vm.TicketPrice = ev.TicketPrice;
+            vm.Features = ev.Features;
+            vm.IsPrivate = ev.IsPrivate;
+            vm.VenueId = ev.VenueId;
+            foreach (var t in ev.EventPhotos)
+            {
+                vm.EventPhotos.Add(t);
+            }
+            return View(vm);
         }
-        public IActionResult VerifyEvent()
+        public IActionResult VerifyEvent(int id)
         {
-            return View();
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return Unauthorized();
+
+            Event ev = _eventManager.GetByIdWithIncludes(id)!;
+            if (ev == null || ev.EventVerification != EventVerification.Pending)
+                return NotFound();
+
+            ev.EventVerification = EventVerification.Verified;
+            _eventManager.Update(ev);
+            return RedirectToAction("Index");
         }
-        public IActionResult DeclineEvent()
+        public IActionResult DeclineEvent(int id)
         {
-            return View();
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userIdString == null)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return Unauthorized();
+
+            Event ev = _eventManager.GetByIdWithIncludes(id)!;
+            if (ev == null || ev.EventVerification != EventVerification.Pending)
+                return NotFound();
+
+            ev.EventVerification = EventVerification.Declined;
+            _eventManager.Update(ev);
+            return RedirectToAction("Index");
         }
     }
 }

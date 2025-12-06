@@ -96,7 +96,7 @@ namespace WebApplication2.Controllers
                 {
                     Id = v.Id,
                     VenueName = v.Name!,
-                    Type = v.VenueType.ToString(),
+                    VenueType = v.VenueType.ToString(),
                     Address = v.Address!,
                     Capacity = v.Capacity,
                     PricePerHour = v.PricePerHour,
@@ -140,7 +140,7 @@ namespace WebApplication2.Controllers
                 {
                     Id = v.Id,
                     VenueName = v.Name!,
-                    Type = v.VenueType.ToString(),
+                    VenueType = v.VenueType.ToString(),
                     Address = v.Address!,
                     Capacity = v.Capacity,
                     PricePerHour = v.PricePerHour,
@@ -206,6 +206,7 @@ namespace WebApplication2.Controllers
                     PendingEvents = pendingEventsList,
                     DateRange = bookedDates,
                     OwnerId = venue.OwnerId,
+                    VenueVerification = venue.VenueVerification,
                     OwnerName = venue.Owner.UserName
                 };
                 return View("Details_Owner", venueDetailsOwnerVM);

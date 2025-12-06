@@ -64,7 +64,6 @@ namespace Eventify.Controllers
                 venuecard.Capacity = venue.Capacity;
                 venuecard.VenueType = venue.VenueType.ToString();
                 venuecard.Address = venue.Address;
-                venuecard.Type = venue.VenueType.ToString();
                 if (venue.VenuePhotos.Count > 0)
                 {
                     venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;

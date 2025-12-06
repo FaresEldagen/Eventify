@@ -116,23 +116,22 @@
                         {
                             foreach (var photo in Model.EventPhotos)
                             {
-                                <a href="@photo.PhotoUrl" target="_blank">
-                                    <div class="col-md-3 col-sm-4 col-6"
+                                <div class="col-md-3 col-sm-4 col-6"
                                          data-file-name="@photo.PhotoUrl.Split('/').Last()">
-                                        <div class="position-relative">
+                                    <div class="position-relative">
+                                        <a href="@photo.PhotoUrl" target="_blank">
                                             <img src="@photo.PhotoUrl" class="img-thumbnail w-100"
                                                  style="height:150px; object-fit:cover;" />
-                                        </div>
+                                        </a>
                                     </div>
-                                </a>
+                                </div>
                             }
                         }
                     </div>
 
                     <!-- Privacy -->
                     <h6 class="fw-bold mb-3">Privacy</h6>
-                    <input asp-for="IsPrivate" type="number" class="form-control" readonly
-                           placeholder="Empty" />
+                    <input asp-for="IsPrivate" type="number" class="form-control" readonly placeholder="Empty" />
                 </div>
 
                 <!-- Danger Zone -->
@@ -144,8 +143,8 @@
                                 <p class="text-muted mb-0 small">According to the user information, Choose to verify or decline verifying the user.</p>
                             </div>
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary px-5">Verify</button>
-                                <button type="button" class="btn btn-danger px-5">Decline</button>
+                                <a class="btn btn-primary px-5" href="@Url.Action("VerifyEvent", "Admin", new { id = Model.EventId })">Verify</a>
+                                <a class="btn btn-danger px-5" href="@Url.Action("DeclineEvent", "Admin", new { id = Model.EventId })">Decline</a>
                             </div>
                         </div>
                     </div>

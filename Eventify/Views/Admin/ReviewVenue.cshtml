@@ -114,7 +114,7 @@
                             <input asp-for="Capacity" type="number" class="form-control" readonly placeholder="Empty">
                         </div>
                         <div class="col-md-6">
-                            <label asp-for="PricePerHour" class="form-label">Price per Hour ($)</label>
+                            <label asp-for="PricePerHour" class="form-label">Price per Hour ($) *</label>
                             <input asp-for="PricePerHour" type="number" class="form-control" readonly placeholder="Empty">
                         </div>
                     </div>
@@ -125,71 +125,71 @@
                     <div class="row g-3">
                         <div class="col-md-3">
                             <input asp-for="AirConditioningAvailable" class="form-check-input"
-                                   type="checkbox" />
+                                   type="checkbox" disabled />
                             <label asp-for="AirConditioningAvailable" class="form-label" for="Amenities">
                                 Air
                                 Conditioning
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <input asp-for="CateringAvailable" class="form-check-input" type="checkbox" />
+                            <input asp-for="CateringAvailable" class="form-check-input" type="checkbox" disabled />
                             <label asp-for="CateringAvailable" class="form-label"
                                    for="Amenities">Catering</label>
                         </div>
                         <div class="col-md-3">
-                            <input asp-for="WifiAvailable" class="form-check-input" type="checkbox" />
+                            <input asp-for="WifiAvailable" class="form-check-input" type="checkbox" disabled />
                             <label asp-for="WifiAvailable" class="form-label" for="Amenities">Wi-Fi</label>
                         </div>
                         <div class="col-md-3">
-                            <input asp-for="ParkingAvailable" class="form-check-input" type="checkbox" />
+                            <input asp-for="ParkingAvailable" class="form-check-input" type="checkbox" disabled />
                             <label asp-for="ParkingAvailable" class="form-label" for="Amenities">Parking</label>
                         </div>
                     </div>
                     <div class="row g-3 mb-3">
                         <div class="col-md-3">
-                            <input asp-for="BarServiceAvailable" class="form-check-input" type="checkbox" />
+                            <input asp-for="BarServiceAvailable" class="form-check-input" type="checkbox" disabled />
                             <label asp-for="BarServiceAvailable" class="form-label" for="Amenities">
                                 Bar
                                 Service
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <input asp-for="AudioVisualEquipment" class="form-check-input" type="checkbox" />
+                            <input asp-for="AudioVisualEquipment" class="form-check-input" type="checkbox" disabled />
                             <label asp-for="AudioVisualEquipment" class="form-label" for="Amenities">
                                 Audio
                                 Visual Equipment
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <input asp-for="RestroomsAvailable" class="form-check-input" type="checkbox" />
+                            <input asp-for="RestroomsAvailable" class="form-check-input" type="checkbox" disabled />
                             <label asp-for="RestroomsAvailable" class="form-label"
                                    for="Amenities">Restrooms</label>
                         </div>
                     </div>
 
                     <!-- Current Photos -->
-                    <h6 class="fw-bold mb-3">Current Photos</h6>
+                    <h6 class="fw-bold mb-3">Current Photos (At least one photo)</h6>
                     <div class="row g-3 mb-4">
                         @if (Model.venuePhotos != null && Model.venuePhotos.Count > 0)
                         {
                             foreach (var photo in Model.venuePhotos)
                             {
-                                <a href="@photo.PhotoUrl" target="_blank">
-                                    <div class="col-md-3 col-sm-4 col-6"
-                                         data-file-name="@photo.PhotoUrl.Split('/').Last()">
-                                        <div class="position-relative">
+                                <div class="col-md-3 col-sm-4 col-6"
+                                        data-file-name="@photo.PhotoUrl.Split('/').Last()">
+                                    <div class="position-relative">
+                                        <a href="@photo.PhotoUrl" target="_blank">
                                             <img src="@photo.PhotoUrl" class="img-thumbnail w-100"
                                                  style="height:150px; object-fit:cover;" />
-                                        </div>
+                                        </a>
                                     </div>
-                                </a>
+                                </div>
                             }
                         }
                     </div>
 
 
                     <!-- Proof of ownership -->
-                    <h6 class="fw-bold mb-3">Proof of ownership</h6>
+                    <h6 class="fw-bold mb-3">Proof of ownership *</h6>
                     <div class="col-md-4 mb-3">
                         <div class="position-relative" id="FrontIdPreviewWrapper"
                              style="width: 100%; height: 480px;">
@@ -215,10 +215,9 @@
                     </div>
 
                     <!-- Special Features -->
-                    <h6 class="fw-bold mb-3">Special Features</h6>
+                    <h6 class="fw-bold mb-3">Special Features (Optional)</h6>
                     <div class="mb-4">
-                        <textarea asp-for="SpecialFeatures" class="form-control" rows="4"
-                                  placeholder="Describe the Special Features of your venue"></textarea>
+                        <textarea asp-for="SpecialFeatures" class="form-control" rows="4" readonly placeholder="Empty"></textarea>
                     </div>
                 </div>
 
@@ -231,8 +230,8 @@
                                 <p class="text-muted mb-0 small">According to the user information, Choose to verify or decline verifying the user.</p>
                             </div>
                             <div class="text-end">
-                                <button type="submit" class="btn btn-primary px-5">Verify</button>
-                                <button type="button" class="btn btn-danger px-5">Decline</button>
+                                <a class="btn btn-primary px-5" href="@Url.Action("VerifyVenue", "Admin", new { id = Model.Id })">Verify</a>
+                                <a class="btn btn-danger px-5" href="@Url.Action("DeclineVenue", "Admin", new { id = Model.Id })">Decline</a>
                             </div>
                         </div>
                     </div>
