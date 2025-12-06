@@ -43,7 +43,14 @@ namespace Eventify.Controllers
                 eventcard.Category = event_.Category.ToString();
                 eventcard.Address = event_.Address;
                 eventcard.Status = event_.Status.ToString();
-                eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
+                if (event_.EventPhotos.Count > 0)
+                {
+                    eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
+                }
+                else
+                {
+                    eventcard.EventPhoto = "/images/default.jpg";
+                }
                 eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
                 EventsCards.Add(eventcard);
             }
@@ -58,7 +65,14 @@ namespace Eventify.Controllers
                 venuecard.VenueType = venue.VenueType.ToString();
                 venuecard.Address = venue.Address;
                 venuecard.Type = venue.VenueType.ToString();
-                venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
+                if (venue.VenuePhotos.Count > 0)
+                {
+                    venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
+                }
+                else
+                {
+                    venuecard.Photo = "/images/default.jpg";
+                }
                 VenuesCards.Add(venuecard);
             }
 

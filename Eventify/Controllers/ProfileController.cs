@@ -8,6 +8,7 @@ using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Data;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Claims;
@@ -95,7 +96,14 @@ namespace WebApplication2.Controllers
                         venuecard.VenueType = venue.VenueType.ToString();
                         venuecard.Address = venue.Address;
                         venuecard.Type = venue.VenueType.ToString();
-                        venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
+                        if (venue.VenuePhotos.Count > 0)
+                        {
+                            venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
+                        }
+                        else
+                        {
+                            venuecard.Photo = "/images/default.jpg";
+                        }
                         venuesCards.Add(venuecard);
                     }
 
@@ -127,7 +135,13 @@ namespace WebApplication2.Controllers
                         eventcard.Category = event_.Category.ToString();
                         eventcard.Address = event_.Address;
                         eventcard.Status = event_.Status.ToString();
-                        eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
+                        if (event_.EventPhotos.Count > 0)
+                        {
+                            eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;                        }
+                        else
+                        {
+                            eventcard.EventPhoto = "/images/default.jpg";
+                        }
                         eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
                         EventCards.Add(eventcard);
                     }

@@ -90,7 +90,7 @@ namespace WebApplication2.Controllers
                 Id = e.EventId,
                 EventTitle = e.EventTitle!,
                 Category = e.Category.ToString(),
-                EventPhoto = e.EventPhotos.FirstOrDefault()!.PhotoUrl!,
+                EventPhoto = (e.EventPhotos.Count > 0) ? e.EventPhotos[0].PhotoUrl! : "/images/default.jpg",
                 Address = e.Address!,
                 StartDateTime = e.StartDateTime.ToString(),
                 Status = e.Status.ToString(),

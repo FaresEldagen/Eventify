@@ -100,7 +100,7 @@ namespace WebApplication2.Controllers
                     Address = v.Address!,
                     Capacity = v.Capacity,
                     PricePerHour = v.PricePerHour,
-                    Photo = v.VenuePhotos.FirstOrDefault()!.PhotoUrl!
+                    Photo = (v.VenuePhotos.Count > 0)? v.VenuePhotos[0].PhotoUrl! : "/images/default.jpg"
                 }).ToList();
 
             var totalFilterVenues = totalVenues;

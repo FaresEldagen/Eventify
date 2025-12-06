@@ -57,7 +57,6 @@ namespace Eventify.ViewModels.VenueVM
         public string? ProofOfOwnership { get; set; }
 
 
-        [MinPhotos(1)]
         public List<IFormFile> FormFiles { get; set; } = new List<IFormFile>();
         public List<VenuePhoto> venuePhotos { get; set; } = new List<VenuePhoto>();
         public List<string> DeletedPhotos { get; set; } = new List<string>();
