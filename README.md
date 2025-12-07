@@ -25,3 +25,6 @@ SRS : https://docs.google.com/document/d/1ajQWUm0dI22S_kbpCXRgOBGyReo6FMx66-R4yN
 
 
 Wireframe : https://www.figma.com/design/eh5R5rSwTuS2e40nEOqwHt/Wireframe?node-id=0-1&p=f
+
+
+ERD : https://drive.google.com/file/d/1L1TQK_VG6KIKWJVLSZ3haP35U5HT36Qe/view?usp=sharing
