@@ -5,6 +5,7 @@ using Eventify.Services;
 using Eventify.ViewModels.EventVM;
 using Eventify.ViewModels.ProfileVM;
 using Eventify.ViewModels.VenueVM;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -61,6 +62,8 @@ namespace WebApplication2.Controllers
         }
 
     }
+
+    [Authorize]
     public class ProfileController : Controller
     {
         IVenueService _managerVenues;
@@ -77,236 +80,231 @@ namespace WebApplication2.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId != null)
+            if (User.IsInRole("Admin"))
             {
-                int Id = int.Parse(userId);
-                if (User.IsInRole("Owner"))
-                {
-                    var user = (Owner)await _managerUser.FindByIdAsync(userId);
-                    List<Venue> venues = _managerVenues.GetByUserId(Id);
-                    List<VenueCardVM> venuesCards = new List<VenueCardVM>();
-                    foreach (Venue venue in venues)
-                    {
-                        VenueCardVM venuecard = new VenueCardVM();
-                        venuecard.Id = venue.Id;
-                        venuecard.VenueName = venue.Name;
-                        venuecard.PricePerHour = venue.PricePerHour;
-                        venuecard.Capacity = venue.Capacity;
-                        venuecard.VenueType = venue.VenueType.ToString();
-                        venuecard.Address = venue.Address;
-                        venuecard.Type = venue.VenueType.ToString();
-                        if (venue.VenuePhotos.Count > 0)
-                        {
-                            venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
-                        }
-                        else
-                        {
-                            venuecard.Photo = "/images/default.jpg";
-                        }
-                        venuesCards.Add(venuecard);
-                    }
+                return RedirectToAction("Index", "Admin");
+            }
 
-                    var profile = new PersonalVenueOwnerVM();
-                    profile.Id = Id;
-                    profile.Name = user.UserName;
-                    profile.Email = user.Email;
-                    profile.JoinedDate = user.JoinedDate.ToShortDateString();
-                    profile.Gender = string.IsNullOrWhiteSpace(user.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
-                    profile.BIO = user.BIO;
-                    profile.Photo = user.Photo;
-                    profile.Country = string.IsNullOrWhiteSpace(user.Country.ToString()) ? "Undefined" : user.Country.ToString();
-                    profile.VenueCount = venuesCards.Count;
-                    profile.Venues = venuesCards;
-                    profile.WithdrawableEarnings = user.WithdrawableEarnings;
-                    return View("PersonalVenueOwner", profile);
-                }
-                else
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            int Id = int.Parse(userId);
+            if (User.IsInRole("Owner"))
+            {
+                var user = (Owner)await _managerUser.FindByIdAsync(userId);
+                List<Venue> venues = _managerVenues.GetByUserId(Id);
+                List<VenueCardVM> venuesCards = new List<VenueCardVM>();
+                foreach (Venue venue in venues)
                 {
-                    var user = (Organizer)await _managerUser.FindByIdAsync(userId);
-                    List<Event> events = _managerEvents.GetByUserId(Id);
-                    List<EventCardVM> EventCards = new List<EventCardVM>();
-                    foreach (Event event_ in events)
-                    {
-                        EventCardVM eventcard = new EventCardVM();
-                        eventcard.Id = event_.EventId;
-                        eventcard.EventTitle = event_.EventTitle;
-                        eventcard.TicketPrice = event_.TicketPrice;
-                        eventcard.Category = event_.Category.ToString();
-                        eventcard.Address = event_.Address;
-                        eventcard.Status = event_.Status.ToString();
-                        if (event_.EventPhotos.Count > 0)
-                        {
-                            eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;                        }
-                        else
-                        {
-                            eventcard.EventPhoto = "/images/default.jpg";
-                        }
-                        eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
-                        EventCards.Add(eventcard);
-                    }
-
-                    var profile = new EventOrganizerVM();
-                    profile.Id = Id;
-                    profile.Name = user.UserName;
-                    profile.Email = user.Email;
-                    profile.JoinedDate = user.JoinedDate.ToShortDateString();
-                    profile.Gender = string.IsNullOrWhiteSpace(user.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
-                    profile.BIO = user.BIO;
-                    profile.Photo = user.Photo;
-                    profile.Country = string.IsNullOrWhiteSpace(user.Country.ToString()) ? "Undefined" : user.Country.ToString();
-                    profile.Specialization = user.Specialization ?? "Undefined";
-                    profile.ExperienceYear = user.ExperienceYear;
-                    profile.EventsCount = EventCards.Count;
-                    profile.Events = EventCards;
-                    return View("PersonalEventOrganizer", profile);
+                    VenueCardVM venuecard = new VenueCardVM();
+                    venuecard.Id = venue.Id;
+                    venuecard.VenueName = venue.Name;
+                    venuecard.PricePerHour = venue.PricePerHour;
+                    venuecard.Capacity = venue.Capacity;
+                    venuecard.VenueType = venue.VenueType.ToString();
+                    venuecard.Address = venue.Address;
+                    venuecard.Status = venue.VenueVerification.ToString();
+                    if (venue.VenuePhotos.Count > 0)
+                        venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
+                    else
+                        venuecard.Photo = "/images/default.jpg";
+                    venuesCards.Add(venuecard);
                 }
+                var profile = new PersonalVenueOwnerVM();
+                profile.Id = Id;
+                profile.Name = user.UserName;
+                profile.Email = user.Email;
+                profile.JoinedDate = user.JoinedDate.ToShortDateString();
+                profile.Gender = string.IsNullOrWhiteSpace(user.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
+                profile.BIO = user.BIO;
+                profile.Photo = user.Photo;
+                profile.Country = string.IsNullOrWhiteSpace(user.Country.ToString()) ? "Undefined" : user.Country.ToString();
+                profile.VenueCount = venuesCards.Count;
+                profile.Venues = venuesCards;
+                profile.WithdrawableEarnings = user.WithdrawableEarnings;
+                profile.Verfication = user.AccountStatus.ToString();
+                return View("PersonalVenueOwner", profile);
             }
             else
             {
-                return RedirectToAction("Login", "Account");
+                var user = (Organizer)await _managerUser.FindByIdAsync(userId);
+                List<Event> events = _managerEvents.GetByUserId(Id);
+                List<EventCardVM> EventCards = new List<EventCardVM>();
+                foreach (Event event_ in events)
+                {
+                    EventCardVM eventcard = new EventCardVM();
+                    eventcard.Id = event_.EventId;
+                    eventcard.EventTitle = event_.EventTitle;
+                    eventcard.TicketPrice = event_.TicketPrice;
+                    eventcard.Category = event_.Category.ToString();
+                    eventcard.Address = event_.Address;
+                    eventcard.Status = event_.Status.ToString();
+                    if (event_.EventPhotos.Count > 0)
+                        eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
+                    else
+                        eventcard.EventPhoto = "/images/default.jpg";
+                    eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
+                    EventCards.Add(eventcard);
+                }
+                var profile = new EventOrganizerVM();
+                profile.Id = Id;
+                profile.Name = user.UserName;
+                profile.Email = user.Email;
+                profile.JoinedDate = user.JoinedDate.ToShortDateString();
+                profile.Gender = string.IsNullOrWhiteSpace(user.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
+                profile.BIO = user.BIO;
+                profile.Photo = user.Photo;
+                profile.Country = string.IsNullOrWhiteSpace(user.Country.ToString()) ? "Undefined" : user.Country.ToString();
+                profile.Specialization = user.Specialization ?? "Undefined";
+                profile.ExperienceYear = user.ExperienceYear;
+                profile.EventsCount = EventCards.Count;
+                profile.Events = EventCards;
+                profile.Verfication = user.AccountStatus.ToString();
+                return View("PersonalEventOrganizer", profile);
             }
         }
 
-        public async Task<IActionResult> View(int Id)
+        public async Task<IActionResult> View(int id)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId != null && Id == int.Parse(userId))
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
+
+            if (int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == id)
             {
                 return RedirectToAction("Index");
             }
-            else if (userId != null)
+
+            var user = await _managerUser.FindByIdAsync(id.ToString());
+            if (await _managerUser.IsInRoleAsync(user, "Owner"))
             {
-                var user = await _managerUser.FindByIdAsync(Id.ToString());
-                if (await _managerUser.IsInRoleAsync(user, "Owner"))
+                Owner OwnerUser = (Owner)user;
+                List<Venue> venues = _managerVenues.GetByUserId(id);
+                List<VenueCardVM> venuesCards = new List<VenueCardVM>();
+                foreach (Venue venue in venues)
                 {
-                    Owner OwnerUser = (Owner)user;
-                    List<Venue> venues = _managerVenues.GetByUserId(Id);
-                    List<VenueCardVM> venuesCards = new List<VenueCardVM>();
-                    foreach (Venue venue in venues)
-                    {
-                        VenueCardVM venuecard = new VenueCardVM();
-                        venuecard.Id = venue.Id;
-                        venuecard.VenueName = venue.Name;
-                        venuecard.PricePerHour = venue.PricePerHour;
-                        venuecard.Capacity = venue.Capacity;
-                        venuecard.VenueType = venue.VenueType.ToString();
-                        venuecard.Address = venue.Address;
-                        venuecard.Type = venue.VenueType.ToString();
+                    VenueCardVM venuecard = new VenueCardVM();
+                    venuecard.Id = venue.Id;
+                    venuecard.VenueName = venue.Name;
+                    venuecard.PricePerHour = venue.PricePerHour;
+                    venuecard.Capacity = venue.Capacity;
+                    venuecard.VenueType = venue.VenueType.ToString();
+                    venuecard.Address = venue.Address;
+                    venuecard.Status = venue.VenueVerification.ToString();
+                    if (venue.VenuePhotos.Count > 0)
                         venuecard.Photo = venue.VenuePhotos[0].PhotoUrl;
-                        venuesCards.Add(venuecard);
-                    }
-
-                    var profile = new OtherVenueOwnerVM();
-                    profile.Id = Id;
-                    profile.Name = OwnerUser.UserName;
-                    profile.Email = OwnerUser.Email;
-                    profile.JoinedDate = OwnerUser.JoinedDate.ToShortDateString();
-                    profile.Gender = string.IsNullOrWhiteSpace(OwnerUser.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
-                    profile.BIO = OwnerUser.BIO;
-                    profile.Photo = OwnerUser.Photo;
-                    profile.Country = string.IsNullOrWhiteSpace(OwnerUser.Country.ToString()) ? "Undefined" : user.Country.ToString();
-                    profile.VenueCount = venuesCards.Count;
-                    profile.Venues = venuesCards;
-                    profile.WithdrawableEarnings = OwnerUser.WithdrawableEarnings;
-                    return View("OtherVenueOwner", profile);
+                    else
+                        venuecard.Photo = "/images/default.jpg";
+                    venuesCards.Add(venuecard);
                 }
-                else
+
+                var profile = new OtherVenueOwnerVM();
+                profile.Id = id;
+                profile.Name = OwnerUser.UserName;
+                profile.Email = OwnerUser.Email;
+                profile.JoinedDate = OwnerUser.JoinedDate.ToShortDateString();
+                profile.Gender = string.IsNullOrWhiteSpace(OwnerUser.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
+                profile.BIO = OwnerUser.BIO;
+                profile.Photo = OwnerUser.Photo;
+                profile.Country = string.IsNullOrWhiteSpace(OwnerUser.Country.ToString()) ? "Undefined" : user.Country.ToString();
+                profile.VenueCount = venuesCards.Count;
+                profile.Venues = venuesCards;
+                profile.WithdrawableEarnings = OwnerUser.WithdrawableEarnings;
+                return View("OtherVenueOwner", profile);
+            }
+            else if (await _managerUser.IsInRoleAsync(user, "Organizer"))
+            {
+                Organizer OrganizerUser = (Organizer)user;
+                List<Event> events = _managerEvents.GetByUserId(id);
+                List<EventCardVM> EventCards = new List<EventCardVM>();
+                foreach (Event event_ in events)
                 {
-                    Organizer OrganizerUser = (Organizer)user;
-                    List<Event> events = _managerEvents.GetByUserId(Id);
-                    List<EventCardVM> EventCards = new List<EventCardVM>();
-                    foreach (Event event_ in events)
-                    {
-                        EventCardVM eventcard = new EventCardVM();
-                        eventcard.Id = event_.EventId;
-                        eventcard.EventTitle = event_.EventTitle;
-                        eventcard.TicketPrice = event_.TicketPrice;
-                        eventcard.Category = event_.Category.ToString();
-                        eventcard.Address = event_.Address;
-                        eventcard.Status = event_.Status.ToString();
+                    EventCardVM eventcard = new EventCardVM();
+                    eventcard.Id = event_.EventId;
+                    eventcard.EventTitle = event_.EventTitle;
+                    eventcard.TicketPrice = event_.TicketPrice;
+                    eventcard.Category = event_.Category.ToString();
+                    eventcard.Address = event_.Address;
+                    eventcard.Status = event_.Status.ToString();
+                    if (event_.EventPhotos.Count > 0)
                         eventcard.EventPhoto = event_.EventPhotos[0].PhotoUrl;
-                        eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
-                        EventCards.Add(eventcard);
-                    }
-
-                    var profile = new EventOrganizerVM();
-                    profile.Id = Id;
-                    profile.Name = OrganizerUser.UserName;
-                    profile.Email = OrganizerUser.Email;
-                    profile.JoinedDate = OrganizerUser.JoinedDate.ToShortDateString();
-                    profile.Gender = string.IsNullOrWhiteSpace(OrganizerUser.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
-                    profile.BIO = OrganizerUser.BIO;
-                    profile.Photo = OrganizerUser.Photo;
-                    profile.Country = string.IsNullOrWhiteSpace(OrganizerUser.Country.ToString()) ? "Undefined" : user.Country.ToString();
-                    profile.Specialization = OrganizerUser.Specialization ?? "Undefined";
-                    profile.ExperienceYear = OrganizerUser.ExperienceYear;
-                    profile.EventsCount = EventCards.Count;
-                    profile.Events = EventCards;
-                    return View("OtherEventOrganizer", profile);
+                    else
+                        eventcard.EventPhoto = "/images/default.jpg";
+                    eventcard.StartDateTime = event_.StartDateTime.ToShortDateString();
+                    EventCards.Add(eventcard);
                 }
+
+                var profile = new EventOrganizerVM();
+                profile.Id = id;
+                profile.Name = OrganizerUser.UserName;
+                profile.Email = OrganizerUser.Email;
+                profile.JoinedDate = OrganizerUser.JoinedDate.ToShortDateString();
+                profile.Gender = string.IsNullOrWhiteSpace(OrganizerUser.Gender.ToString()) ? "Undefined" : user.Gender.ToString();
+                profile.BIO = OrganizerUser.BIO;
+                profile.Photo = OrganizerUser.Photo;
+                profile.Country = string.IsNullOrWhiteSpace(OrganizerUser.Country.ToString()) ? "Undefined" : user.Country.ToString();
+                profile.Specialization = OrganizerUser.Specialization ?? "Undefined";
+                profile.ExperienceYear = OrganizerUser.ExperienceYear;
+                profile.EventsCount = EventCards.Count;
+                profile.Events = EventCards;
+                return View("OtherEventOrganizer", profile);
             }
             else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+                return NotFound();
         }
 
 
 
         public async Task<IActionResult> Edit()
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userId != null)
+            if (User.IsInRole("Admin"))
             {
-                var user = await _managerUser.FindByIdAsync(userId);
-                var profile = new EditProfileVM();
-                if (await _managerUser.IsInRoleAsync(user, "Owner"))
-                {
-                    Owner OwnerUser = (Owner)user;
-                    profile.Photo = OwnerUser.Photo;
-                    profile.Gender = OwnerUser.Gender;
-                    profile.Country = OwnerUser.Country;
-                    profile.BIO = OwnerUser.BIO;
-                    profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
-                    profile.BackIdPhoto = OwnerUser.BackIdPhoto;
-                    profile.ArabicAddress = OwnerUser.ArabicAddress;
-                    profile.ArabicFullName = OwnerUser.ArabicFullName;
-                    profile.NationalIDNumber = OwnerUser.NationalIDNumber;
-                    profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
-                    profile.BackIdPhoto = OwnerUser.BackIdPhoto;
-                    profile.Photo = OwnerUser.Photo;
-                    profile.AccountStatus = OwnerUser.AccountStatus;
-                }
-                else
-                {
-                    Organizer OrganizerUser = (Organizer)user;
-                    profile.Photo = OrganizerUser.Photo;
-                    profile.Gender = OrganizerUser.Gender;
-                    profile.Country = OrganizerUser.Country;
-                    profile.BIO = OrganizerUser.BIO;
-                    profile.ExperienceYear = OrganizerUser.ExperienceYear;
-                    profile.Specialization = OrganizerUser.Specialization;
-                    profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
-                    profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
-                    profile.ArabicAddress = OrganizerUser.ArabicAddress;
-                    profile.ArabicFullName = OrganizerUser.ArabicFullName;
-                    profile.NationalIDNumber = OrganizerUser.NationalIDNumber;
-                    profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
-                    profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
-                    profile.Photo = OrganizerUser.Photo;
-                    profile.AccountStatus = OrganizerUser.AccountStatus;
-                    
-                }
-                return View("EditProfile", profile);
+                return RedirectToAction("Index", "Admin");
             }
-            else
-                { return RedirectToAction("Login", "Account"); }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _managerUser.FindByIdAsync(userId);
+            var profile = new EditProfileVM();
+            if (await _managerUser.IsInRoleAsync(user, "Owner"))
+            {
+                Owner OwnerUser = (Owner)user;
+                profile.Photo = OwnerUser.Photo;
+                profile.Gender = OwnerUser.Gender;
+                profile.Country = OwnerUser.Country;
+                profile.BIO = OwnerUser.BIO;
+                profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OwnerUser.BackIdPhoto;
+                profile.ArabicAddress = OwnerUser.ArabicAddress;
+                profile.ArabicFullName = OwnerUser.ArabicFullName;
+                profile.NationalIDNumber = OwnerUser.NationalIDNumber;
+                profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OwnerUser.BackIdPhoto;
+                profile.Photo = OwnerUser.Photo;
+            }
+            else if (await _managerUser.IsInRoleAsync(user, "Organizer"))
+            {
+                Organizer OrganizerUser = (Organizer)user;
+                profile.Photo = OrganizerUser.Photo;
+                profile.Gender = OrganizerUser.Gender;
+                profile.Country = OrganizerUser.Country;
+                profile.BIO = OrganizerUser.BIO;
+                profile.ExperienceYear = OrganizerUser.ExperienceYear;
+                profile.Specialization = OrganizerUser.Specialization;
+                profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
+                profile.ArabicAddress = OrganizerUser.ArabicAddress;
+                profile.ArabicFullName = OrganizerUser.ArabicFullName;
+                profile.NationalIDNumber = OrganizerUser.NationalIDNumber;
+                profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
+                profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
+                profile.Photo = OrganizerUser.Photo;
+                
+            }
+            return View("EditProfile", profile);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> SaveEdit(EditProfileVM profile)
+        public async Task<IActionResult> Edit(EditProfileVM profile)
         {
             if (ModelState.IsValid) 
             {
@@ -321,7 +319,7 @@ namespace WebApplication2.Controllers
                     OwnerUser.ArabicAddress = profile.ArabicAddress;
                     OwnerUser.ArabicFullName = profile.ArabicFullName;
                     OwnerUser.NationalIDNumber = profile.NationalIDNumber;
-                    OwnerUser.AccountStatus = profile.AccountStatus;
+                    OwnerUser.AccountStatus = AccountStatus.Pending;
 
 
                     if (profile.RemovePhoto)
@@ -348,7 +346,7 @@ namespace WebApplication2.Controllers
                     }
 
 
-                    if (profile.RemoveBacktIdPhoto)
+                    if (profile.RemoveBackIdPhoto)
                     {
                         UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.BackIdPhoto}");
                         OwnerUser.BackIdPhoto = null;
@@ -362,7 +360,6 @@ namespace WebApplication2.Controllers
                 else
                 {
                     Organizer OrganizerUser = (Organizer)user;
-                    OrganizerUser.Photo = profile.Photo;
                     OrganizerUser.Gender = profile.Gender;
                     OrganizerUser.Country = profile.Country;
                     OrganizerUser.BIO = profile.BIO;
@@ -371,7 +368,8 @@ namespace WebApplication2.Controllers
                     OrganizerUser.ArabicAddress = profile.ArabicAddress;
                     OrganizerUser.ArabicFullName = profile.ArabicFullName;
                     OrganizerUser.NationalIDNumber = profile.NationalIDNumber;
-                    OrganizerUser.AccountStatus = profile.AccountStatus;
+                    OrganizerUser.AccountStatus = AccountStatus.Pending;
+
 
                     if (profile.RemovePhoto)
                     {
@@ -390,19 +388,19 @@ namespace WebApplication2.Controllers
                         UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.FrontIdPhoto}");
                         OrganizerUser.FrontIdPhoto = null;
                     }
-                    else if (profile.FrontIdPhoto != null)
+                    else if (profile.FrontIdFile != null)
                     {
                         var PhotoName = UploadProfilePhoto.UploadFile("images", profile.FrontIdFile);
                         OrganizerUser.FrontIdPhoto = $"/images/{PhotoName}";
                     }
 
 
-                    if (profile.RemoveBacktIdPhoto)
+                    if (profile.RemoveBackIdPhoto)
                     {
                         UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.BackIdPhoto}");
                         OrganizerUser.BackIdPhoto = null;
                     }
-                    else if (profile.BackIdPhoto != null)
+                    else if (profile.BackIdFile != null)
                     {
                         var PhotoName = UploadProfilePhoto.UploadFile("images", profile.BackIdFile);
                         OrganizerUser.BackIdPhoto = $"/images/{PhotoName}";
@@ -418,33 +416,38 @@ namespace WebApplication2.Controllers
 
         public async Task<IActionResult> Delete()
         {
-            if (User.Identity.IsAuthenticated)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (User.IsInRole("Owner"))
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                if (User.IsInRole("Owner"))
+                var venues = _managerVenues.GetByUserId(int.Parse(userId));
+                foreach (var venue in venues)
                 {
-                    var venues = _managerVenues.GetByUserId(int.Parse(userId));
-                    foreach (var venue in venues)
+                    var VenueToDelete = _managerVenues.GetByIdWithIncludes(venue.Id);
+                    if (VenueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))
                     {
-                        var VenueToDelete = _managerVenues.GetByIdWithIncludes(venue.Id);
-                        if (VenueToDelete.Events.Any(v => v.Status == EventStatusEnum.Paid))
-                        {
-                            TempData["DeleteProfileError"] = true;
-                            return RedirectToAction("Edit");
-                        }
+                        TempData["DeleteProfileError"] = true;
+                        return RedirectToAction("Edit");
                     }
-                    foreach (var venue in venues)
-                        { var result = _managerVenues.Delete(venue.Id); }
                 }
-                else if (User.IsInRole("Organizer"))
-                {
-                    var events = _managerEvents.GetByUserId(int.Parse(userId));
-                    foreach (var event_ in events)
-                        { var result = _managerEvents.Delete(event_.EventId); }
-                }
-                await _managerUser.DeleteAsync(await _managerUser.FindByIdAsync(userId));
+                foreach (var venue in venues)
+                    { var result = _managerVenues.Delete(venue.Id); }
             }
-            return RedirectToAction("Logout", "Account");
+            else if (User.IsInRole("Organizer"))
+            {
+                var events = _managerEvents.GetByUserId(int.Parse(userId));
+                foreach (var evnt in events)
+                {
+                    if (evnt.Status == EventStatusEnum.Paid)
+                    {
+                        TempData["DeleteProfileError"] = true;
+                        return RedirectToAction("Edit");
+                    }
+                }
+                foreach (var event_ in events)
+                    { var result = _managerEvents.Delete(event_.EventId); }
+            }
+            await _managerUser.DeleteAsync(await _managerUser.FindByIdAsync(userId));
+            return RedirectToAction("login", "Account");
         }
     }
 }

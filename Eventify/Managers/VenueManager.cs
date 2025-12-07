@@ -223,7 +223,8 @@ namespace Eventify.Managers
                 {
                     try
                     {
-                        foreach (var EventItem in VenueToDelete.Events)
+                        var eventsToDelete = VenueToDelete.Events.ToList();
+                        foreach (var EventItem in eventsToDelete)
                         {
                             if (EventItem.Status == EventStatusEnum.Finished)
                                 EventItem.VenueId = null;
@@ -241,6 +242,11 @@ namespace Eventify.Managers
                 }
             }
             return 0;
+        }
+
+        public List<Venue> GetPendingVenues()
+        {
+            return context.Venues.Where(v => v.VenueVerification == VenueVerification.Pending).ToList();
         }
     }
 }

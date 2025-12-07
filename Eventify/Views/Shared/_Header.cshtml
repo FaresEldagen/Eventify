@@ -4,12 +4,12 @@
             <i class="fas fa-calendar fs-4 text-primary"></i>
             Eventify
         </a>
-        
+
         <!-- Mobile Toggle -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <!-- Navigation Menu -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
@@ -23,7 +23,7 @@
                     <a class="nav-link" href="@Url.Action("Index", "Events")">Events</a>
                 </li>
             </ul>
-            
+
             <!-- Right Side Controls -->
             <div class="d-flex align-items-center gap-3">
                 <!-- Theme Toggle -->
@@ -43,16 +43,23 @@
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
                 </button>
-                
+
                 <!-- Profile Dropdown -->
-                    @if (User.Identity!.IsAuthenticated)
-                    {
-                        <div class="dropdown">
-                            <button class="btn btn-ghost dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-user-circle fs-5"></i>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="@Url.Action("Index", "Profile")">My Profile</a></li>
+                @if (User.Identity!.IsAuthenticated)
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-ghost dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-circle fs-5"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Admin")">Admin Dashboard</a></li>
+                                }
+                                else
+                                {
+                                    <li><a class="dropdown-item" href="@Url.Action("Index", "Profile")">My Profile</a></li>
+                                }
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" href="@Url.Action("Logout","Account")">Logout</a></li>
                             </ul>

@@ -5,14 +5,18 @@ namespace Eventify.Services
 {
     public interface IEventService : IGenericService<Event>
     {
-      public List<Event> GetByFilter_Search(
-              string? title,
-              SortByEnum? sortBy,
-              int pageNumber,
-              EventCategoryEnum? category,
-              decimal? maxPrice,
-              DateTime? startDate,
-              DateTime? endDate,
-              out int totalEvents);
+        public List<Event> GetByFilter_Search(
+                string? title,
+                SortByEnum? sortBy,
+                int pageNumber,
+                EventCategoryEnum? category,
+                decimal? maxPrice,
+                DateTime? startDate,
+                DateTime? endDate,
+                out int totalEvents);
+
+        public List<Event> GetPendingEvents();
+
+       
     }
 }
