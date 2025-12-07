@@ -28,7 +28,7 @@ public class OwnerSeedData : IEntityTypeConfiguration<Owner>
             ArabicFullName = "محمود سمير عبد الله",
             JoinedDate = new DateTime(2021, 1, 10),
             NationalIDNumber = "29701020123455",
-            VenueCount = 3,
+            VenueCount = 4,
             WithdrawableEarnings = 15000.75m,
             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
             AccountStatus = AccountStatus.Verified

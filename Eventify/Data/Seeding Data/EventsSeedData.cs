@@ -96,7 +96,7 @@ namespace Eventify.Seeding_Data
                     TicketPrice = 250m,
                     Address = "Pyramids Road",
                     VenueId = 5,
-                    OrganizerId = 5,
+                    OrganizerId = 4,
                     Capacity = 700,
                     EventVerification = EventVerification.Verified
                 },

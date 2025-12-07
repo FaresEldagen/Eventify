@@ -29,7 +29,7 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             JoinedDate = new DateTime(2022, 1, 15),
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
-            PastEventCount = 12,
+            PastEventCount = 4,
             Specialization = "Tech Events",
             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
             AccountStatus = AccountStatus.Verified
@@ -55,7 +55,7 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             JoinedDate = new DateTime(2022, 1, 15),
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
-            PastEventCount = 12,
+            PastEventCount = 1,
             Specialization = "Tech Events",
             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
             AccountStatus = AccountStatus.Verified
@@ -81,7 +81,7 @@ public class OrganizerSeedData : IEntityTypeConfiguration<Organizer>
             JoinedDate = new DateTime(2022, 1, 15),
             NationalIDNumber = "29801150123456",
             ExperienceYear = 5,
-            PastEventCount = 12,
+            PastEventCount = 2,
             Specialization = "Tech Events",
             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
             AccountStatus = AccountStatus.Verified

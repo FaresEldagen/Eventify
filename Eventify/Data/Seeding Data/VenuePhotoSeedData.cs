@@ -68,7 +68,19 @@ namespace Eventify.Seeding_Data
                 new VenuePhoto {VenueId = 10, PhotoUrl = "/images/venue1_1.jpg" },
                 new VenuePhoto {VenueId = 10, PhotoUrl = "/images/venue1_2.jpg" },
                 new VenuePhoto {VenueId = 10, PhotoUrl = "/images/venue1_3.jpg" },
-                new VenuePhoto {VenueId = 10, PhotoUrl = "/images/venue1_4.jpg" }
+                new VenuePhoto {VenueId = 10, PhotoUrl = "/images/venue1_4.jpg" },
+
+                // Venue 11
+                new VenuePhoto { VenueId = 11, PhotoUrl = "/images/venue1_1.jpg" },
+                new VenuePhoto { VenueId = 11, PhotoUrl = "/images/venue1_2.jpg" },
+                new VenuePhoto { VenueId = 11, PhotoUrl = "/images/venue1_3.jpg" },
+                new VenuePhoto { VenueId = 11, PhotoUrl = "/images/venue1_4.jpg" },
+
+                // Venue 12
+                new VenuePhoto { VenueId = 12, PhotoUrl = "/images/venue1_1.jpg" },
+                new VenuePhoto { VenueId = 12, PhotoUrl = "/images/venue1_2.jpg" },
+                new VenuePhoto { VenueId = 12, PhotoUrl = "/images/venue1_3.jpg" },
+                new VenuePhoto { VenueId = 12, PhotoUrl = "/images/venue1_4.jpg" }
             );
         }
     }

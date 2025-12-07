@@ -237,7 +237,9 @@ namespace WebApplication2.Controllers
                     AudioVisualEquipment = venue.AudioVisualEquipment,
                     SpecialFeatures = venue.SpecialFeatures,
                     venuePhotos = venue.VenuePhotos.ToList(),
-                    DateRange = bookedDates
+                    DateRange = bookedDates,
+                    OwnerId = venue.OwnerId,
+                    OwnerName = venue.Owner.UserName
                 };
                 return View("Details", venueDetailsVM);
             }
