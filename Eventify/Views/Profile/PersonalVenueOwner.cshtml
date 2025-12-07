@@ -113,3 +113,8 @@ else if (TempData["WithdrawFailed"] != null)
 {
     @await Html.PartialAsync("_FailedWithdraw")
 }
+
+@if (TempData["Cant'nAddVenueError"] != null)
+{
+    @await Html.PartialAsync("_Cant'nAddVenueErrorMessage");
+}

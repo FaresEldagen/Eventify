@@ -89,3 +89,8 @@
         }
     </div>
 </div>
+
+@if (TempData["Cant'nAddEventError"] != null)
+{
+    @await Html.PartialAsync("_Cant'nAddEventErrorMessage");
+}

@@ -151,7 +151,10 @@ namespace WebApplication2.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(userId);
             if (!User.IsInRole("Organizer") || user.AccountStatus != AccountStatus.Verified)
+            {
+                TempData["Cant'nAddEventError"] = true;
                 return RedirectToAction("Index","Profile");
+            }
 
             EventAddVM vm = new EventAddVM();
             vm.VenueId = id;

@@ -256,7 +256,10 @@ namespace WebApplication2.Controllers
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var user = await _userManager.FindByIdAsync(userId);
             if (!User.IsInRole("Owner") || user.AccountStatus != AccountStatus.Verified)
+            {
+                TempData["Cant'nAddVenueError"] = true;
                 return RedirectToAction("Index", "Profile");
+            }
 
             return View(new VenueAddVM());
         }
