@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Eventify.Migrations
 {
     /// <inheritdoc />
-    public partial class Seeddata : Migration
+    public partial class SeedData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -325,9 +325,9 @@ namespace Eventify.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountStatus", "ArabicAddress", "ArabicFullName", "BIO", "BackIdPhoto", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FrontIdPhoto", "Gender", "JoinedDate", "LockoutEnabled", "LockoutEnd", "NationalIDNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType", "VenueCount", "WithdrawableEarnings" },
                 values: new object[,]
                 {
-                    { 1, 0, 2, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "b8916d4b-8bbc-4a2a-8f21-9a52f55cd480", 1, "Owner1@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER1@TEST.COM", "MAHMOUD", "AQAAAAIAAYagAAAAEPkeNMiwMtIzIETkiaFljeVGSjCud2yve9XoJw8oXTrOzbJV1fkBrDB9djZVKfB8vw==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Mahmoud", "Owner", 3, 15000.75m },
-                    { 2, 0, 2, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "28d3e1ac-b53e-4f74-90c6-06b0233a19f1", 1, "Owner2@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER2@TEST.COM", "ALI", "AQAAAAIAAYagAAAAEEdbRpfRtUHy4FyrTW2tzH/yXBTo70hh94+h8EMHhW4pJNpquBUQJteVPXQxfMBUxQ==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Ali", "Owner", 3, 15000.75m },
-                    { 3, 0, 2, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "4d0b9c59-91e7-49b5-a7c3-7120154f6175", 1, "Owner3@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER3@TEST.COM", "AMR", "AQAAAAIAAYagAAAAEENbhP8GrGmz6CQ+DQKfINJ5k70ZBB84R/b0AvJ7Isdlv6/FmAJhgW3EOKfu5zXxfA==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Amr", "Owner", 3, 15000.75m }
+                    { 1, 0, 2, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "fb2a7e1f-6c2f-4551-ad87-eebd86125ee7", 1, "Owner1@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER1@TEST.COM", "MAHMOUD", "AQAAAAIAAYagAAAAELhV8UB0VPOAa8dERvibx6cXfM4K+a3rcOPGgbJYTGXztSc73UHhjyfbdlDri24x7Q==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Mahmoud", "Owner", 3, 15000.75m },
+                    { 2, 0, 2, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "3b0d03ed-55d9-464a-a381-7f8e41833303", 1, "Owner2@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER2@TEST.COM", "ALI", "AQAAAAIAAYagAAAAEJcLenrGrSGxlXGEw2kJtIs5cIBL1expYxlA7WaIiaaQEQfKfRt0nu/mJZFnngSL+Q==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Ali", "Owner", 3, 15000.75m },
+                    { 3, 0, 2, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "22831e51-a615-439b-abb3-9cc15816fa01", 1, "Owner3@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER3@TEST.COM", "AMR", "AQAAAAIAAYagAAAAECyq28j8Kf/8Y3k9GwadN8DwYUN5lGemqHI0CyAc5D+4Uz9WTCJQetXuxyhaOlFNwQ==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Amr", "Owner", 3, 15000.75m }
                 });
 
             migrationBuilder.InsertData(
@@ -335,9 +335,9 @@ namespace Eventify.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountStatus", "ArabicAddress", "ArabicFullName", "BIO", "BackIdPhoto", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "ExperienceYear", "FrontIdPhoto", "Gender", "JoinedDate", "LockoutEnabled", "LockoutEnd", "NationalIDNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PastEventCount", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "SecurityStamp", "Specialization", "TwoFactorEnabled", "UserName", "UserType" },
                 values: new object[,]
                 {
-                    { 4, 0, 2, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "db90ac67-8ce1-483a-8bcc-b915df92174c", 1, "Organizer1@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER1@TEST.COM", "FARES", "AQAAAAIAAYagAAAAELSzAax8BrKbyBkJCnEY8e5S0aMWUmoAuqJ90l67Go8iRVuNF2ilTmaTHTDejC4ogg==", 12, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Fares", "Organizier" },
-                    { 5, 0, 2, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "ae1bad78-4053-4386-82f6-add9e2a95cfe", 1, "Organizer2@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER2@TEST.COM", "AHMED", "AQAAAAIAAYagAAAAEOYPzJbVf95U9Sxr3bVQXzfHha09ldxHnyLZoKcIDH08txefPn6mZ7qx/UmrjPPDQA==", 12, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Ahmed", "Organizier" },
-                    { 6, 0, 2, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "4db31d91-e7bd-453b-b320-20fa4bfaf24a", 1, "Organizer3@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER3@TEST.COM", "ZIAD", "AQAAAAIAAYagAAAAEDSz3km/LiK1g7Q70a93BlpatF7FPFODwlVhE8PyPllB0hplipvQg5hz2wnXR4O1rQ==", 12, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Ziad", "Organizier" }
+                    { 4, 0, 2, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "69cf7d1c-f55a-4064-a3cb-d6f0ea29d8a6", 1, "Organizer1@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER1@TEST.COM", "FARES", "AQAAAAIAAYagAAAAEPon+LAeaVcU9y522j68PYf95MdMXgTtG/IA1WLCb9dIU5wSztUn0FEIWOBf+cmNSQ==", 12, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Fares", "Organizier" },
+                    { 5, 0, 2, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "94aba313-f5e0-4376-9095-a1e248fb05cf", 1, "Organizer2@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER2@TEST.COM", "AHMED", "AQAAAAIAAYagAAAAEOrglHzOM6D6XknSB/Lgto2+ghiKVOQDjklQ3i379f9zKP8Y9GQB+m+36O/2Cy5l+A==", 12, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Ahmed", "Organizier" },
+                    { 6, 0, 2, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "bcc42951-01f3-470d-b63e-9e66690d5ee5", 1, "Organizer3@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER3@TEST.COM", "ZIAD", "AQAAAAIAAYagAAAAEGbp6Qf3oXsCAr4hCuOYFIQ3XMVGmUlNCjM6aZiKv9mo6trD3sTKS6Td7vKilSdFyA==", 12, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Ziad", "Organizier" }
                 });
 
             migrationBuilder.InsertData(
@@ -345,8 +345,26 @@ namespace Eventify.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "AccountStatus", "ArabicAddress", "ArabicFullName", "BIO", "BackIdPhoto", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FrontIdPhoto", "Gender", "JoinedDate", "LockoutEnabled", "LockoutEnd", "NationalIDNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType" },
                 values: new object[,]
                 {
-                    { 7, 0, 2, null, null, null, null, "ad1ffb73-435e-45a7-ab65-43c897dc3229", null, "Admin1@test.com", true, null, null, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, null, "ADMIN1@TEST.COM", "MOHAMED", "AQAAAAIAAYagAAAAEKc9HTgdyB0ys4nOjUMgeoA6+ymIDHy+BAdZyDTlAIsi5H+gKSxbX8V4Z0sbml9TQA==", null, false, null, "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Mohamed", "Admin" },
-                    { 8, 0, 2, null, null, null, null, "71635f6e-e9f4-4948-a881-7b02fd9c770c", null, "Admin2@test.com", true, null, null, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, null, "ADMIN2@TEST.COM", "ASHRAF", "AQAAAAIAAYagAAAAEBspGlL8RvIIlVjqzHyp2pps6I1nyMTeDmHy4xkeYPdMMJ+dyScn+y6SMWLpfuu//g==", null, false, null, "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Ashraf", "Admin" }
+                    { 7, 0, 2, null, null, null, null, "56c4c15e-5b0e-4e32-9251-129e66f1bc3c", null, "Admin1@test.com", true, null, null, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, null, "ADMIN1@TEST.COM", "MOHAMED", "AQAAAAIAAYagAAAAEOcM+WV5PYPz1Nc/GYORv4izIrGTm2EpIKBcSb39FExUBEW7HY8j27zsWgf98HQQGA==", null, false, null, "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Mohamed", "Admin" },
+                    { 8, 0, 2, null, null, null, null, "f6ac9b2b-ad53-4c23-8c41-fde9c608af73", null, "Admin2@test.com", true, null, null, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, null, "ADMIN2@TEST.COM", "AABAS", "AQAAAAIAAYagAAAAENcbwSPhEqReuhTfLG3D4mEefSzVzCNzHIewxxnsdHt7zQz45Jj7XeZ9Dhxf8SB6Rw==", null, false, null, "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Aabas", "Admin" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "AccountStatus", "ArabicAddress", "ArabicFullName", "BIO", "BackIdPhoto", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "ExperienceYear", "FrontIdPhoto", "Gender", "JoinedDate", "LockoutEnabled", "LockoutEnd", "NationalIDNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PastEventCount", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "SecurityStamp", "Specialization", "TwoFactorEnabled", "UserName", "UserType" },
+                values: new object[,]
+                {
+                    { 9, 0, 3, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "b4cd4cfb-6bd0-4fc1-94eb-e226a2c54d39", 10, "Organizer4@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER4@TEST.COM", "ASHRAF", "AQAAAAIAAYagAAAAENsOnte0LWHy/wRQ9djHCX2YrEpCh9OEENkNtyLOp2WYKXU7WFAy1kqC5sYrKOckcA==", 0, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Ashraf", "Organizier" },
+                    { 10, 0, 1, "القاهرة - مصر", "فارس حسن علي الداجن", "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.", "/Images/back1.jpg", "9e330517-6811-4d62-a5db-98811ed45c19", 3, "Organizer5@test.com", true, 5, "/Images/front1.jpg", 1, new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29801150123456", "ORGANIZER5@TEST.COM", "ZAATR", "AQAAAAIAAYagAAAAEMP90NI0G47txWudcFAGtScMNm29XBSrOGibXWSb8Pjmu+SItDZTLlY4SCJevodqbw==", 0, null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", "Tech Events", false, "Zaatr", "Organizier" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "AccountStatus", "ArabicAddress", "ArabicFullName", "BIO", "BackIdPhoto", "ConcurrencyStamp", "Country", "Email", "EmailConfirmed", "FrontIdPhoto", "Gender", "JoinedDate", "LockoutEnabled", "LockoutEnd", "NationalIDNumber", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "SecurityStamp", "TwoFactorEnabled", "UserName", "UserType", "VenueCount", "WithdrawableEarnings" },
+                values: new object[,]
+                {
+                    { 11, 0, 1, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "4b7dbb0f-b62a-4af1-ad6e-108cbb7f79f0", 1, "Owner4@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER4@TEST.COM", "RAMI", "AQAAAAIAAYagAAAAEKaLn4V2SOVS47ChoxCj++pfUej5upulTjOGgf9b9mloHeas2krKzDWmtRFn20q7fQ==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Rami", "Owner", 0, 15000.75m },
+                    { 12, 0, 3, "القاهرة - مصر", "محمود سمير عبد الله", "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.", "/Images/back1.jpg", "05a92b34-4eeb-48f8-b0ef-3893e5b6c906", 2, "Owner5@test.com", true, "/Images/front1.jpg", 1, new DateTime(2021, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), false, null, "29701020123455", "OWNER5@TEST.COM", "ANAS", "AQAAAAIAAYagAAAAEEqYcioqnwMD54vpwhj0K7LH1YvrrC8wcqyTP6v01drNTpd6pedmnjvTp30mpO76Cg==", null, false, "/Images/avatar.jpg", "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54", false, "Anas", "Owner", 0, 15000.75m }
                 });
 
             migrationBuilder.InsertData(
@@ -378,7 +396,9 @@ namespace Eventify.Migrations
                     { 7, "North Corniche", false, false, true, 800, false, 2, "Outdoor beach concert venue.", "Jeddah Beach Stage", 3, true, 2800, "/Images/ownership1.jpg", true, "Beachfront Stage", 2, 2, true, "23415" },
                     { 8, "West Bay", true, true, false, 1000, false, 6, "Large conference and exhibition hall.", "Doha Convention Hall", 2, true, 5000, "/Images/ownership1.jpg", true, "Conference Rooms", 1, 2, true, "00022" },
                     { 9, "Luxor Temple Road", true, false, false, 350, false, 1, "Historic indoor cultural venue.", "Luxor Cultural Theatre", 1, true, 1700, "/Images/ownership1.jpg", true, "Theatre Stage", 1, 2, false, "85958" },
-                    { 10, "Art District", true, false, false, 120, false, 3, "Gallery space for exhibitions.", "Sharjah Art Gallery", 2, true, 900, "/Images/ownership1.jpg", true, "Art Lighting", 1, 2, true, "00033" }
+                    { 10, "Art District", true, false, false, 120, false, 3, "Gallery space for exhibitions.", "Sharjah Art Gallery", 2, true, 900, "/Images/ownership1.jpg", true, "Art Lighting", 1, 2, true, "00033" },
+                    { 11, "Luxor Temple Road", true, false, false, 350, false, 1, "Historic indoor cultural venue.", "Luxor Cultural Theatre", 1, true, 1700, "/Images/ownership1.jpg", true, "Theatre Stage", 1, 1, false, "85958" },
+                    { 12, "Art District", true, false, false, 120, false, 3, "Gallery space for exhibitions.", "Sharjah Art Gallery", 2, true, 900, "/Images/ownership1.jpg", true, "Art Lighting", 1, 3, true, "00033" }
                 });
 
             migrationBuilder.InsertData(
@@ -386,7 +406,7 @@ namespace Eventify.Migrations
                 columns: new[] { "EventId", "Address", "Capacity", "Category", "Description", "EndDateTime", "EventTitle", "EventVerification", "Features", "IsPrivate", "OrganizerId", "StartDateTime", "Status", "TicketPrice", "VenueId" },
                 values: new object[,]
                 {
-                    { 1, "Cairo Grand Hall, Nasr City", 700, 1, "A conference discussing the future of AI and technology.", new DateTime(2025, 4, 12, 18, 0, 0, 0, DateTimeKind.Unspecified), "Tech Innovations Conference 2025", 2, "Speakers, Workshops, Networking", false, 4, new DateTime(2025, 4, 12, 10, 0, 0, 0, DateTimeKind.Unspecified), 2, 500m, 1 },
+                    { 1, "Cairo Grand Hall, Nasr City", 700, 1, "A conference discussing the future of AI and technology.", new DateTime(2025, 12, 12, 18, 0, 0, 0, DateTimeKind.Unspecified), "Tech Innovations Conference 2025", 2, "Speakers, Workshops, Networking", false, 4, new DateTime(2025, 12, 12, 10, 0, 0, 0, DateTimeKind.Unspecified), 2, 500m, 1 },
                     { 2, "Dubai Outdoor Arena, Marina Walk", 700, 8, "Intense fitness session with professional trainers.", new DateTime(2025, 5, 3, 11, 0, 0, 0, DateTimeKind.Unspecified), "Outdoor Fitness Bootcamp", 1, "Trainers, Fresh Air, Group Activities", false, 5, new DateTime(2025, 5, 3, 7, 0, 0, 0, DateTimeKind.Unspecified), 1, 150m, 2 },
                     { 3, "Riyadh Event Center", 700, 5, "Connect with entrepreneurs and business owners.", new DateTime(2025, 6, 18, 23, 0, 0, 0, DateTimeKind.Unspecified), "Riyadh Business Networking Night", 2, "Networking, Snacks, Business Talks", false, 6, new DateTime(2025, 6, 18, 19, 0, 0, 0, DateTimeKind.Unspecified), 4, 300m, 3 },
                     { 4, "Corniche Road", 700, 10, "Live music performances by local bands.", new DateTime(2025, 7, 10, 23, 0, 0, 0, DateTimeKind.Unspecified), "Alexandria Summer Music Festival", 2, "Live Bands, Food Trucks, Sea View", false, 4, new DateTime(2025, 7, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), 5, 200m, 4 },
@@ -455,7 +475,6 @@ namespace Eventify.Migrations
                     { 2, "/images/event1_1.jpg" },
                     { 3, "/images/event1_1.jpg" },
                     { 4, "/images/event1_1.jpg" },
-                    { 5, "/images/event1_1.jpg" },
                     { 6, "/images/event1_1.jpg" },
                     { 7, "/images/event1_1.jpg" },
                     { 8, "/images/event1_1.jpg" },
@@ -466,7 +485,6 @@ namespace Eventify.Migrations
                     { 2, "/images/event1_2.jpg" },
                     { 3, "/images/event1_2.jpg" },
                     { 4, "/images/event1_2.jpg" },
-                    { 5, "/images/event1_2.jpg" },
                     { 6, "/images/event1_2.jpg" },
                     { 7, "/images/event1_2.jpg" },
                     { 8, "/images/event1_2.jpg" },
@@ -477,7 +495,6 @@ namespace Eventify.Migrations
                     { 2, "/images/event1_3.jpg" },
                     { 3, "/images/event1_3.jpg" },
                     { 4, "/images/event1_3.jpg" },
-                    { 5, "/images/event1_3.jpg" },
                     { 6, "/images/event1_3.jpg" },
                     { 7, "/images/event1_3.jpg" },
                     { 8, "/images/event1_3.jpg" },
@@ -488,7 +505,6 @@ namespace Eventify.Migrations
                     { 2, "/images/event1_4.jpg" },
                     { 3, "/images/event1_4.jpg" },
                     { 4, "/images/event1_4.jpg" },
-                    { 5, "/images/event1_4.jpg" },
                     { 6, "/images/event1_4.jpg" },
                     { 7, "/images/event1_4.jpg" },
                     { 8, "/images/event1_4.jpg" },

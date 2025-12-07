@@ -27,8 +27,8 @@ public class AdminSeedData : IEntityTypeConfiguration<Admin>
         var Admin2 = new Admin
         {
             Id = 8,
-            UserName = "Ashraf",
-            NormalizedUserName = "ASHRAF",
+            UserName = "Aabas",
+            NormalizedUserName = "AABAS",
             Email = "Admin2@test.com",
             NormalizedEmail = "ADMIN2@TEST.COM",
             EmailConfirmed = true,
