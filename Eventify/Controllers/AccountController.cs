@@ -3,6 +3,7 @@ using Eventify.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Eventify.Models.Enums;
 
 namespace WebApplication2.Controllers
 {
@@ -82,6 +83,7 @@ namespace WebApplication2.Controllers
                 {
                     UserName = signupViewModel.Username,
                     Email = signupViewModel.Email,
+                    AccountStatus = AccountStatus.NotVerified
                 };
             }
             else if(signupViewModel.Role == 2)
@@ -90,6 +92,7 @@ namespace WebApplication2.Controllers
                 {
                     UserName = signupViewModel.Username,
                     Email = signupViewModel.Email,
+                    AccountStatus = AccountStatus.NotVerified
                 };
             }
 

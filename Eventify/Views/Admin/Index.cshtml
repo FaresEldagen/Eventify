@@ -1,0 +1,327 @@
+﻿@{
+    ViewBag.Title = "Admin Dashboard";
+}
+@model AdminDashboardVM
+
+
+<div class="container-lg py-5">
+    <!-- Page Header -->
+    <div class="mb-4">
+        <h1 class="display-5 fw-bold mb-2">Admin Dashboard</h1>
+        <p class="lead text-muted">Manage users, venues, events, and payments</p>
+    </div>
+
+    <!-- Section Radio Button Bar -->
+    <div class="section-radio-bar">
+        <div class="d-flex flex-wrap gap-3">
+            <div class="section-radio-item">
+                <input style="display: none;" type="radio" id="section-admins" name="adminSection" value="admins" checked>
+                <label for="section-admins"><i class="fas fa-user-shield me-2"></i>Admins</label>
+            </div>
+            <div class="section-radio-item">
+                <input style="display: none;" type="radio" id="section-users" name="adminSection" value="users">
+                <label for="section-users"><i class="fas fa-users me-2"></i>Users</label>
+            </div>
+            <div class="section-radio-item">
+                <input style="display: none;" type="radio" id="section-venues" name="adminSection" value="venues">
+                <label for="section-venues"><i class="fas fa-building me-2"></i>Venues</label>
+            </div>
+            <div class="section-radio-item">
+                <input style="display: none;" type="radio" id="section-events" name="adminSection" value="events">
+                <label for="section-events"><i class="fas fa-calendar-alt me-2"></i>Events</label>
+            </div>
+            <div class="section-radio-item">
+                <input style="display: none;" type="radio" id="section-payments" name="adminSection" value="payments">
+                <label for="section-payments"><i class="fas fa-credit-card me-2"></i>Payments</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: Admins Management -->
+    <div id="section-admins-content" class="admin-section active">
+        <div class="admin-form-card">
+            <h3 class="fw-bold mb-3"><i class="fas fa-user-shield me-2"></i>Convert User to Admin</h3>
+            <form id="convertToAdminForm" asp-action="AddAdmin">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <label asp-for="UserEmail" class="form-label">User Email</label>
+                        <input asp-for="UserEmail" type="email" class="form-control" id="adminEmail" placeholder="Enter user email to convert to admin" required>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-user-plus me-2"></i>Convert to Admin
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="admin-table card border-0 shadow-sm">
+            <div class="card-header bg-light border-0">
+                <h5 class="fw-bold mb-0"><i class="fas fa-list me-2"></i>All Admins</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 400px;">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminsTableBody">
+                            @foreach(var admin in Model.Admins!)
+                            {
+                                <tr>
+                                    <th>@admin.UserName</th>
+                                    <th>@admin.Email</th>
+                                </tr> 
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Users Management -->
+    <div id="section-users-content" class="admin-section">
+        <div class="admin-table card border-0 shadow-sm">
+            <div class="card-header bg-light border-0">
+                <h5 class="fw-bold mb-0"><i class="fas fa-users me-2"></i>Unverified Users</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 400px;">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            <!-- Users will be loaded here -->
+                            @foreach(var user in Model.Users!)
+                            {
+                                <tr>
+                                    <th>@user.UserName</th>
+                                    <th>@user.Email</th>
+                                    <th>@user.Role</th>
+                                    <th>
+                                        @* <button class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye me-1"></i>Review
+                                        </button> *@
+                                        <a asp-controller="Admin" asp-action="ReviewUser" asp-route-id="@user.Id"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye me-1"></i> Review
+                                        </a>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Venues Management -->
+    <div id="section-venues-content" class="admin-section">
+        <div class="admin-table card border-0 shadow-sm">
+            <div class="card-header bg-light border-0">
+                <h5 class="fw-bold mb-0"><i class="fas fa-building me-2"></i>Unverified Venues</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 400px;">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Venue Name</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="venuesTableBody">
+                            <!-- Venues will be loaded here -->
+                            @foreach(var venue in Model.Venues)
+                            {
+                                <tr>
+                                    <th>@venue.Name</th>
+                                    <th>
+                                        <a asp-controller="Admin" asp-action="ReviewVenue" asp-route-id="@venue.Id"
+                                           class="btn btn-sm btn-primary">
+                                            <i class="fas fa-eye me-1"></i> Review
+                                        </a>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Events Management -->
+    <div id="section-events-content" class="admin-section">
+        <div class="admin-table card border-0 shadow-sm">
+            <div class="card-header bg-light border-0">
+                <h5 class="fw-bold mb-0"><i class="fas fa-calendar-alt me-2"></i>All Events</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 400px;">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Start Date & Time</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventsTableBody">
+                            <!-- Events will be loaded here -->
+                            @foreach(var evnt in Model.Events)
+                            {
+                                <tr>
+                                    <th>@evnt.EventTitle</th>
+                                    <th>@evnt.StartDateTime</th>
+                                    <th>
+                                    <a asp-controller="Admin" asp-action="ReviewEvent" asp-route-id="@evnt.EventId"
+                                       class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye me-1"></i> Review
+                                    </a>
+                                    </th>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5: Payments Management -->
+    <div id="section-payments-content" class="admin-section">
+        <div class="admin-table card border-0 shadow-sm">
+            <div class="card-header bg-light border-0">
+                <h5 class="fw-bold mb-0"><i class="fas fa-credit-card me-2"></i>All Payments</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive" style="max-height: 400px;">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="paymentsTableBody">
+                            <!-- Payments will be loaded here -->
+                            @foreach(var payment in Model.Payments)
+                            {
+                                <tr>
+                                    <th>@payment.EventName</th>
+                                    <th>@payment.Amount $</th>
+                                    <th>@payment.PaymentDate</th>
+                                    @if(payment.EventId != null)
+                                    {
+                                        <th>
+                                            
+                                            <a asp-controller="Events" asp-action="Details" asp-route-id="@payment.EventId"
+                                               class="btn btn-sm btn-primary">
+                                                <i class="fas fa-eye me-1"></i> Review
+                                            </a>
+                                        </th>
+                                    }
+                                    
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Danger Zone -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 bg-light">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                <div>
+                    <h5 class="fw-bold mb-1 text-danger">Danger Zone</h5>
+                    <p class="text-muted mb-0 small">Delete your account and all related data. This process cannot be undone.</p>
+                </div>
+                <button class="btn btn-outline-danger"
+                        data-bs-toggle="modal"
+                        data-bs-target="#deleteModal">
+                    Delete Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title text-danger">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                Are you sure you want to delete your account? This action cannot be undone.
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+
+                <a href="@Url.Action("Delete", "Profile")" class="btn btn-danger">
+                    Yes, Delete
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@if (TempData["UserNotFoundError"] != null)
+{
+    @await Html.PartialAsync("_UserNotFoundErrorMessage")
+}
+else if (TempData["UserAlreadyAdminError"] != null)
+{
+    @await Html.PartialAsync("_UserAlreadyAdminErrorMessage")
+}
+else if (TempData["SomethingWrongOccuredError"] != null)
+{
+    @await Html.PartialAsync("_SomethingWrongOccuredErrorMassage")
+}
+
+
+<script>
+    const sectionRadios = document.querySelectorAll('input[name="adminSection"]');
+    const sections = document.querySelectorAll('.admin-section');
+
+    sectionRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            const selectedSection = this.value;
+
+            // Hide all sections
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Show selected section
+            const targetSection = document.getElementById(`section-${selectedSection}-content`);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                // Load data for the selected section
+                loadSectionData(selectedSection);
+            }
+        });
+    });
+</script>

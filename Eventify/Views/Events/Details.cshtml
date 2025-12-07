@@ -208,6 +208,33 @@
                     }
                     <hr>
 
+
+                    <!-- Booking Card -->
+                    @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
+                    {
+                        @if (Model.EventVerification == EventVerification.Verified)
+                        {
+                            <div class="mb-4">
+                                <h3>Verification: <span class="text-success fw-bold">@Model.EventVerification</span></h3>
+                            </div>
+                        }
+                        else if (Model.EventVerification == EventVerification.Declined)
+                        {
+                            <div class="mb-4">
+                                <h3>Verification: <span class="text-danger fw-bold">@Model.EventVerification</span></h3>
+                                <small class="text-muted">You can edit and resubmit</small>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="mb-4">
+                                <h3>Verification: <span class="text-primary fw-bold">@Model.Status</span></h3>
+                            </div>
+                        }
+                        <hr>
+                    }
+
+
                     <!-- Booking Card -->
                     @if (User.Identity.IsAuthenticated && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == Model.OrganizerId)
                     {
@@ -238,7 +265,6 @@
                         }
                         <hr>
                     }
-                   
 
 
                     <!-- Booking Card -->
@@ -276,6 +302,14 @@
 else if (TempData["ShowCancelPopup"] != null)
 {
     @await Html.PartialAsync("_Cancel")
+}
+else if (TempData["EditEventError"] != null)
+{
+    @await Html.PartialAsync("_EditEventErrorMessage")
+}
+else if (TempData["DeleteEventError"]!= null)
+{
+    @await Html.PartialAsync("_DeleteEventErrorMessage")
 }
 
 

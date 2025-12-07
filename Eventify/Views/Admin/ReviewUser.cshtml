@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "Review User";
+}
+@model EditProfileVM 
+
+<div class="container-lg py-5">
+    <!-- Profile Card -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <h5 class="fw-bold mb-4">Profile Picture</h5>
+
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center gap-4">
+
+                <div class="position-relative" id="profilePhotoPreview" style="width: 140px; height: 140px;">
+
+                    <div class="rounded-circle d-flex align-items-center justify-content-center h-100 w-100 profile-photo-placeholder
+                @(Model.Photo != null ? " has-photo" : "bg-light" )" style="@(Model.Photo != null ? $"background-image:url('{Model.Photo}'); background-size:cover;background-position:center;" : "" )">
+
+                        @if (Model.Photo == null)
+                        {
+                        <i class="fas fa-user fa-3x text-muted"></i>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <label asp-for="Gender" class="form-label fw-semibold">Gender</label>
+                    <input asp-for="Gender" class="form-control" readonly placeholder="Empty">
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <label asp-for="Country" class="form-label fw-semibold">Country</label>
+                    <input asp-for="Country" class="form-control" readonly placeholder="Empty">
+                </div>
+                <div class="col-lg-4">
+                    <label asp-for="Phone" class="form-label fw-semibold">Cell Phone</label>
+                    <input asp-for="Phone" class="form-control" readonly placeholder="Empty">
+                </div>
+                @if (User.IsInRole("Organizer"))
+                {
+                <div class="row g-4 mb-4">
+                    <div class="col-md-6 col-lg-6">
+                        <label asp-for="Specialization" class="form-label fw-semibold">Specialization</label>
+                        <input asp-for="Specialization" class="form-control" readonly placeholder="Empty">
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <label asp-for="ExperienceYear" class="form-label fw-semibold">Experience Years</label>
+                        <input asp-for="ExperienceYear" class="form-control" readonly placeholder="Empty">
+                    </div>
+                </div>
+                }
+                <div class="col-12">
+                    <label asp-for="BIO" class="form-label fw-semibold">Bio</label>
+                    <textarea asp-for="BIO" class="form-control" rows="4" readonly
+                        placeholder="Empty"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Legal Info -->
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                <div>
+                    <h5 class="fw-bold mb-1">Legal Info</h5>
+                    <p class="text-muted small mb-0">Please provide the following information for advanced
+                        verification</p>
+                </div>
+                <span class="badge bg-light text-dark"><i class="fas fa-lock me-2"></i>Secure &amp;
+                    Encrypted</span>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label asp-for="NationalIDNumber" class="form-label fw-semibold">National ID Number</label>
+                    <input asp-for="NationalIDNumber" class="form-control" readonly placeholder="Empty">
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ArabicFullName" class="form-label fw-semibold">Arabic Full Name (4 names)</label>
+                    <input asp-for="ArabicFullName" class="form-control" readonly placeholder="Empty">
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="ArabicAddress" class="form-label fw-semibold">Arabic Address</label>
+                    <input asp-for="ArabicAddress" class="form-control" readonly placeholder="Empty">
+                </div>
+
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Front ID Photo</label>
+                    <div class="position-relative" id="FrontIdPreviewWrapper"
+                        style="width: 100%; height: 180px;">
+                        @if (Model.FrontIdPhoto == null)
+                        {
+                            <!-- Placeholder Upload Box -->
+                            <div class="upload-area border border-2 border-dashed rounded p-4 text-center
+                                                    h-100 d-flex flex-column justify-content-center align-items-center"
+                                id="FrontIdUploadArea" style="background-color: var(--card-bg);">
+                                <i class="fas fa-close fs-1 text-muted mb-3"></i>
+                                <p class="fw-semibold mb-1">Empty</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Preview Image -->
+                            <a href="@Model.FrontIdPhoto" target="_blank">
+                                <img id="FrontIdImage" src="@Model.FrontIdPhoto" class="rounded w-100 h-100"
+                                    style="object-fit: cover;" alt="Front ID Photo" title="Click to view">
+                            </a>
+                        }
+                    </div>
+                </div>
+
+
+                <div class="col-md-3">
+                    <label class="form-label fw-semibold">Back ID Photo</label>
+                    <div class="position-relative" id="BackIdPreviewWrapper"
+                        style="width: 100%; height: 180px;">
+                        @if (Model.BackIdPhoto == null)
+                        {
+                            <!-- Placeholder Upload Box -->
+                            <div class="upload-area border border-2 border-dashed rounded p-4 text-center
+                                                h-100 d-flex flex-column justify-content-center align-items-center"
+                                id="BackIdUploadArea" style="background-color: var(--card-bg);">
+                                <i class="fas fa-close fs-1 text-muted mb-3"></i>
+                                <p class="fw-semibold mb-1">Empty</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Preview Image -->
+                            <a href="@Model.BackIdPhoto" target="_blank">
+                                <img id="BackIdImage" src="@Model.BackIdPhoto" class="rounded w-100 h-100"
+                                    style="object-fit: cover;" alt="Back ID Photo" title="Click to view">
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4 bg-light">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                <div>
+                    <h5 class="fw-bold mb-1 text-warning">Verifing Zone</h5>
+                    <p class="text-muted mb-0 small">According to the user information, Choose to verify or decline verifying the user.</p>
+                </div>
+                <div class="text-end">
+                    <a class="btn btn-primary px-5" href="@Url.Action("VerifyUser", "Admin", new { id = Model.id })">Verify</a>
+                    <a class="btn btn-danger px-5" href="@Url.Action("DeclineUser", "Admin", new { id = Model.id })">Decline</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

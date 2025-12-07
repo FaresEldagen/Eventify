@@ -69,5 +69,11 @@ namespace Eventify.Managers
             _db.SaveChanges();
             return 1;
         }
+
+        public List<Payment> GetPayments()
+        {
+            var payments = _db.Payments.OrderBy(p => p.PaymentDate).ToList();
+            return payments;
+        }
     }
 }

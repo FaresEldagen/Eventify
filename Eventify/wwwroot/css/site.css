@@ -1399,3 +1399,80 @@ a {
     a:hover {
         color: var(--primary);
     }
+
+
+
+/* ============================================
+   Admindashboard PAGE
+   ============================================ */
+.admin-section {
+    display: none;
+}
+
+    .admin-section.active {
+        display: block;
+    }
+
+.section-radio-bar {
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+.section-radio-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 0.375rem;
+    transition: all 0.3s ease;
+}
+
+    .section-radio-item:hover {
+        background-color: var(--primary-light);
+    }
+
+    .section-radio-item input[type="radio"] {
+        cursor: pointer;
+    }
+
+    .section-radio-item label {
+        cursor: pointer;
+        margin: 0;
+        font-weight: 500;
+    }
+
+.admin-table {
+    background-color: var(--background);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+    .admin-table table {
+        margin-bottom: 0;
+    }
+
+    .admin-table thead {
+        background-color: var(--card-bg);
+    }
+
+    .admin-table th {
+        border-bottom: 2px solid var(--border);
+        font-weight: 600;
+        color: var(--foreground);
+    }
+
+    .admin-table td {
+        border-bottom: 1px solid var(--border);
+        vertical-align: middle;
+    }
+
+.admin-form-card {
+    background-color: var(--background);
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}

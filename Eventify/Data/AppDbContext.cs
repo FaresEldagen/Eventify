@@ -19,6 +19,7 @@ namespace Eventify.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Organizer> Organizers { get; set; }
+        public DbSet<Admin> Admins { get; set; }
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
@@ -42,6 +43,7 @@ namespace Eventify.Data
             builder.ApplyConfiguration(new RoleSeedData());
             builder.ApplyConfiguration(new OrganizerSeedData());
             builder.ApplyConfiguration(new OwnerSeedData());
+            builder.ApplyConfiguration(new AdminSeedData());
             builder.ApplyConfiguration(new UserRoleSeedData());
             builder.ApplyConfiguration(new VenuesSeedData());
             builder.ApplyConfiguration(new VenuePhotoSeedData());

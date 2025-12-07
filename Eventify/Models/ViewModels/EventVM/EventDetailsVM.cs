@@ -20,6 +20,7 @@ namespace Eventify.ViewModels.EventVM
         public int? Capacity { get; set; }
         public List<EventPhoto> EventPhotos { get; set; } = new List<EventPhoto>();
         public EventCategoryEnum Category { get; set; }
+        public EventVerification EventVerification { get; set; }
 
     }
 }

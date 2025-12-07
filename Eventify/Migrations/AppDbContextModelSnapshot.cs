@@ -33,6 +33,9 @@ namespace Eventify.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("AccountStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("ArabicAddress")
                         .HasMaxLength(255)
                         .HasColumnType("NVARCHAR");
@@ -170,6 +173,9 @@ namespace Eventify.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("VARCHAR");
 
+                    b.Property<int>("EventVerification")
+                        .HasColumnType("int");
+
                     b.Property<string>("Features")
                         .HasColumnType("VARCHAR(MAX)");
 
@@ -210,6 +216,7 @@ namespace Eventify.Migrations
                             Description = "A conference discussing the future of AI and technology.",
                             EndDateTime = new DateTime(2025, 4, 12, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Tech Innovations Conference 2025",
+                            EventVerification = 2,
                             Features = "Speakers, Workshops, Networking",
                             IsPrivate = false,
                             OrganizerId = 4,
@@ -227,6 +234,7 @@ namespace Eventify.Migrations
                             Description = "Intense fitness session with professional trainers.",
                             EndDateTime = new DateTime(2025, 5, 3, 11, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Outdoor Fitness Bootcamp",
+                            EventVerification = 1,
                             Features = "Trainers, Fresh Air, Group Activities",
                             IsPrivate = false,
                             OrganizerId = 5,
@@ -244,6 +252,7 @@ namespace Eventify.Migrations
                             Description = "Connect with entrepreneurs and business owners.",
                             EndDateTime = new DateTime(2025, 6, 18, 23, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Riyadh Business Networking Night",
+                            EventVerification = 2,
                             Features = "Networking, Snacks, Business Talks",
                             IsPrivate = false,
                             OrganizerId = 6,
@@ -261,6 +270,7 @@ namespace Eventify.Migrations
                             Description = "Live music performances by local bands.",
                             EndDateTime = new DateTime(2025, 7, 10, 23, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Alexandria Summer Music Festival",
+                            EventVerification = 2,
                             Features = "Live Bands, Food Trucks, Sea View",
                             IsPrivate = false,
                             OrganizerId = 4,
@@ -278,6 +288,7 @@ namespace Eventify.Migrations
                             Description = "A meetup focusing on ancient Egyptian culture.",
                             EndDateTime = new DateTime(2025, 3, 5, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Giza Cultural Meetup",
+                            EventVerification = 2,
                             Features = "Guided Tour, Cultural Talks",
                             IsPrivate = true,
                             OrganizerId = 5,
@@ -295,6 +306,7 @@ namespace Eventify.Migrations
                             Description = "A premium exhibition showcasing luxury brands.",
                             EndDateTime = new DateTime(2025, 9, 1, 20, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Abu Dhabi Luxury Expo",
+                            EventVerification = 2,
                             Features = "Exhibitions, VIP Lounge",
                             IsPrivate = false,
                             OrganizerId = 6,
@@ -312,6 +324,7 @@ namespace Eventify.Migrations
                             Description = "A charity sports event to support children’s hospitals.",
                             EndDateTime = new DateTime(2025, 2, 20, 12, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Jeddah Beach Charity Run",
+                            EventVerification = 2,
                             Features = "Medals, Refreshments",
                             IsPrivate = false,
                             OrganizerId = 4,
@@ -329,6 +342,7 @@ namespace Eventify.Migrations
                             Description = "Hands-on workshop for beginners in software development.",
                             EndDateTime = new DateTime(2025, 8, 15, 16, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Doha Tech Workshop",
+                            EventVerification = 2,
                             Features = "Coding Session, Mentors",
                             IsPrivate = false,
                             OrganizerId = 5,
@@ -346,6 +360,7 @@ namespace Eventify.Migrations
                             Description = "A seminar discussing ancient Egyptian heritage.",
                             EndDateTime = new DateTime(2025, 11, 2, 19, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Luxor Historical Seminar",
+                            EventVerification = 3,
                             Features = "Speakers, Guided Discussion",
                             IsPrivate = false,
                             OrganizerId = 6,
@@ -363,6 +378,7 @@ namespace Eventify.Migrations
                             Description = "A digital art exhibition featuring creatives from the region.",
                             EndDateTime = new DateTime(2025, 10, 10, 20, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Sharjah Digital Art Expo",
+                            EventVerification = 2,
                             Features = "Digital Art Panels, Artist Meetups",
                             IsPrivate = false,
                             OrganizerId = 4,
@@ -380,6 +396,7 @@ namespace Eventify.Migrations
                             Description = "A meetup focusing on ancient Egyptian culture.",
                             EndDateTime = new DateTime(2025, 3, 6, 18, 0, 0, 0, DateTimeKind.Unspecified),
                             EventTitle = "Giza Cultural Meetup",
+                            EventVerification = 2,
                             Features = "Guided Tour, Cultural Talks",
                             IsPrivate = false,
                             OrganizerId = 5,
@@ -767,7 +784,6 @@ namespace Eventify.Migrations
                         .HasColumnType("INT");
 
                     b.Property<string>("ProofOfOwnership")
-                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("VARCHAR");
 
@@ -778,6 +794,9 @@ namespace Eventify.Migrations
                         .HasColumnType("VARCHAR(Max)");
 
                     b.Property<int>("VenueType")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("VenueVerification")
                         .HasColumnType("int");
 
                     b.Property<bool>("WifiAvailable")
@@ -814,6 +833,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Stage, LED Screens",
                             VenueType = 1,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "11371"
                         },
@@ -836,6 +856,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Sea View",
                             VenueType = 2,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "00000"
                         },
@@ -858,6 +879,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "VIP Rooms",
                             VenueType = 1,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "11564"
                         },
@@ -880,6 +902,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Sea Breeze, Open Stage",
                             VenueType = 2,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "21500"
                         },
@@ -902,6 +925,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Historic View",
                             VenueType = 2,
+                            VenueVerification = 2,
                             WifiAvailable = false,
                             ZIP = "12556"
                         },
@@ -924,6 +948,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Gold Interior, VIP Lounge",
                             VenueType = 1,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "00001"
                         },
@@ -946,6 +971,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Beachfront Stage",
                             VenueType = 2,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "23415"
                         },
@@ -968,6 +994,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Conference Rooms",
                             VenueType = 1,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "00022"
                         },
@@ -990,6 +1017,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Theatre Stage",
                             VenueType = 1,
+                            VenueVerification = 2,
                             WifiAvailable = false,
                             ZIP = "85958"
                         },
@@ -1012,6 +1040,7 @@ namespace Eventify.Migrations
                             RestroomsAvailable = true,
                             SpecialFeatures = "Art Lighting",
                             VenueType = 1,
+                            VenueVerification = 2,
                             WifiAvailable = true,
                             ZIP = "00033"
                         });
@@ -1276,6 +1305,12 @@ namespace Eventify.Migrations
                             Id = 2,
                             Name = "Organizer",
                             NormalizedName = "ORGANIZER"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         });
                 });
 
@@ -1392,6 +1427,16 @@ namespace Eventify.Migrations
                         {
                             UserId = 6,
                             RoleId = 2
+                        },
+                        new
+                        {
+                            UserId = 7,
+                            RoleId = 3
+                        },
+                        new
+                        {
+                            UserId = 8,
+                            RoleId = 3
                         });
                 });
 
@@ -1412,6 +1457,51 @@ namespace Eventify.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Eventify.Models.Entities.Admin", b =>
+                {
+                    b.HasBaseType("Eventify.Models.Entities.ApplicationUser");
+
+                    b.HasDiscriminator().HasValue("Admin");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 7,
+                            AccessFailedCount = 0,
+                            AccountStatus = 2,
+                            ConcurrencyStamp = "ad1ffb73-435e-45a7-ab65-43c897dc3229",
+                            Email = "Admin1@test.com",
+                            EmailConfirmed = true,
+                            JoinedDate = new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN1@TEST.COM",
+                            NormalizedUserName = "MOHAMED",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKc9HTgdyB0ys4nOjUMgeoA6+ymIDHy+BAdZyDTlAIsi5H+gKSxbX8V4Z0sbml9TQA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
+                            TwoFactorEnabled = false,
+                            UserName = "Mohamed"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AccessFailedCount = 0,
+                            AccountStatus = 2,
+                            ConcurrencyStamp = "71635f6e-e9f4-4948-a881-7b02fd9c770c",
+                            Email = "Admin2@test.com",
+                            EmailConfirmed = true,
+                            JoinedDate = new DateTime(2022, 1, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN2@TEST.COM",
+                            NormalizedUserName = "ASHRAF",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBspGlL8RvIIlVjqzHyp2pps6I1nyMTeDmHy4xkeYPdMMJ+dyScn+y6SMWLpfuu//g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
+                            TwoFactorEnabled = false,
+                            UserName = "Ashraf"
+                        });
                 });
 
             modelBuilder.Entity("Eventify.Models.Entities.Organizer", b =>
@@ -1437,11 +1527,12 @@ namespace Eventify.Migrations
                         {
                             Id = 4,
                             AccessFailedCount = 0,
+                            AccountStatus = 2,
                             ArabicAddress = "القاهرة - مصر",
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "4f2797a7-283e-46ad-85ab-f95c16a27e52",
+                            ConcurrencyStamp = "db90ac67-8ce1-483a-8bcc-b915df92174c",
                             Country = 1,
                             Email = "Organizer1@test.com",
                             EmailConfirmed = true,
@@ -1452,7 +1543,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER1@TEST.COM",
                             NormalizedUserName = "FARES",
-                            PasswordHash = "AQAAAAIAAYagAAAAELpIz+rgrdE+bShn79Q0dVjNiz3CFS/LA0XkPwaXh+b+Tc1Dq3ic/2LjgzodRXicHg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAELSzAax8BrKbyBkJCnEY8e5S0aMWUmoAuqJ90l67Go8iRVuNF2ilTmaTHTDejC4ogg==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1466,11 +1557,12 @@ namespace Eventify.Migrations
                         {
                             Id = 5,
                             AccessFailedCount = 0,
+                            AccountStatus = 2,
                             ArabicAddress = "القاهرة - مصر",
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "b8efa07c-56f9-4f94-a309-b7252f8d5812",
+                            ConcurrencyStamp = "ae1bad78-4053-4386-82f6-add9e2a95cfe",
                             Country = 1,
                             Email = "Organizer2@test.com",
                             EmailConfirmed = true,
@@ -1481,7 +1573,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER2@TEST.COM",
                             NormalizedUserName = "AHMED",
-                            PasswordHash = "AQAAAAIAAYagAAAAEDfv44u6xZnjpQ+7Y1vIkeFnSIsed0KrC2OjJp20EvoE/d8KkgbE20E6pQSRzWf55w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOYPzJbVf95U9Sxr3bVQXzfHha09ldxHnyLZoKcIDH08txefPn6mZ7qx/UmrjPPDQA==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1495,11 +1587,12 @@ namespace Eventify.Migrations
                         {
                             Id = 6,
                             AccessFailedCount = 0,
+                            AccountStatus = 2,
                             ArabicAddress = "القاهرة - مصر",
                             ArabicFullName = "فارس حسن علي الداجن",
                             BIO = "Event Organizer passionate about designing and managing unforgettable events. With over 5 years in the industry, I specialize in bringing ideas to life, coordinating every detail, and creating seamless experiences for attendees.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "d8e0989b-3e76-42cc-baab-e14836508d0c",
+                            ConcurrencyStamp = "4db31d91-e7bd-453b-b320-20fa4bfaf24a",
                             Country = 1,
                             Email = "Organizer3@test.com",
                             EmailConfirmed = true,
@@ -1510,7 +1603,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29801150123456",
                             NormalizedEmail = "ORGANIZER3@TEST.COM",
                             NormalizedUserName = "ZIAD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOwij1EulpQj6PNaNSRLq14q5RmqnTZ+GVSaPnrgggGH46VlOlVx+OUuZdVBFavOJQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEDSz3km/LiK1g7Q70a93BlpatF7FPFODwlVhE8PyPllB0hplipvQg5hz2wnXR4O1rQ==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1540,11 +1633,12 @@ namespace Eventify.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
+                            AccountStatus = 2,
                             ArabicAddress = "القاهرة - مصر",
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "fd97583f-2d70-429c-9309-2fc035f0ec0f",
+                            ConcurrencyStamp = "b8916d4b-8bbc-4a2a-8f21-9a52f55cd480",
                             Country = 1,
                             Email = "Owner1@test.com",
                             EmailConfirmed = true,
@@ -1555,7 +1649,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER1@TEST.COM",
                             NormalizedUserName = "MAHMOUD",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPU3vU11JKO7+24uNyA1XiT/KKN7d5IMrS3efMssgc9RN87ve+A+1lHIO5WOzifcSQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEPkeNMiwMtIzIETkiaFljeVGSjCud2yve9XoJw8oXTrOzbJV1fkBrDB9djZVKfB8vw==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1568,11 +1662,12 @@ namespace Eventify.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
+                            AccountStatus = 2,
                             ArabicAddress = "القاهرة - مصر",
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "02cdbc0f-1c9a-4fff-babc-d7434e140304",
+                            ConcurrencyStamp = "28d3e1ac-b53e-4f74-90c6-06b0233a19f1",
                             Country = 1,
                             Email = "Owner2@test.com",
                             EmailConfirmed = true,
@@ -1583,7 +1678,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER2@TEST.COM",
                             NormalizedUserName = "ALI",
-                            PasswordHash = "AQAAAAIAAYagAAAAEG78FcKzChQWY1Aq9iyJSsolBEBsNpVt0FOvB+MXP63rnvsbrOjysno+Zl7AjDAeeA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEEdbRpfRtUHy4FyrTW2tzH/yXBTo70hh94+h8EMHhW4pJNpquBUQJteVPXQxfMBUxQ==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",
@@ -1596,11 +1691,12 @@ namespace Eventify.Migrations
                         {
                             Id = 3,
                             AccessFailedCount = 0,
+                            AccountStatus = 2,
                             ArabicAddress = "القاهرة - مصر",
                             ArabicFullName = "محمود سمير عبد الله",
                             BIO = "Venue owner with a passion for hosting memorable experiences. With more than 5 years in the industry, I provide versatile spaces tailored for events of all kinds, ensuring clients and guests enjoy smooth and successful gatherings.",
                             BackIdPhoto = "/Images/back1.jpg",
-                            ConcurrencyStamp = "8ce49f6b-a18a-41b2-adfe-010b16455674",
+                            ConcurrencyStamp = "4d0b9c59-91e7-49b5-a7c3-7120154f6175",
                             Country = 1,
                             Email = "Owner3@test.com",
                             EmailConfirmed = true,
@@ -1611,7 +1707,7 @@ namespace Eventify.Migrations
                             NationalIDNumber = "29701020123455",
                             NormalizedEmail = "OWNER3@TEST.COM",
                             NormalizedUserName = "AMR",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIn5dYtwRF/KjWkkjrQp2x2+6XtOAqojiuYyXdCaa5LAQxLogW+DjJBHypBTCkpO0Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEENbhP8GrGmz6CQ+DQKfINJ5k70ZBB84R/b0AvJ7Isdlv6/FmAJhgW3EOKfu5zXxfA==",
                             PhoneNumberConfirmed = false,
                             Photo = "/Images/avatar.jpg",
                             SecurityStamp = "F2821D12 - 02EC - 4EB6 - 88A7 - 393BBAAD4D54",

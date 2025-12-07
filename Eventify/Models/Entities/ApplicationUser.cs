@@ -15,6 +15,7 @@ namespace Eventify.Models.Entities
         public string? ArabicFullName { get; set; }
         public DateTime JoinedDate { get; set; }
         public string? NationalIDNumber { get; set; }
+        public AccountStatus? AccountStatus { get; set; }
 
 
 

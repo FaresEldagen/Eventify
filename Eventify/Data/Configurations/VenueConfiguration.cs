@@ -65,7 +65,10 @@ namespace Eventify.Data.Configurations
 
             builder.Property(v => v.ProofOfOwnership)
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(250).IsRequired();
+                .HasMaxLength(250).IsRequired(false);
+
+            builder.Property(v => v.VenueVerification)
+                .HasConversion<int>();
 
 
             // Foreign-Keys

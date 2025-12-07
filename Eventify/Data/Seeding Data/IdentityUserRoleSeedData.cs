@@ -36,6 +36,16 @@ public class UserRoleSeedData : IEntityTypeConfiguration<IdentityUserRole<int>>
             {
                 UserId = 6,
                 RoleId = 2
+            },
+            new IdentityUserRole<int>
+            {
+                UserId = 7,
+                RoleId = 3
+            },
+            new IdentityUserRole<int>
+            {
+                UserId = 8,
+                RoleId = 3
             }
         );
     }

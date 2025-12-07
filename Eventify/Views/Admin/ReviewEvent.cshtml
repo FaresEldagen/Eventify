@@ -1,0 +1,156 @@
+﻿@{
+    ViewBag.Title = "Review Event";
+} 
+@model EventEditVM
+
+<div class="container-lg py-5">
+    <!-- Page Header -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3">Edit Your Event</h1>
+        <p class="lead text-muted">Update your event details to keep attendees informed</p>
+    </div>
+
+    <!-- Benefits Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-cog fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Simple Setup</h5>
+                    <p class="text-muted small">Easy tools to manage your event details quickly</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-users fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Reach the Right Audience</h5>
+                    <p class="text-muted small">Keep your attendees up-to-date with latest info</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                         style="width: 60px; height: 60px;">
+                        <i class="fas fa-ticket fs-5 text-primary"></i>
+                    </div>
+                    <h5 class="fw-semibold mb-2">Secure Ticketing</h5>
+                    <p class="text-muted small">Ensure attendees can book safely</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form -->
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-light border-0">
+                    <h5 class="card-title fw-bold mb-0">Event Details</h5>
+                    <small class="text-muted">Update your event info so attendees stay informed</small>
+                </div>
+                <div class="card-body">
+                    <!-- Basic Information -->
+                    <h6 class="fw-bold mb-3">Basic Information</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="EventTitle" class="form-label">Event Title</label>
+                            <input asp-for="EventTitle" class="form-control" readonly placeholder="Empty" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Category" class="form-label">Category</label>
+                            <input asp-for="Category" class="form-control" readonly placeholder="Empty" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="4" readonly
+                                  placeholder="Empty"></textarea>
+                    </div>
+
+                    <!-- Date & Time -->
+                    <h6 class="fw-bold mb-3"><i class="fas fa-clock me-2"></i>Date & Time</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label asp-for="StartDateTime" class="form-label">Start Date & Time</label>
+                            <input asp-for="StartDateTime" type="datetime-local" class="form-control" readonly
+                                   placeholder="Empty" />
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="EndDateTime" class="form-label">End Date & Time</label>
+                            <input asp-for="EndDateTime" type="datetime-local" class="form-control" readonly
+                                   placeholder="Empty" />
+                        </div>
+                    </div>
+
+                    <!-- Pricing & Features -->
+                    <h6 class="fw-bold mb-3"><i class="fas fa-users me-2"></i>Pricing & Features</h6>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <label asp-for="TicketPrice" class="form-label">Ticket Price ($)</label>
+                            <input asp-for="TicketPrice" type="number" class="form-control" readonly
+                                   placeholder="Empty" />
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Features" class="form-label">Special Features</label>
+                        <textarea asp-for="Features" class="form-control" rows="4" readonly
+                                  placeholder="Empty"></textarea>
+                    </div>
+
+                    <!-- Current Photos -->
+                    <h6 class="fw-bold mb-3">Current Photos</h6>
+                    <div class="row g-3 mb-4">
+                        @if (Model.EventPhotos != null && Model.EventPhotos.Count > 0)
+                        {
+                            foreach (var photo in Model.EventPhotos)
+                            {
+                                <div class="col-md-3 col-sm-4 col-6"
+                                         data-file-name="@photo.PhotoUrl.Split('/').Last()">
+                                    <div class="position-relative">
+                                        <a href="@photo.PhotoUrl" target="_blank">
+                                            <img src="@photo.PhotoUrl" class="img-thumbnail w-100"
+                                                 style="height:150px; object-fit:cover;" />
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+
+                    <!-- Privacy -->
+                    <h6 class="fw-bold mb-3">Privacy</h6>
+                    <input asp-for="IsPrivate" type="number" class="form-control" readonly placeholder="Empty" />
+                </div>
+
+                <!-- Danger Zone -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4 bg-light">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center">
+                            <div>
+                                <h5 class="fw-bold mb-1 text-warning">Verifing Zone</h5>
+                                <p class="text-muted mb-0 small">According to the user information, Choose to verify or decline verifying the user.</p>
+                            </div>
+                            <div class="text-end">
+                                <a class="btn btn-primary px-5" href="@Url.Action("VerifyEvent", "Admin", new { id = Model.EventId })">Verify</a>
+                                <a class="btn btn-danger px-5" href="@Url.Action("DeclineEvent", "Admin", new { id = Model.EventId })">Decline</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

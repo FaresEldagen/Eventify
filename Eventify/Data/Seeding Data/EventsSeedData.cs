@@ -26,6 +26,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 1,
                     OrganizerId = 4,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 },
                 new Event
                 {
@@ -43,6 +44,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 2,
                     OrganizerId = 5,
                     Capacity = 700,
+                    EventVerification = EventVerification.Pending
                 },
                 new Event
                 {
@@ -60,6 +62,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 3,
                     OrganizerId = 6,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 },
                 new Event
                 {
@@ -77,6 +80,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 4,
                     OrganizerId = 4,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 },
                 new Event
                 {
@@ -94,6 +98,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 5,
                     OrganizerId = 5,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 },
                 new Event
                 {
@@ -111,6 +116,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 6,
                     OrganizerId = 6,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 },
                 new Event
                 {
@@ -128,6 +134,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 7,
                     OrganizerId = 4,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 },
                 new Event
                 {
@@ -145,6 +152,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 8,
                     OrganizerId = 5,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 },
                 new Event
                 {
@@ -162,6 +170,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 9,
                     OrganizerId = 6,
                     Capacity = 700,
+                    EventVerification = EventVerification.Declined
                 },
                 new Event
                 {
@@ -179,6 +188,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 10,
                     OrganizerId = 4,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 }, 
                 new Event
                 {
@@ -196,6 +206,7 @@ namespace Eventify.Seeding_Data
                     VenueId = 5,
                     OrganizerId = 5,
                     Capacity = 700,
+                    EventVerification = EventVerification.Verified
                 }
             );
         }
