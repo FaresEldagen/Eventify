@@ -162,6 +162,7 @@ namespace Eventify.Controllers
                 return NotFound();
 
             venue.VenueVerification = VenueVerification.Verified;
+            venue.Owner.VenueCount += 1;
             _venueManager.Update(venue);
             return RedirectToAction("Index");
         }

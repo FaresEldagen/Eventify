@@ -34,12 +34,6 @@ namespace Eventify.Seeding_Data
                 new EventPhoto { EventId = 4, PhotoUrl = "/images/event1_3.jpg" },
                 new EventPhoto { EventId = 4, PhotoUrl = "/images/event1_4.jpg" },
 
-                // Event 5
-                new EventPhoto { EventId = 5, PhotoUrl = "/images/event1_1.jpg" },
-                new EventPhoto { EventId = 5, PhotoUrl = "/images/event1_2.jpg" },
-                new EventPhoto { EventId = 5, PhotoUrl = "/images/event1_3.jpg" },
-                new EventPhoto { EventId = 5, PhotoUrl = "/images/event1_4.jpg" },
-
                 // Event 6
                 new EventPhoto { EventId = 6, PhotoUrl = "/images/event1_1.jpg" },
                 new EventPhoto { EventId = 6, PhotoUrl = "/images/event1_2.jpg" },

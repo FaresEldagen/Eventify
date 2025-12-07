@@ -240,6 +240,52 @@ namespace Eventify.Seeding_Data
                     ProofOfOwnership = "/Images/ownership1.jpg",
                     OwnerId = 2,
                     VenueVerification = VenueVerification.Verified
+                },
+                new Venue
+                {
+                    Id = 11,
+                    Name = "Luxor Cultural Theatre",
+                    VenueType = VenueTypeEnum.Indoor,
+                    Address = "Luxor Temple Road",
+                    Country = CountryEnum.Egypt,
+                    ZIP = "85958",
+                    Description = "Historic indoor cultural venue.",
+                    Capacity = 350,
+                    PricePerHour = 1700,
+                    SpecialFeatures = "Theatre Stage",
+                    AirConditioningAvailable = true,
+                    CateringAvailable = false,
+                    WifiAvailable = false,
+                    ParkingAvailable = true,
+                    BarServiceAvailable = false,
+                    RestroomsAvailable = true,
+                    AudioVisualEquipment = false,
+                    ProofOfOwnership = "/Images/ownership1.jpg",
+                    OwnerId = 1,
+                    VenueVerification = VenueVerification.Pending
+                },
+                new Venue
+                {
+                    Id = 12,
+                    Name = "Sharjah Art Gallery",
+                    VenueType = VenueTypeEnum.Indoor,
+                    Address = "Art District",
+                    Country = CountryEnum.UnitedArabEmirates,
+                    ZIP = "00033",
+                    Description = "Gallery space for exhibitions.",
+                    Capacity = 120,
+                    PricePerHour = 900,
+                    SpecialFeatures = "Art Lighting",
+                    AirConditioningAvailable = true,
+                    CateringAvailable = false,
+                    WifiAvailable = true,
+                    ParkingAvailable = true,
+                    BarServiceAvailable = false,
+                    RestroomsAvailable = true,
+                    AudioVisualEquipment = false,
+                    ProofOfOwnership = "/Images/ownership1.jpg",
+                    OwnerId = 2,
+                    VenueVerification = VenueVerification.Declined
                 }
             );
         }

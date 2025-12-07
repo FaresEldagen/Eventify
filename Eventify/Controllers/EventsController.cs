@@ -342,6 +342,7 @@ namespace WebApplication2.Controllers
                     ev.IsPrivate = vm.IsPrivate;
                     ev.Status = EventStatusEnum.Pending;
                     ev.EventVerification = EventVerification.Pending;
+                    ev.Organizer.PastEventCount -= 1;
 
                     if (vm.DeletedPhotos != null && vm.DeletedPhotos.Any())
                     {
@@ -387,10 +388,19 @@ namespace WebApplication2.Controllers
         public IActionResult Approval(int Id,EventStatusEnum decision)
         {
             Event ev = _manager.GetByIdWithIncludes(Id);
+            if (ev == null)
+            {
+                return NotFound();
+            }
+
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null && int.Parse(userId) == ev.Venue.OwnerId)
             {
                 ev.Status = decision;
+                if (decision == EventStatusEnum.Approved)
+                {
+                    ev.Organizer.PastEventCount += 1;
+                }
                 _manager.Update(ev);
             }
             return RedirectToAction("Details", "Events", new { id = Id });
@@ -401,15 +411,24 @@ namespace WebApplication2.Controllers
         public IActionResult Delete(int Id)
         {
             Event ev = _manager.GetByIdWithIncludes(Id);
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(ev.Status == EventStatusEnum.Paid)
+            if (ev == null)
             {
-                TempData["DeleteEventError"] = true;
-                return RedirectToAction("Details", "Events", new { id = Id });
+                return NotFound();
             }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userId != null && int.Parse(userId) == ev.OrganizerId)
             {
+                if (ev.Status == EventStatusEnum.Paid)
+                {
+                    TempData["DeleteEventError"] = true;
+                    return RedirectToAction("Details", "Events", new { id = Id });
+                }
+                if (ev.Status == EventStatusEnum.Approved || ev.Status == EventStatusEnum.Finished)
+                {
+                    ev.Organizer.PastEventCount -= 1;
+                    _manager.Update(ev);
+                }
                 _manager.Delete(Id);
             }
             return RedirectToAction("Index", "Events");

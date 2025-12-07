@@ -117,7 +117,7 @@ namespace WebApplication2.Controllers
                 profile.BIO = user.BIO;
                 profile.Photo = user.Photo;
                 profile.Country = string.IsNullOrWhiteSpace(user.Country.ToString()) ? "Undefined" : user.Country.ToString();
-                profile.VenueCount = venuesCards.Count;
+                profile.VenueCount = user.VenueCount;
                 profile.Venues = venuesCards;
                 profile.WithdrawableEarnings = user.WithdrawableEarnings;
                 profile.Verfication = user.AccountStatus.ToString();
@@ -155,7 +155,7 @@ namespace WebApplication2.Controllers
                 profile.Country = string.IsNullOrWhiteSpace(user.Country.ToString()) ? "Undefined" : user.Country.ToString();
                 profile.Specialization = user.Specialization ?? "Undefined";
                 profile.ExperienceYear = user.ExperienceYear;
-                profile.EventsCount = EventCards.Count;
+                profile.EventsCount = user.PastEventCount;
                 profile.Events = EventCards;
                 profile.Verfication = user.AccountStatus.ToString();
                 return View("PersonalEventOrganizer", profile);
@@ -206,7 +206,7 @@ namespace WebApplication2.Controllers
                 profile.BIO = OwnerUser.BIO;
                 profile.Photo = OwnerUser.Photo;
                 profile.Country = string.IsNullOrWhiteSpace(OwnerUser.Country.ToString()) ? "Undefined" : user.Country.ToString();
-                profile.VenueCount = venuesCards.Count;
+                profile.VenueCount = OwnerUser.VenueCount;
                 profile.Venues = venuesCards;
                 profile.WithdrawableEarnings = OwnerUser.WithdrawableEarnings;
                 return View("OtherVenueOwner", profile);
@@ -244,7 +244,7 @@ namespace WebApplication2.Controllers
                 profile.Country = string.IsNullOrWhiteSpace(OrganizerUser.Country.ToString()) ? "Undefined" : user.Country.ToString();
                 profile.Specialization = OrganizerUser.Specialization ?? "Undefined";
                 profile.ExperienceYear = OrganizerUser.ExperienceYear;
-                profile.EventsCount = EventCards.Count;
+                profile.EventsCount = OrganizerUser.PastEventCount;
                 profile.Events = EventCards;
                 return View("OtherEventOrganizer", profile);
             }

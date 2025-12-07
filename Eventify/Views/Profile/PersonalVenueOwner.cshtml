@@ -30,6 +30,10 @@
                     {
                         <span class="text-warning">Pending</span>
                     }
+                    else if (Model.Verfication == AccountStatus.NotVerified.ToString())
+                    {
+                        <span>Not Verified</span>
+                    }
                 </p>
                 <p class="text-muted mb-2">Venues Owner</p>
                 <a class="btn btn-primary btn-sm" href="@Url.Action("Edit", "Profile")">Edit Profile</a>

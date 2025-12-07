@@ -182,7 +182,7 @@ namespace WebApplication2.Controllers
                 }).ToList();
 
             var pendingEventsList = venue.Events
-                .Where(e => e.Status == EventStatusEnum.Pending)
+                .Where(e => e.Status == EventStatusEnum.Pending && e.EventVerification == EventVerification.Verified)
                 .ToList();
 
             if (User.IsInRole("Owner") && venue.OwnerId == currentUserId)
@@ -442,6 +442,10 @@ namespace WebApplication2.Controllers
                         venueToUpdate.ProofOfOwnership = $"/images/{PhotoName}";
                     }
 
+                    if (venueToUpdate.VenueVerification == VenueVerification.Verified)
+                    {
+                        venueToUpdate.Owner.VenueCount -= 1;
+                    }
                     venueToUpdate.VenueVerification = VenueVerification.Pending;
 
                     _venueManager.Update(venueToUpdate);
@@ -468,7 +472,11 @@ namespace WebApplication2.Controllers
                     TempData["DeleteVenueError"] = true;
                     return RedirectToAction("Details", "Venues",new { id = id });
                 }
-
+                if (venueToDelete.VenueVerification == VenueVerification.Verified)
+                {
+                    venueToDelete.Owner.VenueCount -= 1;
+                    _venueManager.Update(venueToDelete);
+                }
                 int result = _venueManager.Delete(id);
                 return RedirectToAction("Index");
             }

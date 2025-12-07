@@ -253,8 +253,8 @@
                             <table class="table table-sm mb-0">
                                 <thead class="bg-light sticky-top">
                                     <tr>
-                                        <th class="border-bottom">From</th>
-                                        <th class="border-bottom">To</th>
+                                        <th class="border-bottom">From <br>(MM-dd-yyyy)</th>
+                                        <th class="border-bottom">To <br>(MM-dd-yyyy)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -263,8 +263,8 @@
                                         foreach (var date in Model.DateRange.OrderBy(d => d.StartDate))
                                         {
                                             <tr>
-                                                <td>@date.StartDate.ToString("dd-MM-yyyy hh:mm tt")</td>
-                                                <td>@date.EndDate.ToString("dd-MM-yyyy hh:mm tt")</td>
+                                                <td>@date.StartDate.ToString("MM-dd-yyyy hh:mm tt")</td>
+                                                <td>@date.EndDate.ToString("MM-dd-yyyy hh:mm tt")</td>
                                             </tr>
                                         }
                                     }

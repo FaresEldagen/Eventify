@@ -23,6 +23,8 @@
                          {<span class="text-danger">Declined</span>}
                     else if (Model.Verfication == AccountStatus.Pending.ToString())
                          {<span class="text-warning">Pending</span>}
+                    else if (Model.Verfication == AccountStatus.NotVerified.ToString())
+                        { <span>Not Verified</span> }
                 </p>                
                 <p class="text-muted mb-2">Event Organizer</p>
                 <p class="text-muted">Specialized in <br>@Model.Specialization</p>
