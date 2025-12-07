@@ -278,7 +278,7 @@ namespace WebApplication2.Controllers
                 profile.NationalIDNumber = OwnerUser.NationalIDNumber;
                 profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
                 profile.BackIdPhoto = OwnerUser.BackIdPhoto;
-                profile.Photo = OwnerUser.Photo;
+                profile.Phone = OwnerUser.PhoneNumber;
             }
             else if (await _managerUser.IsInRoleAsync(user, "Organizer"))
             {
@@ -296,7 +296,7 @@ namespace WebApplication2.Controllers
                 profile.NationalIDNumber = OrganizerUser.NationalIDNumber;
                 profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
                 profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
-                profile.Photo = OrganizerUser.Photo;
+                profile.Phone = OrganizerUser.PhoneNumber;
                 
             }
             return View("EditProfile", profile);
@@ -320,6 +320,7 @@ namespace WebApplication2.Controllers
                     OwnerUser.ArabicFullName = profile.ArabicFullName;
                     OwnerUser.NationalIDNumber = profile.NationalIDNumber;
                     OwnerUser.AccountStatus = AccountStatus.Pending;
+                    OwnerUser.PhoneNumber = profile.Phone;
 
 
                     if (profile.RemovePhoto)
@@ -369,6 +370,7 @@ namespace WebApplication2.Controllers
                     OrganizerUser.ArabicFullName = profile.ArabicFullName;
                     OrganizerUser.NationalIDNumber = profile.NationalIDNumber;
                     OrganizerUser.AccountStatus = AccountStatus.Pending;
+                    OrganizerUser.PhoneNumber = profile.Phone;
 
 
                     if (profile.RemovePhoto)

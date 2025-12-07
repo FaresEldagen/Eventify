@@ -81,7 +81,7 @@ namespace Eventify.Controllers
                 profile.NationalIDNumber = OwnerUser.NationalIDNumber;
                 profile.FrontIdPhoto = OwnerUser.FrontIdPhoto;
                 profile.BackIdPhoto = OwnerUser.BackIdPhoto;
-                profile.Photo = OwnerUser.Photo;
+                profile.Phone = OwnerUser.PhoneNumber;
                 profile.AccountStatus = OwnerUser.AccountStatus;
             }
             else
@@ -100,7 +100,7 @@ namespace Eventify.Controllers
                 profile.NationalIDNumber = OrganizerUser.NationalIDNumber;
                 profile.FrontIdPhoto = OrganizerUser.FrontIdPhoto;
                 profile.BackIdPhoto = OrganizerUser.BackIdPhoto;
-                profile.Photo = OrganizerUser.Photo;
+                profile.Phone = OrganizerUser.PhoneNumber;
                 profile.AccountStatus = OrganizerUser.AccountStatus;
             }
             return View(profile);
