@@ -88,6 +88,9 @@ artifacts/
 # Local configuration
 appsettings.Development.json
 secrets.json
+appsettings.Local.json
+appsettings.json
+/appsettings.json
 
 # Node modules (if front-end in same repo)
 node_modules/
@@ -96,3 +99,5 @@ node_modules/
 .env
 .env.*
 /Eventify/wwwroot/images
+/Eventify/appsettings.json
+/Eventify/appsettings.json
