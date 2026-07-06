@@ -1,4 +1,4 @@
-﻿using Eventify.Managers;
+using Eventify.Managers;
 using Eventify.Models.Entities;
 using Eventify.Models.Enums;
 using Eventify.Services;
@@ -6,6 +6,7 @@ using Eventify.ViewModels;
 using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Stripe;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,11 +17,15 @@ namespace WebApplication2.Controllers
 {
     public static class UploadVenuePhoto
     {
-        public static string UploadFile(string FolderName, IFormFile File, int i)
+        public static string UploadFile(string webRootPath, string FolderName, IFormFile File, int i)
         {
             try
             {
-                string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName;
+                string FolderPath = Path.Combine(webRootPath, FolderName);
+                if (!Directory.Exists(FolderPath))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
                 string FileName = $"{i}" + Guid.NewGuid() + Path.GetFileName(File.FileName);
                 string FinalPath = Path.Combine(FolderPath, FileName);
                 using (var Stream = new FileStream(FinalPath, FileMode.Create))
@@ -31,15 +36,15 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                throw;
             }
 
         }
-        public static string RemoveFile(string FolderName, string FileName)
+        public static string RemoveFile(string webRootPath, string FolderName, string FileName)
         {
             try
             {
-                var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", FolderName, FileName);
+                var directory = Path.Combine(webRootPath, FolderName, FileName);
 
                 if (System.IO.File.Exists(directory))
                 {
@@ -53,7 +58,7 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                throw;
             }
         }
 
@@ -65,10 +70,12 @@ namespace WebApplication2.Controllers
     {
         private readonly IVenueService _venueManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public VenuesController(IVenueService venueManager, UserManager<ApplicationUser> userManager)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public VenuesController(IVenueService venueManager, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _venueManager = venueManager;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
 
@@ -275,54 +282,76 @@ namespace WebApplication2.Controllers
             {
                 List<string> uploadedFileNames = new List<string>();
                 int i = 0;
-                foreach (var x in vm.FormFiles)
+                try
                 {
-                    string p = UploadVenuePhoto.UploadFile("images", x, i++);
-                    VenuePhoto venuePhoto = new VenuePhoto();
-                    venuePhoto.PhotoUrl = $"/images/" + p;
-                    uploadedFileNames.Add(p);
-                    vm.venuePhotos.Add(venuePhoto);
+                    foreach (var x in vm.FormFiles)
+                    {
+                        string p = UploadVenuePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", x, i++);
+                        VenuePhoto venuePhoto = new VenuePhoto();
+                        venuePhoto.PhotoUrl = $"/images/" + p;
+                        uploadedFileNames.Add(p);
+                        vm.venuePhotos.Add(venuePhoto);
+                    }
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error uploading venue images: " + ex.Message);
+                }
+
                 if (ModelState.IsValid)
                 {
-                    var ProofOfOwnershipPhoto = UploadProfilePhoto.UploadFile("images", vm.ProofOfOwnershipFile);
-                    var venue = new Venue
+                    string ProofOfOwnershipPhoto = null;
+                    try
                     {
-                        OwnerId = int.Parse(userIdString),
-                        Name = vm.Name!,
-                        VenueType = vm.VenueType,
-                        Address = vm.Address!,
-                        Country = vm.Country,
-                        ZIP = vm.ZIP,
-                        Description = vm.Description,
-                        Capacity = vm.Capacity,
-                        PricePerHour = vm.PricePerHour,
-                        SpecialFeatures = vm.SpecialFeatures,
-                        AirConditioningAvailable = vm.AirConditioningAvailable,
-                        CateringAvailable = vm.CateringAvailable,
-                        WifiAvailable = vm.WifiAvailable,
-                        ParkingAvailable = vm.ParkingAvailable,
-                        BarServiceAvailable = vm.BarServiceAvailable,
-                        RestroomsAvailable = vm.RestroomsAvailable,
-                        AudioVisualEquipment = vm.AudioVisualEquipment,
-
-                        VenuePhotos = vm.venuePhotos,
-                        ProofOfOwnership = $"/images/{ProofOfOwnershipPhoto}",
-                        VenueVerification = VenueVerification.Pending
-                        
-                    };
-                    _venueManager.Insert(venue);
-                    return RedirectToAction("Details", new { id = venue.Id });
-                }
-                else
-                {
-                    foreach (var file in uploadedFileNames)
-                    {
-                        UploadEventPhoto.RemoveFile("images", file);
+                        ProofOfOwnershipPhoto = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", vm.ProofOfOwnershipFile);
                     }
-                    vm.venuePhotos.Clear();
-                    return View(vm);
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", "Error uploading proof of ownership file: " + ex.Message);
+                    }
+
+                    if (ModelState.IsValid)
+                    {
+                        var venue = new Venue
+                        {
+                            OwnerId = int.Parse(userIdString),
+                            Name = vm.Name!,
+                            VenueType = vm.VenueType,
+                            Address = vm.Address!,
+                            Country = vm.Country,
+                            ZIP = vm.ZIP,
+                            Description = vm.Description,
+                            Capacity = vm.Capacity,
+                            PricePerHour = vm.PricePerHour,
+                            SpecialFeatures = vm.SpecialFeatures,
+                            AirConditioningAvailable = vm.AirConditioningAvailable,
+                            CateringAvailable = vm.CateringAvailable,
+                            WifiAvailable = vm.WifiAvailable,
+                            ParkingAvailable = vm.ParkingAvailable,
+                            BarServiceAvailable = vm.BarServiceAvailable,
+                            RestroomsAvailable = vm.RestroomsAvailable,
+                            AudioVisualEquipment = vm.AudioVisualEquipment,
+
+                            VenuePhotos = vm.venuePhotos,
+                            ProofOfOwnership = $"/images/{ProofOfOwnershipPhoto}",
+                            VenueVerification = VenueVerification.Pending
+                            
+                        };
+                        _venueManager.Insert(venue);
+                        return RedirectToAction("Details", new { id = venue.Id });
+                    }
                 }
+
+                foreach (var file in uploadedFileNames)
+                {
+                    try
+                    {
+                        UploadEventPhoto.RemoveFile(_webHostEnvironment.WebRootPath, "images", file);
+                    }
+                    catch { }
+                }
+                vm.venuePhotos.Clear();
+                return View(vm);
             }
             return RedirectToAction("Login", "Account");
         }
@@ -381,14 +410,22 @@ namespace WebApplication2.Controllers
             {
                 List<string> uploadedFileNames = new List<string>();
                 int i = 0;
-                foreach (var x in vm.FormFiles)
+                try
                 {
-                    string p = UploadVenuePhoto.UploadFile("images", x, i++);
-                    VenuePhoto venuePhoto = new VenuePhoto();
-                    venuePhoto.PhotoUrl = $"/images/" + p;
-                    uploadedFileNames.Add(p);
-                    vm.venuePhotos.Add(venuePhoto);
+                    foreach (var x in vm.FormFiles)
+                    {
+                        string p = UploadVenuePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", x, i++);
+                        VenuePhoto venuePhoto = new VenuePhoto();
+                        venuePhoto.PhotoUrl = $"/images/" + p;
+                        uploadedFileNames.Add(p);
+                        vm.venuePhotos.Add(venuePhoto);
+                    }
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error uploading venue images: " + ex.Message);
+                }
+
                 if (ModelState.IsValid)
                 {
                     venueToUpdate.Name = vm.Name;
@@ -412,7 +449,11 @@ namespace WebApplication2.Controllers
                     {
                         foreach (var fileName in vm.DeletedPhotos)
                         {
-                            UploadEventPhoto.RemoveFile("images", fileName);
+                            try
+                            {
+                                UploadEventPhoto.RemoveFile(_webHostEnvironment.WebRootPath, "images", fileName);
+                            }
+                            catch { }
 
                             var photoEntity = venueToUpdate.VenuePhotos
                                 .FirstOrDefault(p => p.PhotoUrl.EndsWith(fileName));
@@ -425,37 +466,71 @@ namespace WebApplication2.Controllers
                     if (vm.FormFiles != null && vm.FormFiles.Any())
                     {
                         i = 0;
-                        foreach (var x in vm.FormFiles)
+                        try
                         {
-                            string p = UploadEventPhoto.UploadFile("images", x, i++);
-
-                            venueToUpdate.VenuePhotos.Add(new VenuePhoto
+                            foreach (var x in vm.FormFiles)
                             {
-                                PhotoUrl = "/images/" + p
-                            });
+                                string p = UploadEventPhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", x, i++);
+
+                                venueToUpdate.VenuePhotos.Add(new VenuePhoto
+                                {
+                                    PhotoUrl = "/images/" + p
+                                });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("", "Error uploading new venue images: " + ex.Message);
                         }
                     }
 
-                    if (vm.RemoveProofOfOwnershipPhoto)
+                    if (ModelState.IsValid)
                     {
-                        UploadProfilePhoto.RemoveFile($"wwwroot{venueToUpdate.ProofOfOwnership}");
-                        venueToUpdate.ProofOfOwnership = null;
-                    }
-                    else if (vm.ProofOfOwnershipFile != null)
-                    {
-                        var PhotoName = UploadProfilePhoto.UploadFile("images", vm.ProofOfOwnershipFile);
-                        venueToUpdate.ProofOfOwnership = $"/images/{PhotoName}";
+                        if (vm.RemoveProofOfOwnershipPhoto)
+                        {
+                            try
+                            {
+                                UploadProfilePhoto.RemoveFile(_webHostEnvironment.WebRootPath, $"wwwroot{venueToUpdate.ProofOfOwnership}");
+                            }
+                            catch { }
+                            venueToUpdate.ProofOfOwnership = null;
+                        }
+                        else if (vm.ProofOfOwnershipFile != null)
+                        {
+                            try
+                            {
+                                var PhotoName = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", vm.ProofOfOwnershipFile);
+                                venueToUpdate.ProofOfOwnership = $"/images/{PhotoName}";
+                            }
+                            catch (Exception ex)
+                            {
+                                ModelState.AddModelError("", "Error uploading proof of ownership file: " + ex.Message);
+                            }
+                        }
                     }
 
-                    if (venueToUpdate.VenueVerification == VenueVerification.Verified)
+                    if (ModelState.IsValid)
                     {
-                        venueToUpdate.Owner.VenueCount -= 1;
-                    }
-                    venueToUpdate.VenueVerification = VenueVerification.Pending;
+                        if (venueToUpdate.VenueVerification == VenueVerification.Verified)
+                        {
+                            venueToUpdate.Owner.VenueCount -= 1;
+                        }
+                        venueToUpdate.VenueVerification = VenueVerification.Pending;
 
-                    _venueManager.Update(venueToUpdate);
-                    return RedirectToAction("Details", new { id = venueToUpdate.Id });
+                        _venueManager.Update(venueToUpdate);
+                        return RedirectToAction("Details", new { id = venueToUpdate.Id });
+                    }
                 }
+
+                foreach (var file in uploadedFileNames)
+                {
+                    try
+                    {
+                        UploadEventPhoto.RemoveFile(_webHostEnvironment.WebRootPath, "images", file);
+                    }
+                    catch { }
+                }
+
                 var reloadedVenue = _venueManager.GetByIdWithIncludes(vm.Id);
                 vm.venuePhotos = reloadedVenue.VenuePhotos.ToList();
                 vm.ProofOfOwnership = reloadedVenue.ProofOfOwnership;

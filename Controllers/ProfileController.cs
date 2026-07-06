@@ -1,4 +1,4 @@
-﻿using Eventify.Managers;
+using Eventify.Managers;
 using Eventify.Models.Entities;
 using Eventify.Models.Enums;
 using Eventify.Services;
@@ -8,6 +8,7 @@ using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Data;
@@ -20,11 +21,15 @@ namespace WebApplication2.Controllers
 {
     public static class UploadProfilePhoto
     {
-        public static string UploadFile(string FolderName, IFormFile File)
+        public static string UploadFile(string webRootPath, string FolderName, IFormFile File)
         {
             try
             {
-                string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName;
+                string FolderPath = Path.Combine(webRootPath, FolderName);
+                if (!Directory.Exists(FolderPath))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
                 string FileName = Guid.NewGuid() + Path.GetFileName(File.FileName);
                 string FinalPath = Path.Combine(FolderPath, FileName);
                 using (var Stream = new FileStream(FinalPath, FileMode.Create))
@@ -35,15 +40,20 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                throw;
             }
 
         }
-        public static string RemoveFile(string FileName)
+        public static string RemoveFile(string webRootPath, string FileName)
         {
             try
             {
-                var directory = Path.Combine(Directory.GetCurrentDirectory(), FileName);
+                if (FileName.StartsWith("wwwroot"))
+                {
+                    FileName = FileName.Substring("wwwroot".Length);
+                }
+                FileName = FileName.TrimStart('/', '\\');
+                var directory = Path.Combine(webRootPath, FileName);
 
                 if (File.Exists(directory))
                 {
@@ -57,7 +67,7 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                throw;
             }
         }
 
@@ -66,14 +76,16 @@ namespace WebApplication2.Controllers
     [Authorize]
     public class ProfileController : Controller
     {
-        IVenueService _managerVenues;
-        IEventService _managerEvents;
-        UserManager<ApplicationUser> _managerUser;
-        public ProfileController(IVenueService managerVenues, IEventService managerEvents, UserManager<ApplicationUser> managerUser)
+        private readonly IVenueService _managerVenues;
+        private readonly IEventService _managerEvents;
+        private readonly UserManager<ApplicationUser> _managerUser;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public ProfileController(IVenueService managerVenues, IEventService managerEvents, UserManager<ApplicationUser> managerUser, IWebHostEnvironment webHostEnvironment)
         {
             _managerVenues = managerVenues;
             _managerEvents = managerEvents;
             _managerUser = managerUser;
+            _webHostEnvironment = webHostEnvironment;
         }
 
 
@@ -310,108 +322,119 @@ namespace WebApplication2.Controllers
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 var user = await _managerUser.FindByIdAsync(userId);
-                if (await _managerUser.IsInRoleAsync(user, "Owner"))
+                try
                 {
-                    Owner OwnerUser = (Owner)user;
-                    OwnerUser.Gender = profile.Gender;
-                    OwnerUser.Country = profile.Country;
-                    OwnerUser.BIO = profile.BIO;
-                    OwnerUser.ArabicAddress = profile.ArabicAddress;
-                    OwnerUser.ArabicFullName = profile.ArabicFullName;
-                    OwnerUser.NationalIDNumber = profile.NationalIDNumber;
-                    OwnerUser.AccountStatus = AccountStatus.Pending;
-                    OwnerUser.PhoneNumber = profile.Phone;
-
-
-                    if (profile.RemovePhoto)
+                    if (await _managerUser.IsInRoleAsync(user, "Owner"))
                     {
-                        UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.Photo}");
-                        OwnerUser.Photo = null;
+                        Owner OwnerUser = (Owner)user;
+                        OwnerUser.Gender = profile.Gender;
+                        OwnerUser.Country = profile.Country;
+                        OwnerUser.BIO = profile.BIO;
+                        OwnerUser.ArabicAddress = profile.ArabicAddress;
+                        OwnerUser.ArabicFullName = profile.ArabicFullName;
+                        OwnerUser.NationalIDNumber = profile.NationalIDNumber;
+                        OwnerUser.AccountStatus = AccountStatus.Pending;
+                        OwnerUser.PhoneNumber = profile.Phone;
+
+
+                        if (profile.RemovePhoto)
+                        {
+                            try { UploadProfilePhoto.RemoveFile(_webHostEnvironment.WebRootPath, $"wwwroot{OwnerUser.Photo}"); } catch {}
+                            OwnerUser.Photo = null;
+                        }
+                        else if (profile.PhotoFile != null)
+                        {
+                            var PhotoName = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", profile.PhotoFile);
+                            OwnerUser.Photo = $"/images/{PhotoName}";
+                        }
+
+
+                        if (profile.RemoveFrontIdPhoto)
+                        {
+                            try { UploadProfilePhoto.RemoveFile(_webHostEnvironment.WebRootPath, $"wwwroot{OwnerUser.FrontIdPhoto}"); } catch {}
+                            OwnerUser.FrontIdPhoto = null;
+                        }
+                        else if (profile.FrontIdFile != null)
+                        {
+                            var PhotoName = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", profile.FrontIdFile);
+                            OwnerUser.FrontIdPhoto = $"/images/{PhotoName}";
+                        }
+
+
+                        if (profile.RemoveBackIdPhoto)
+                        {
+                            try { UploadProfilePhoto.RemoveFile(_webHostEnvironment.WebRootPath, $"wwwroot{OwnerUser.BackIdPhoto}"); } catch {}
+                            OwnerUser.BackIdPhoto = null;
+                        }
+                        else if (profile.BackIdFile != null)
+                        {
+                            var PhotoName = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", profile.BackIdFile);
+                            OwnerUser.BackIdPhoto = $"/images/{PhotoName}";
+                        }
                     }
-                    else if (profile.PhotoFile != null)
+                    else
                     {
-                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.PhotoFile);
-                        OwnerUser.Photo = $"/images/{PhotoName}";
-                    }
+                        Organizer OrganizerUser = (Organizer)user;
+                        OrganizerUser.Gender = profile.Gender;
+                        OrganizerUser.Country = profile.Country;
+                        OrganizerUser.BIO = profile.BIO;
+                        OrganizerUser.ExperienceYear = profile.ExperienceYear;
+                        OrganizerUser.Specialization = profile.Specialization;
+                        OrganizerUser.ArabicAddress = profile.ArabicAddress;
+                        OrganizerUser.ArabicFullName = profile.ArabicFullName;
+                        OrganizerUser.NationalIDNumber = profile.NationalIDNumber;
+                        OrganizerUser.AccountStatus = AccountStatus.Pending;
+                        OrganizerUser.PhoneNumber = profile.Phone;
 
 
-                    if (profile.RemoveFrontIdPhoto)
-                    {
-                        UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.FrontIdPhoto}");
-                        OwnerUser.FrontIdPhoto = null;
-                    }
-                    else if (profile.FrontIdFile != null)
-                    {
-                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.FrontIdFile);
-                        OwnerUser.FrontIdPhoto = $"/images/{PhotoName}";
-                    }
+                        if (profile.RemovePhoto)
+                        {
+                            try { UploadProfilePhoto.RemoveFile(_webHostEnvironment.WebRootPath, $"wwwroot{OrganizerUser.Photo}"); } catch {}
+                            OrganizerUser.Photo = null;
+                        }
+                        else if (profile.PhotoFile != null)
+                        {
+                            var PhotoName = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", profile.PhotoFile);
+                            OrganizerUser.Photo = $"/images/{PhotoName}";
+                        }
 
 
-                    if (profile.RemoveBackIdPhoto)
-                    {
-                        UploadProfilePhoto.RemoveFile($"wwwroot{OwnerUser.BackIdPhoto}");
-                        OwnerUser.BackIdPhoto = null;
-                    }
-                    else if (profile.BackIdFile != null)
-                    {
-                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.BackIdFile);
-                        OwnerUser.BackIdPhoto = $"/images/{PhotoName}";
+                        if (profile.RemoveFrontIdPhoto)
+                        {
+                            try { UploadProfilePhoto.RemoveFile(_webHostEnvironment.WebRootPath, $"wwwroot{OrganizerUser.FrontIdPhoto}"); } catch {}
+                            OrganizerUser.FrontIdPhoto = null;
+                        }
+                        else if (profile.FrontIdFile != null)
+                        {
+                            var PhotoName = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", profile.FrontIdFile);
+                            OrganizerUser.FrontIdPhoto = $"/images/{PhotoName}";
+                        }
+
+
+                        if (profile.RemoveBackIdPhoto)
+                        {
+                            try { UploadProfilePhoto.RemoveFile(_webHostEnvironment.WebRootPath, $"wwwroot{OrganizerUser.BackIdPhoto}"); } catch {}
+                            OrganizerUser.BackIdPhoto = null;
+                        }
+                        else if (profile.BackIdFile != null)
+                        {
+                            var PhotoName = UploadProfilePhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", profile.BackIdFile);
+                            OrganizerUser.BackIdPhoto = $"/images/{PhotoName}";
+                        }
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    Organizer OrganizerUser = (Organizer)user;
-                    OrganizerUser.Gender = profile.Gender;
-                    OrganizerUser.Country = profile.Country;
-                    OrganizerUser.BIO = profile.BIO;
-                    OrganizerUser.ExperienceYear = profile.ExperienceYear;
-                    OrganizerUser.Specialization = profile.Specialization;
-                    OrganizerUser.ArabicAddress = profile.ArabicAddress;
-                    OrganizerUser.ArabicFullName = profile.ArabicFullName;
-                    OrganizerUser.NationalIDNumber = profile.NationalIDNumber;
-                    OrganizerUser.AccountStatus = AccountStatus.Pending;
-                    OrganizerUser.PhoneNumber = profile.Phone;
-
-
-                    if (profile.RemovePhoto)
-                    {
-                        UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.Photo}");
-                        OrganizerUser.Photo = null;
-                    }
-                    else if (profile.PhotoFile != null)
-                    {
-                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.PhotoFile);
-                        OrganizerUser.Photo = $"/images/{PhotoName}";
-                    }
-
-
-                    if (profile.RemoveFrontIdPhoto)
-                    {
-                        UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.FrontIdPhoto}");
-                        OrganizerUser.FrontIdPhoto = null;
-                    }
-                    else if (profile.FrontIdFile != null)
-                    {
-                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.FrontIdFile);
-                        OrganizerUser.FrontIdPhoto = $"/images/{PhotoName}";
-                    }
-
-
-                    if (profile.RemoveBackIdPhoto)
-                    {
-                        UploadProfilePhoto.RemoveFile($"wwwroot{OrganizerUser.BackIdPhoto}");
-                        OrganizerUser.BackIdPhoto = null;
-                    }
-                    else if (profile.BackIdFile != null)
-                    {
-                        var PhotoName = UploadProfilePhoto.UploadFile("images", profile.BackIdFile);
-                        OrganizerUser.BackIdPhoto = $"/images/{PhotoName}";
-                    }
+                    ModelState.AddModelError("", "Error uploading/saving profile photos: " + ex.Message);
                 }
-                await _managerUser.UpdateAsync(user);
-                return RedirectToAction("Index", "Profile");
+
+                if (ModelState.IsValid)
+                {
+                    await _managerUser.UpdateAsync(user);
+                    return RedirectToAction("Index", "Profile");
+                }
             }
-            else { return View(profile); }
+            return View(profile);
         }
 
 

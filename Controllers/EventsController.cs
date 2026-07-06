@@ -1,4 +1,4 @@
-﻿using Eventify.Controllers;
+using Eventify.Controllers;
 using Eventify.Managers;
 using Eventify.Models.Entities;
 using Eventify.Models.Enums;
@@ -8,6 +8,7 @@ using Eventify.ViewModels.VenueVM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using System.Security.Claims;
 
 namespace WebApplication2.Controllers
@@ -15,11 +16,15 @@ namespace WebApplication2.Controllers
 
     public static class UploadEventPhoto
     {
-        public static string UploadFile(string FolderName, IFormFile File, int i)
+        public static string UploadFile(string webRootPath, string FolderName, IFormFile File, int i)
         {
             try
             {
-                string FolderPath = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName;
+                string FolderPath = Path.Combine(webRootPath, FolderName);
+                if (!Directory.Exists(FolderPath))
+                {
+                    Directory.CreateDirectory(FolderPath);
+                }
                 string FileName = $"{i}" + Guid.NewGuid() + Path.GetFileName(File.FileName);
                 string FinalPath = Path.Combine(FolderPath, FileName);
                 using (var Stream = new FileStream(FinalPath, FileMode.Create))
@@ -30,15 +35,15 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                throw;
             }
 
         }
-        public static string RemoveFile(string FolderName, string FileName)
+        public static string RemoveFile(string webRootPath, string FolderName, string FileName)
         {
             try
             {
-                var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", FolderName, FileName);
+                var directory = Path.Combine(webRootPath, FolderName, FileName);
 
                 if (File.Exists(directory))
                 {
@@ -52,7 +57,7 @@ namespace WebApplication2.Controllers
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                throw;
             }
         }
 
@@ -65,11 +70,13 @@ namespace WebApplication2.Controllers
         private readonly IEventService _manager;
         private readonly IVenueService _venueManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        public EventsController(IEventService managerEvents, IVenueService venueService, UserManager<ApplicationUser> userManager)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public EventsController(IEventService managerEvents, IVenueService venueService, UserManager<ApplicationUser> userManager, IWebHostEnvironment webHostEnvironment)
         {
             _manager = managerEvents;
             _venueManager = venueService;
             _userManager = userManager;
+            _webHostEnvironment = webHostEnvironment;
         }
 
 
@@ -170,14 +177,22 @@ namespace WebApplication2.Controllers
             {
                 List<string> uploadedFileNames = new List<string>();
                 int i = 0;
-                foreach (var x in vm.FormFiles)
+                try
                 {
-                    string p = UploadEventPhoto.UploadFile("images", x, i++);
-                    EventPhoto eventPhoto = new EventPhoto();
-                    eventPhoto.PhotoUrl = $"/images/" + p;
-                    uploadedFileNames.Add(p);
-                    vm.EventPhotos.Add(eventPhoto);
+                    foreach (var x in vm.FormFiles)
+                    {
+                        string p = UploadEventPhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", x, i++);
+                        EventPhoto eventPhoto = new EventPhoto();
+                        eventPhoto.PhotoUrl = $"/images/" + p;
+                        uploadedFileNames.Add(p);
+                        vm.EventPhotos.Add(eventPhoto);
+                    }
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error uploading event images: " + ex.Message);
+                }
+
                 var venue = _venueManager.GetByIdWithIncludes(vm.VenueId);
                 var venueEventsDates = venue.Events.Select(e => new { e.StartDateTime, e.EndDateTime });
 
@@ -220,7 +235,11 @@ namespace WebApplication2.Controllers
                 {
                     foreach (var file in uploadedFileNames)
                     {
-                        UploadEventPhoto.RemoveFile("images", file);
+                        try
+                        {
+                            UploadEventPhoto.RemoveFile(_webHostEnvironment.WebRootPath, "images", file);
+                        }
+                        catch { }
                     }
                     vm.EventPhotos.Clear();
 
@@ -306,14 +325,24 @@ namespace WebApplication2.Controllers
             Event ev = _manager.GetByIdWithIncludes(vm.EventId);
             if (userId != null && ev != null && ev.OrganizerId.ToString() == userId)
             {
+                List<string> uploadedFileNames = new List<string>();
                 int i = 0;
-                foreach (var x in vm.FormFiles)
+                try
                 {
-                    string p = UploadEventPhoto.UploadFile("images", x, i++);
-                    EventPhoto eventPhoto = new EventPhoto();
-                    eventPhoto.PhotoUrl = $"/images/" + p;
-                    vm.EventPhotos.Add(eventPhoto);
+                    foreach (var x in vm.FormFiles)
+                    {
+                        string p = UploadEventPhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", x, i++);
+                        EventPhoto eventPhoto = new EventPhoto();
+                        eventPhoto.PhotoUrl = $"/images/" + p;
+                        uploadedFileNames.Add(p);
+                        vm.EventPhotos.Add(eventPhoto);
+                    }
                 }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Error uploading event images: " + ex.Message);
+                }
+
                 var isInvalid = false;
                 if (vm.VenueId != null)
                 {
@@ -351,7 +380,11 @@ namespace WebApplication2.Controllers
                     {
                         foreach (var fileName in vm.DeletedPhotos)
                         {
-                            UploadEventPhoto.RemoveFile("images", fileName);
+                            try
+                            {
+                                UploadEventPhoto.RemoveFile(_webHostEnvironment.WebRootPath, "images", fileName);
+                            }
+                            catch { }
 
                             var photoEntity = ev.EventPhotos
                                 .FirstOrDefault(p => p.PhotoUrl.EndsWith(fileName));
@@ -363,18 +396,37 @@ namespace WebApplication2.Controllers
                     if (vm.FormFiles != null && vm.FormFiles.Any())
                     {
                         i = 0;
-                        foreach (var x in vm.FormFiles)
+                        try
                         {
-                            string p = UploadEventPhoto.UploadFile("images", x,i++);
-
-                            ev.EventPhotos.Add(new EventPhoto
+                            foreach (var x in vm.FormFiles)
                             {
-                                PhotoUrl = "/images/" + p
-                            });
+                                string p = UploadEventPhoto.UploadFile(_webHostEnvironment.WebRootPath, "images", x, i++);
+
+                                ev.EventPhotos.Add(new EventPhoto
+                                {
+                                    PhotoUrl = "/images/" + p
+                                });
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("", "Error uploading new event images: " + ex.Message);
                         }
                     }
-                    _manager.Update(ev);
-                    return RedirectToAction("Index");
+                    if (ModelState.IsValid)
+                    {
+                        _manager.Update(ev);
+                        return RedirectToAction("Index");
+                    }
+                }
+
+                foreach (var file in uploadedFileNames)
+                {
+                    try
+                    {
+                        UploadEventPhoto.RemoveFile(_webHostEnvironment.WebRootPath, "images", file);
+                    }
+                    catch { }
                 }
 
                 var reloadedVenue = _manager.GetByIdWithIncludes(vm.EventId);
